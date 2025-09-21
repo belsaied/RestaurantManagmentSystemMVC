@@ -17,7 +17,10 @@ namespace Restaurant.DAL.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             // to work with Configurations when we decide to add it .
         }
+        #region DbSets<>
         public DbSet<Category> Categories { get; set; }
-        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; } 
+        public DbSet<Customer> Customers { get; set; }
+        #endregion
     }
 }

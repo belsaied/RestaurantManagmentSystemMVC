@@ -19,14 +19,14 @@ namespace Restaurant.DAL.Data.Configurations
                 
 
             // Base Entity Properties
-            builder.Property(m => m.CreatedBy)
-                .IsRequired();
+            //builder.Property(m => m.CreatedBy)
+            //    .IsRequired();
 
             builder.Property(m => m.CreatedOn)
                 .HasDefaultValueSql("GETUTCDATE()");
 
-            builder.Property(m => m.ModifiedBy)
-                .IsRequired();
+            //builder.Property(m => m.ModifiedBy)
+            //    .IsRequired();
 
             builder.Property(m => m.ModifiedOn)
                 .HasDefaultValueSql("GETUTCDATE()");

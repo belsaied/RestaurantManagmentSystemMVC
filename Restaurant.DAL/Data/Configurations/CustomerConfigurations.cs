@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Restaurant.DAL.Models;
+namespace Restaurant.DAL.Data.Configurations
+{
+    public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
+    {
+        public void Configure(EntityTypeBuilder<Customer> builder)
+        {
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn(1, 1).ValueGeneratedOnAdd();
+            builder.Property(x => x.FirstName).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.LastName).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.Phone).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.Email).HasColumnType("varchar(50)").IsRequired();
+            builder.Property(x => x.LoyaltyPoints).HasColumnType("int").IsRequired();
+            builder.Property(x => x.IsActive).HasColumnType("bit").IsRequired();
+            builder.Property(x=>x.CreatedBy).HasColumnType("varchar(50)");
+            builder.Property(x => x.CreatedOn).HasColumnType("datetime2").HasDefaultValueSql("GETDATE()");
+            builder.Property(x => x.ModifiedBy).HasColumnType("varchar(50)");
+            builder.Property(x => x.ModifiedOn).HasColumnType("datetime2").HasComputedColumnSql("GETDATE()"); ;
+            builder.Property(x => x.IsDeleted).HasColumnType("bit").HasDefaultValueSql("false");
+
+
+        }
+    }
+}

@@ -16,17 +16,17 @@ namespace Restaurant.DAL.Data.Configurations
             // Primary Key
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id).UseIdentityColumn();
-                
+
 
             // Base Entity Properties
-            builder.Property(c => c.CreatedBy)
-                .IsRequired();
+            //builder.Property(c => c.CreatedBy)
+            //    .IsRequired();
 
             builder.Property(c => c.CreatedOn)
                 .HasDefaultValueSql("GETUTCDATE()");
 
-            builder.Property(c => c.ModifiedBy)
-                .IsRequired();
+            //builder.Property(c => c.ModifiedBy)
+            //    .IsRequired();
 
             builder.Property(c => c.ModifiedOn)
                 .HasDefaultValueSql("GETUTCDATE()");
