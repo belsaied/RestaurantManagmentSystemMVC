@@ -1,3 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Restaurant.DAL.Data.Contexts;
+using Restaurant.DAL.Data.Repositories.Classes;
+using Restaurant.DAL.Data.Repositories.Interfaces;
+
 namespace Restaurant.PL
 {
     public class Program
@@ -6,8 +12,17 @@ namespace Restaurant.PL
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            #region DI Container.
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
+            });
+            builder.Services.AddScoped<ICategoryReposatory, CategoryReposatory>();
+            builder.Services.AddScoped<IMenuItemReposatory, MenuItemReposatory>();
+            #endregion
 
             var app = builder.Build();
 
