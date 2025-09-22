@@ -22,6 +22,9 @@ namespace Restaurant.PL
             });
             builder.Services.AddScoped<ICategoryReposatory, CategoryReposatory>();
             builder.Services.AddScoped<IMenuItemReposatory, MenuItemReposatory>();
+            builder.Services.AddScoped<ITableRepository, TableRepository>();
+            builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             #endregion
 
             var app = builder.Build();
