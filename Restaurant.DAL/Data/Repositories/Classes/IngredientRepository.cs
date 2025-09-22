@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Repositories.Classes
 {
-    internal class IngredientRepository(AppDbContext _DbContext) : IIngredientRepository
+    public class IngredientRepository(AppDbContext _DbContext) : IIngredientRepository
     {
 
         //Get all ingredients

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Repositories.Classes
 {
-    internal class RecipeLineRepository(AppDbContext _DbContext) : IRecipeLineRepository
+    public class RecipeLineRepository(AppDbContext _DbContext) : IRecipeLineRepository
     {
 
         //Get All RecipeLines

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Models
 {
-    internal class Ingredient
+    public class Ingredient
     {
         public int Id { get; set; }
         [Required]
