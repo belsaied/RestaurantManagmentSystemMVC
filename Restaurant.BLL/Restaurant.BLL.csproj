@@ -10,4 +10,11 @@
     <ProjectReference Include="..\Restaurant.DAL\Restaurant.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\PaymentModule\" />
+    <Folder Include="DTOs\OrderItemsModule\" />
+    <Folder Include="DTOs\TableModule\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>
