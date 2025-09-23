@@ -22,9 +22,7 @@ namespace Restaurant.DAL.Models
 
         [Display(Name = "Special Instructions")]
 
-        public string? SpecialInstructions { get; set; }
-
-       
+        public string? SpecialInstructions { get; set; }     
     }
 
 }
