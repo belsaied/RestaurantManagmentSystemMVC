@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Repositories.Classes
 {
-    public class MenuItemReposatory(AppDbContext _dbContext) : IMenuItemReposatory
+    public class MenuItemRepository(AppDbContext _dbContext) : IMenuItemReposatory
     {
         // GetAll
         public IEnumerable<MenuItem> GetAll(bool withTracking = false)

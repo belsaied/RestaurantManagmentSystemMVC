@@ -26,6 +26,7 @@ namespace Restaurant.DAL.Data.Contexts
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<RecipeLine> RecipeLines { get; set; }
+        public DbSet<Order> Orders { get; set; }
         #endregion
     }
 }

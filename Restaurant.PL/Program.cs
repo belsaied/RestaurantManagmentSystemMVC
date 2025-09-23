@@ -20,8 +20,8 @@ namespace Restaurant.PL
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
             });
-            builder.Services.AddScoped<ICategoryReposatory, CategoryReposatory>();
-            builder.Services.AddScoped<IMenuItemReposatory, MenuItemReposatory>();
+            builder.Services.AddScoped<ICategoryReposatory, CategoryRepository>();
+            builder.Services.AddScoped<IMenuItemReposatory, MenuItemRepository>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();

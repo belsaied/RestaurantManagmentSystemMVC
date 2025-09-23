@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Repositories.Classes
 {
-    public class CategoryReposatory(AppDbContext _dbContext) : ICategoryReposatory
+    public class CategoryRepository(AppDbContext _dbContext) : ICategoryReposatory
     {
         // 5 CRUD Operations 
         // GetAll
