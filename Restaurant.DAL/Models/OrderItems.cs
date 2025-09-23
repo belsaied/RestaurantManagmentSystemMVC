@@ -24,10 +24,7 @@ namespace Restaurant.DAL.Models
 
         public string? SpecialInstructions { get; set; }
 
-        [ForeignKey(nameof(MenuItem))]
-        public int MenuItemId { get; set; }
-
-        public MenuItem MenuItem { get; set; } = null!;
+       
     }
 
 }
