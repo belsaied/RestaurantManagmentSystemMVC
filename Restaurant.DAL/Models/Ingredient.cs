@@ -21,5 +21,7 @@ namespace Restaurant.DAL.Models
         public decimal MinStock { get; set; }
 
         public bool IsActive { get; set; }
+
+        public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
     }
 }

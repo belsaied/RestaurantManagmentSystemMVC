@@ -14,6 +14,6 @@ namespace Restaurant.DAL.Models
         public bool IsActive { get; set; }
 
         // Navigation Properties
-        public virtual ICollection<MenuItem> MenuItems { get; set; } = new HashSet<MenuItem>();
+        public  ICollection<MenuItem> MenuItems { get; set; } = new HashSet<MenuItem>();
     }
 }
