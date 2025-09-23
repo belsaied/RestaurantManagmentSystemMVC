@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,7 +21,9 @@ namespace Restaurant.DAL.Models
 
         [Display(Name = "Special Instructions")]
 
-        public string? SpecialInstructions { get; set; }     
+        public string? SpecialInstructions { get; set; }
+        public int OrderId { get; set; } //FK From Order
+        public Order? NavOrder { get; set; }
     }
 
 }
