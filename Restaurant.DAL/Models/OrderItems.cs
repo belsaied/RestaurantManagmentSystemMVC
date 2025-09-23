@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -24,6 +25,11 @@ namespace Restaurant.DAL.Models
         public string? SpecialInstructions { get; set; }
         public int OrderId { get; set; } //FK From Order
         public Order? NavOrder { get; set; }
+       
+        [ForeignKey(nameof(MenuItem))]
+        public int MenuItemId { get; set; }
+
+        public MenuItem MenuItem { get; set; } = null!;
     }
 
 }
