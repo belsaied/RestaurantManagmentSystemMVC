@@ -14,12 +14,18 @@ namespace Restaurant.DAL.Models
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
         public bool IsAvailable { get; set; }
+
+        [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 
         // Navigation Properties
-        [ForeignKey("CategoryId")]
-        public virtual Category Category { get; set; } = null!;
+        
+        public  Category Category { get; set; } = null!;
 
+
+        public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
+
+        public ICollection<OrderItems> OrderItems { get; set; } = new HashSet<OrderItems>();
         //public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
         //public virtual ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
         //              -----------until the 2 tables are created----------------- 
