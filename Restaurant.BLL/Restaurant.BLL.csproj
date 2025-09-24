@@ -12,7 +12,10 @@
 
   <ItemGroup>
     <Folder Include="DTOs\TableModule\" />
-    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
   </ItemGroup>
 
 </Project>

@@ -12,8 +12,8 @@ namespace Restaurant.DAL.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }=string.Empty;
-        [Range(0, int.MaxValue)]
         public string Unit { get; set; }= string.Empty;
+        [Range(0, double.MaxValue)]
 
         public decimal UnitCost { get; set; }
 

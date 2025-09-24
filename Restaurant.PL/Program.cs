@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Restaurant.BLL.Mappings;
 using Restaurant.DAL.Data.Contexts;
 using Restaurant.DAL.Data.Repositories.Classes;
 using Restaurant.DAL.Data.Repositories.Interfaces;
@@ -25,7 +26,11 @@ namespace Restaurant.PL
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+            builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));
             #endregion
+
+
 
             var app = builder.Build();
 
