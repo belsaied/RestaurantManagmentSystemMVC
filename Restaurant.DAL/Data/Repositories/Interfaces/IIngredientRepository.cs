@@ -1,6 +1,6 @@
 ﻿namespace Restaurant.DAL.Data.Repositories.Interfaces
 {
-    internal interface IIngredientRepository
+    public interface IIngredientRepository
     {
         global::System.Int32 AddIngredient(Ingredient ingredient);
         IEnumerable<Ingredient> GetAllIngredient(global::System.Boolean WithTracking = false);
