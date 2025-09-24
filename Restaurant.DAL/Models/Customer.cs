@@ -9,6 +9,6 @@
         public string Email { get; set; } = null!;
         public int LoyaltyPoints { get; set; }
         public bool IsActive { get; set; }
-        public IEnumerable<Order>? NavOrders { get; set; }
+        public ICollection<Order>? NavOrders { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Restaurant.DAL.Models
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; } = true;
-        public IEnumerable<Order>? NavOrders { get; set; }
+        public ICollection<Order>? NavOrders { get; set; }
 
     }
 }

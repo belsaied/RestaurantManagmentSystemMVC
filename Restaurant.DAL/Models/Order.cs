@@ -19,8 +19,8 @@ namespace Restaurant.DAL.Models
         public int TableId { get; set; } //FK From Table
         public Table? NavTable { get; set; } 
         public Customer? NavCustomer { get; set; }
-        public IEnumerable<Payment>? NavPayments { get; set; }
-        public IEnumerable<OrderItems> NavOrderItems { get; set; }=null!;
+        public ICollection<Payment>? NavPayments { get; set; }
+        public ICollection<OrderItems> NavOrderItems { get; set; }=null!;
 
     }
 
