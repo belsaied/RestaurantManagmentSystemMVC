@@ -23,9 +23,9 @@ namespace Restaurant.DAL.Models
         public  Category Category { get; set; } = null!;
 
 
-        public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
+        public virtual ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
 
-        public ICollection<OrderItems> OrderItems { get; set; } = new HashSet<OrderItems>();
+        public virtual ICollection<OrderItems> OrderItems { get; set; } = new HashSet<OrderItems>();
         //public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
         //public virtual ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
         //              -----------until the 2 tables are created----------------- 
