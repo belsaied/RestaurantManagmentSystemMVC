@@ -26,6 +26,7 @@ namespace Restaurant.PL
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));
             #endregion
 
 

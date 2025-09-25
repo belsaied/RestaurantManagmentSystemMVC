@@ -1,5 +1,4 @@
-﻿using DAL.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Restaurant.DAL.Data.Contexts;
 using Restaurant.DAL.Data.Repositories.Interfaces;
 using System;

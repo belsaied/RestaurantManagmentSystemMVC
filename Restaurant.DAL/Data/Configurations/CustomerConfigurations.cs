@@ -18,8 +18,8 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(x => x.LastName).HasColumnType("varchar(50)").IsRequired();
             builder.Property(x => x.Phone).HasColumnType("varchar(50)").IsRequired();
             builder.Property(x => x.Email).HasColumnType("varchar(50)").IsRequired();
-            builder.Property(x => x.LoyaltyPoints).HasColumnType("int").IsRequired();
-            builder.Property(x => x.IsActive).HasColumnType("bit").IsRequired();
+            builder.Property(x => x.LoyaltyPoints).HasColumnType("int");
+            builder.Property(x => x.IsActive).HasColumnType("bit");
             builder.Property(x=>x.CreatedBy).HasColumnType("varchar(50)");
             builder.Property(x => x.CreatedOn).HasColumnType("datetime2").HasDefaultValueSql("GETDATE()");
             builder.Property(x => x.ModifiedBy).HasColumnType("varchar(50)");

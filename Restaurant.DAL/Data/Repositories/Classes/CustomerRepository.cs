@@ -12,13 +12,14 @@ namespace Restaurant.DAL.Data.Repositories.Classes
     {
         public IEnumerable<Customer>? GetAllCustomers(bool WithTracking = false)
         {
-            return WithTracking ? _dbContext.Customers.ToList()
-                : _dbContext.Customers.AsNoTracking().ToList();
+            return WithTracking ? _dbContext.Customers.ToList().Where(c=>c.IsDeleted==false)
+                : _dbContext.Customers.AsNoTracking().ToList().Where(c => c.IsDeleted == false);
 
         }
         public Customer? GetCustomerById(int Id)
         {
-            return _dbContext.Customers.Find(Id);
+            var customer = _dbContext.Customers.FirstOrDefault(c => c.Id == Id);
+            return customer.IsDeleted==false? customer :null;
 
         }
 
@@ -35,16 +36,15 @@ namespace Restaurant.DAL.Data.Repositories.Classes
             return _dbContext.SaveChanges();
         }
 
-        public int DeleteCustomerById(int id)
+        public int DeleteCustomerById(int Id)
         {
-            var customer = _dbContext.Customers.Find(id);
-            if (customer != null)
+            var customer = _dbContext.Customers.FirstOrDefault(c=>c.Id==Id);
+            if (customer is not null)
             {
-                _dbContext.Customers.Remove(customer);
+                customer.IsDeleted = true;
                 return _dbContext.SaveChanges();
             }
-            else
-                return 0;
+            return 0;
 
 
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Restaurant.BLL.DTOs.CustomerDTOs;
 using Restaurant.BLL.DTOs.IngredientModule;
 using Restaurant.DAL.Models;
 using System;
@@ -18,6 +19,13 @@ namespace Restaurant.BLL.Mappings
             #region Ingredients
             CreateMap<Ingredient, IngredientDto>().ReverseMap();
             #endregion
+            #region Customers
+            CreateMap<Customer, CustomerDTO>();
+            CreateMap<Customer,CustomerDetailsDTO>();
+            CreateMap<CreateCustomerDTO,Customer>();
+            CreateMap<UpdateCustomerDTO, Customer>();
+            #endregion
+
 
         }
     }
