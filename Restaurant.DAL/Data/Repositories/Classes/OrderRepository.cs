@@ -12,13 +12,18 @@ namespace Restaurant.DAL.Data.Repositories.Classes
     {
         public IEnumerable<Order>? GetAllOrders(bool WithTracking = false)
         {
-            return WithTracking ? _dbContext.Orders.ToList()
-                : _dbContext.Orders.AsNoTracking().ToList();
+            return WithTracking ? _dbContext.Orders.ToList().Where(x=>x.IsDeleted==false)
+                : _dbContext.Orders.AsNoTracking().ToList().Where(x => x.IsDeleted == false);
 
         }
         public Order? GetOrderById(int Id)
         {
-            return _dbContext.Orders.Find(Id);
+           var order= _dbContext.Orders.FirstOrDefault(O => O.Id == Id);
+            if(order is not null && order.IsDeleted==false)
+            {
+                return order;
+            }
+            return null ;
 
         }
 
@@ -38,7 +43,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         public int DeleteOrderById(int id)
         {
             var order = _dbContext.Orders.Find(id);
-            if (order != null)
+            if (order != null && order.IsDeleted==false)
             {
                 order.IsDeleted = true;
                 _dbContext.Orders.Update(order);

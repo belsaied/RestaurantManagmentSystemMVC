@@ -19,7 +19,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         public Customer? GetCustomerById(int Id)
         {
             var customer = _dbContext.Customers.FirstOrDefault(c => c.Id == Id);
-            return customer.IsDeleted==false? customer :null;
+            return customer.IsDeleted==false &&customer!=null? customer :null;
 
         }
 
@@ -39,7 +39,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         public int DeleteCustomerById(int Id)
         {
             var customer = _dbContext.Customers.FirstOrDefault(c=>c.Id==Id);
-            if (customer is not null)
+            if (customer is not null && customer.IsDeleted==false)
             {
                 customer.IsDeleted = true;
                 return _dbContext.SaveChanges();
