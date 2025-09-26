@@ -14,9 +14,9 @@ namespace Restaurant.BLL.Services.Classes
 {
     internal class IngredientServices(IIngredientRepository _ingredients, IMapper _mapper) : IIngredientServices
     {
-        public int AddIngredient(IngredientDto ingredientDto)
+        public int AddIngredient(CreateIngredientDto ingredientDto)
         {
-            var ingredient = _mapper.Map<IngredientDto,Ingredient>(ingredientDto);
+            var ingredient = _mapper.Map<CreateIngredientDto,Ingredient>(ingredientDto);
             return _ingredients.AddIngredient(ingredient);
         }
 
@@ -37,7 +37,9 @@ namespace Restaurant.BLL.Services.Classes
         {
             var ingredient= _ingredients.GetIngredientById(id);
             if (ingredient == null) return false;
-            ingredient.IsActive = false;
+            ingredient.IsDeleted = true;
+           
+
             return _ingredients.UpdateIngredient(ingredient)>0;
 
         }

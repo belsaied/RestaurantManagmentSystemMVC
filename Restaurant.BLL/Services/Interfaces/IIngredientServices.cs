@@ -18,7 +18,7 @@ namespace Restaurant.BLL.Services.Interfaces
 
         //Add Ingredient
 
-       public int AddIngredient(IngredientDto ingredientDto);
+       public int AddIngredient(CreateIngredientDto ingredientDto);
 
         //Remove Ingredient
         public bool RemoveIngredient(int id);

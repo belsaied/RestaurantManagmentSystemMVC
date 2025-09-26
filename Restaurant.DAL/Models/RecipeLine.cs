@@ -15,6 +15,7 @@ namespace Restaurant.DAL.Models
         public int Quantity { get; set; }
         public string Unit { get; set; } = string.Empty;
 
+        public bool IsDeleted { get; set; } = false;
 
         [ForeignKey(nameof(IngredientId))]
         public int IngredientId { get; set; }
@@ -24,6 +25,9 @@ namespace Restaurant.DAL.Models
         [ForeignKey(nameof(RecipeId))]
         public int RecipeId { get; set; }
 
+
         public MenuItem MenuItem { get; set; } = null!;
+
+    
     }
 }

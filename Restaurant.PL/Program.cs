@@ -21,11 +21,17 @@ namespace Restaurant.PL
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
                 // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
             });
+            #region Repos
             builder.Services.AddScoped<ICategoryReposatory, CategoryRepository>();
             builder.Services.AddScoped<IMenuItemReposatory, MenuItemRepository>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+            builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
+            builder.Services.AddScoped<IRecipeLineRepository, RecipeLineRepository>(); 
+
+            #endregion
+
             builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));
             #endregion
 

@@ -22,6 +22,8 @@ namespace Restaurant.DAL.Models
 
         public bool IsActive { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
     }
 }
