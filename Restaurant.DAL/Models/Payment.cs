@@ -21,7 +21,9 @@ namespace Restaurant.DAL.Models
         [Display(Name ="Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
         public string? Status { get; set; }
+        #region Relation With Order
         public int OrderId { get; set; } //FK From Order
-        public Order NavOrder { get; set; }=null!;
+        public Order NavOrder { get; set; } = null!; 
+        #endregion
     }
 }

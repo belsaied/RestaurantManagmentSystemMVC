@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.DTOs.OrderItemsModule
 {
-    public class CreatedOrderItems
+    public class UpdatedOrderItems
     {
+        public int Id { get; set; }
         public int Quantity { get; set; }
 
         [Display(Name = "Unit Price")]

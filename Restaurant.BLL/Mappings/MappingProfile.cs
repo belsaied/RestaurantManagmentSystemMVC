@@ -3,6 +3,9 @@ using Restaurant.BLL.DTOs.CustomerDTOs;
 using Restaurant.BLL.DTOs.IngredientModule;
 using Restaurant.BLL.DTOs.OrderDTO;
 using Restaurant.BLL.DTOs.OrderDTOs;
+using Restaurant.BLL.DTOs.OrderItemsModule;
+using Restaurant.BLL.DTOs.PaymentModule;
+using Restaurant.BLL.DTOs.TableModule;
 using Restaurant.BLL.DTOs.RecipeLinesDtos;
 using Restaurant.DAL.Models;
 using System;
@@ -38,6 +41,25 @@ namespace Restaurant.BLL.Mappings
             #region RecipeLines
             CreateMap<CreateRecipeDto, RecipeLine>();
             CreateMap<RecipeLine, RecipeDto>().ReverseMap();
+            #endregion
+            #region OrderItems
+            CreateMap<OrderItems, OrderItemDto>();
+            CreateMap<OrderItems, OrderDetailsDTO>();
+            CreateMap<CreatedOrderItems, OrderItems>();
+            CreateMap<UpdatedOrderItems, OrderItems>();
+            #endregion
+            #region Payment
+            CreateMap<Payment, PaymentDto>();
+            CreateMap<Payment, PaymentDetailsDto>();
+            CreateMap<CreatedPaymentDto, Payment>();
+            CreateMap<UpdatedPaymentDto, Payment>();
+
+            #endregion
+            #region Table
+            CreateMap<Table, TableDto>();
+            CreateMap<Table, TabelDetailsDto>();
+            CreateMap<CreatedTableDto, Table>();
+            CreateMap<UpdatedTableDto, Table>();
             #endregion
         }
     }
