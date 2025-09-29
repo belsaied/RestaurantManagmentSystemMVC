@@ -38,6 +38,8 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IPaymentServices, PaymentServices>();
             builder.Services.AddScoped<IOrderItemsServices, OrderItemsServices>();
             builder.Services.AddScoped<ITableService, TableService>();
+            builder.Services.AddScoped<IIngredientServices, IngredientServices>();
+            
             #endregion
 
             builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));

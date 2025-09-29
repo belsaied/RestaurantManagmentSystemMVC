@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Models
 {
-    public class Ingredient
+    public class Ingredient:baseEntity
     {
         public int Id { get; set; }
         [Required]
@@ -22,7 +22,7 @@ namespace Restaurant.DAL.Models
 
         public bool IsActive { get; set; }
 
-        public bool IsDeleted { get; set; } = false;
+    
 
         public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
     }

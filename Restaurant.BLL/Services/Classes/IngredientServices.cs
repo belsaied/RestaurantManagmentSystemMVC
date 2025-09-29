@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    internal class IngredientServices(IIngredientRepository _ingredients, IMapper _mapper) : IIngredientServices
+    public class IngredientServices(IIngredientRepository _ingredients, IMapper _mapper) : IIngredientServices
     {
         public int AddIngredient(CreateIngredientDto ingredientDto)
         {
@@ -22,7 +22,7 @@ namespace Restaurant.BLL.Services.Classes
 
         public IEnumerable<IngredientDto> GetAllIngredients(bool withTracking = false)
         {
-            var ingredients= _ingredients.GetAllIngredient(withTracking);   
+            var ingredients= _ingredients.GetAllIngredient(withTracking).Where(I=>I.IsDeleted==false);   
 
             return _mapper.Map<IEnumerable<Ingredient>, IEnumerable<IngredientDto>>(ingredients);
         }

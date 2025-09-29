@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Interfaces
 {
-    internal interface IIngredientServices
+    public interface IIngredientServices
     {
         //Get all ingredients
         public IEnumerable<IngredientDto> GetAllIngredients(bool withTracking = false);
