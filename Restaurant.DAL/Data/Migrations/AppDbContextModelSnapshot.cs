@@ -542,8 +542,7 @@ namespace Restaurant.DAL.Migrations
                 {
                     b.HasOne("Restaurant.DAL.Models.Order", "NavOrder")
                         .WithMany("NavPayments")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("NavOrder");
                 });
