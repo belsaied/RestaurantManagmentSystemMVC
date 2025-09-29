@@ -31,6 +31,7 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
             builder.Services.AddScoped<IRecipeLineRepository, RecipeLineRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             #endregion
             #region BLL Services

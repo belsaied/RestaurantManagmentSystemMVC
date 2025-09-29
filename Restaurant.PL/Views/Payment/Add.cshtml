@@ -1,0 +1,77 @@
+﻿@model Restaurant.BLL.DTOs.PaymentModule.CreatedPaymentDto
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<h1 class="text-orange fw-bold">Add Payment</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="Add" asp-controller="Payment" method="post" class="needs-validation">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Amount" class="form-label"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PaymentDate" class="form-label"></label>
+                        <input asp-for="PaymentDate" class="form-control" type="date" />
+                        <span asp-validation-for="PaymentDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="TransactionRef" class="form-label"></label>
+                        <input asp-for="TransactionRef" class="form-control" />
+                        <span asp-validation-for="TransactionRef" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Status" class="form-label"></label>
+                        <input asp-for="Status" class="form-control" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange">Create</button>
+                    <a asp-action="Index" asp-controller="Payment" class="btn btn-outline-orange ms-2">Back to List</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-orange {
+            background-color: #ff6600;
+            color: #fff;
+            border-radius: 6px;
+        }
+
+            .btn-orange:hover {
+                background-color: #e65c00;
+                color: #fff;
+            }
+
+        .btn-outline-orange {
+            border: 1px solid #ff6600;
+            color: #ff6600;
+            border-radius: 6px;
+        }
+
+            .btn-outline-orange:hover {
+                background-color: #ff6600;
+                color: #fff;
+            }
+
+        .text-orange {
+            color: #ff6600;
+        }
+    </style>
+}
