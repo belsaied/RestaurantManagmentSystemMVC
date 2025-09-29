@@ -22,10 +22,10 @@ namespace Restaurant.DAL.Data.Configurations
 
             #region Base Configurations
             builder.Property(t => t.CreatedOn)
-                  .HasDefaultValueSql("GETUTCDATE()");
+                  .HasDefaultValueSql("GETDATE()");
 
             builder.Property(c => c.ModifiedOn)
-                .HasDefaultValueSql("GETUTCDATE()");
+                .HasComputedColumnSql("GETDATE()");
 
             builder.Property(c => c.IsDeleted)
                 .HasDefaultValue(false);

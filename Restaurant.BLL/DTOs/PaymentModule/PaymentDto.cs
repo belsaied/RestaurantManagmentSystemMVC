@@ -9,6 +9,7 @@ namespace Restaurant.BLL.DTOs.PaymentModule
 {
     public class PaymentDto
     {
+        public int Id { get; set; } 
         public decimal Amount { get; set; }
 
         [Display(Name = "Payment Date")]

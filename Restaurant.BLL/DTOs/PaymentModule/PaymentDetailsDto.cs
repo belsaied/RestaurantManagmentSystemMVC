@@ -20,7 +20,15 @@ namespace Restaurant.BLL.DTOs.PaymentModule
         [Display(Name = "Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
         public string? Status { get; set; }
+
+        [Display(Name = "Created By")]
         public string? CreatedBy { get; set; }   // UserId
+
+        [Display(Name = "Created On ")]
         public DateTime? CreatedOn { get; set; }   // Date of Creation
+
+        [Display(Name =("Last Modify on"))]
+        public DateTime? LastModifiedOn { get; set; }  // the DateTime of Modifying the Record. (Nullable because i'll put a default value for him in the configurations).
+
     }
 }

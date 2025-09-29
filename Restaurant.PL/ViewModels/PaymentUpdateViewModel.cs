@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Restaurant.BLL.DTOs.PaymentModule
+namespace Restaurant.PL.ViewModels
 {
-    public class UpdatedPaymentDto
+    public class PaymentUpdateViewModel
     {
         public int Id { get; set; }
 
@@ -23,6 +18,7 @@ namespace Restaurant.BLL.DTOs.PaymentModule
         [Display(Name = "Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
+
         public string? Status { get; set; }
     }
 }
