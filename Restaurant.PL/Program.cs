@@ -40,6 +40,7 @@ namespace Restaurant.PL
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<IIngredientServices, IngredientServices>();
             
+            builder.Services.AddScoped<ICustomerService,CustomerService>();
             #endregion
 
             builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));

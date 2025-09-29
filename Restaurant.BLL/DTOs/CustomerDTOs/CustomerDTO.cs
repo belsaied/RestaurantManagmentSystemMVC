@@ -16,6 +16,8 @@ namespace Restaurant.BLL.DTOs.CustomerDTOs
         public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }     
         public bool IsDeleted { get; set; }
+        public int Id { get; set; }
+
 
 
     }

@@ -1,0 +1,45 @@
+﻿@model Restaurant.BLL.DTOs.PaymentModule.PaymentDetailsDto
+
+@{
+    ViewData["Title"] = "Payment Details";
+}
+
+<h2 style="color: orange;">Payment Details</h2>
+
+<div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(255,165,0,0.3); max-width: 600px;">
+    <dl class="row">
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.Id)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.Id)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.Amount)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.Amount)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.PaymentDate)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.PaymentDate)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.TransactionRef)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.TransactionRef)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.Status)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.Status)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.CreatedBy)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.CreatedBy)</dd>
+
+        <dt class="col-sm-4" style="color: orange;">@Html.DisplayNameFor(m => m.CreatedOn)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(m => m.CreatedOn)</dd>
+    </dl>
+
+    <div style="margin-top: 20px;">
+        <a asp-action="Edit" asp-route-id="@Model.Id"
+           class="btn"
+           style="background-color: orange; color: white; font-weight: bold; padding: 8px 20px; border: none; border-radius: 5px;">
+            Edit
+        </a>
+        <a asp-action="Index"
+           class="btn"
+           style="background-color: white; color: orange; border: 1px solid orange; padding: 8px 20px; border-radius: 5px; margin-left: 10px;">
+            Back to List
+        </a>
+    </div>
+</div>
