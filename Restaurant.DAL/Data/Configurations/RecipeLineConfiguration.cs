@@ -23,7 +23,7 @@ namespace Restaurant.DAL.Data.Configurations
 
             builder.HasOne(rl => rl.MenuItem)
                 .WithMany(mi => mi.RecipeLines)
-                .HasForeignKey(rl => rl.RecipeId)
+                .HasForeignKey(rl => rl.MenuId)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion    
         }

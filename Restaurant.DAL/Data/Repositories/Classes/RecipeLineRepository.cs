@@ -17,10 +17,10 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         {
             if (WithTracking == false)
             {
-                return _DbContext.RecipeLines.AsNoTracking().ToList();
+                return _DbContext.RecipeLines.Include(R=>R.Ingredient).Include(R=>R.MenuItem).AsNoTracking().ToList();
             }
 
-            return _DbContext.RecipeLines.ToList();
+            return _DbContext.RecipeLines.Include(R => R.Ingredient).Include(R => R.MenuItem).ToList();
         }
 
         //Get RecipeLine by Id
