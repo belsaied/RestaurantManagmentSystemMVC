@@ -542,7 +542,7 @@ namespace Restaurant.DAL.Migrations
                 {
                     b.HasOne("Restaurant.DAL.Models.Order", "NavOrder")
                         .WithMany("NavPayments")
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("NavOrder");
                 });
