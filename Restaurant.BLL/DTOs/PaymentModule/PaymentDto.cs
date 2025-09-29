@@ -14,7 +14,6 @@ namespace Restaurant.BLL.DTOs.PaymentModule
         [Display(Name = "Payment Date")]
         public DateTime PaymentDate { get; set; }
 
-        [Required(ErrorMessage = "*")]
         [Display(Name = "Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
     }
