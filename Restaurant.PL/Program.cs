@@ -31,12 +31,14 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
             builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
             builder.Services.AddScoped<IRecipeLineRepository, RecipeLineRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
             #endregion
             #region BLL Services
             builder.Services.AddScoped<IPaymentServices, PaymentServices>();
             builder.Services.AddScoped<IOrderItemsServices, OrderItemsServices>();
             builder.Services.AddScoped<ITableService, TableService>();
+            builder.Services.AddScoped<ICustomerService,CustomerService>();
             #endregion
 
             builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));

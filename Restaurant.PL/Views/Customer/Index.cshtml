@@ -1,0 +1,46 @@
+﻿@using Restaurant.BLL.DTOs.CustomerDTOs
+@model IEnumerable<CustomerDTO>
+
+@{
+    ViewData["Title"] = "العملاء";
+}
+
+<h1 class="mb-3">العملاء</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">إضافة عميل</a>
+</p>
+
+<table class="table table-striped table-bordered align-middle">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>الاسم الأول</th>
+            <th>اسم العائلة</th>
+            <th>الهاتف</th>
+            <th>النقاط</th>
+            <th>نشط؟</th>
+            <th>تاريخ الإنشاء</th>
+            <th>محذوف؟</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+            var list = Model ?? Enumerable.Empty<CustomerDTO>();
+        }
+        @foreach (var item in list)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Phone</td>
+                <td>@item.LoyaltyPoints</td>
+                <td>@(item.IsActive ? "نعم" : "لا")</td>
+                <td>@(item.CreatedOn?.ToString("yyyy/MM/dd HH:mm") ?? "-")</td>
+                <td>@(item.IsDeleted ? "نعم" : "لا")</td>
+            </tr>
+        }
+    </tbody>
+</table>
