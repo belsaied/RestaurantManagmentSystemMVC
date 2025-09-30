@@ -10,8 +10,7 @@ namespace Restaurant.BLL.DTOs.OrderDTOs
 {
     public class CreateOrderDTO
     {
-        [Required(ErrorMessage = "CustomerId is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "CustomerId must be a positive integer")]
+        
         public int CustomerId { get; set; } // FK From Customer
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Payment status is required")]
@@ -27,8 +26,7 @@ namespace Restaurant.BLL.DTOs.OrderDTOs
             ErrorMessage = "Order type must be one of: DineIn, TakeAway, Delivery, Pickup")]
         public string OrderType { get; set; } = null!;
 
-        [Required(ErrorMessage = "TableId is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "TableId must be a positive integer")]
+        
         public int TableId { get; set; } // FK From Table
 
         

@@ -37,9 +37,20 @@ namespace Restaurant.PL.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int Id)
         {
-            return View();
+            var customer = _customerService.GetCustomerById(Id);
+            UpdateCustomerDTO updateCustomerDTO = new UpdateCustomerDTO()
+            {
+               Phone = customer.Phone,
+               Email= customer.Email,
+               FirstName= customer.FirstName,
+               LastName= customer.LastName,
+               Id=customer.Id
+               
+            };
+
+            return View(updateCustomerDTO);
         }
 
         [HttpPost]

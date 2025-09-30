@@ -1,0 +1,129 @@
+﻿@using Restaurant.BLL.DTOs.OrderDTOs
+@model OrderDetailsDTO
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+@section Styles {
+    <style>
+        .card-header {
+            background: #ff6600;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .kv {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .v {
+            color: #111;
+        }
+
+        .summary-box {
+            background: #fff6ee;
+            border: 1px solid #ffd1ad;
+            border-radius: .5rem;
+            padding: 12px;
+        }
+
+            .summary-box .kv {
+                color: #7a3e00;
+            }
+
+        .btn-warning {
+            background-color: #ff9900;
+            border-color: transparent;
+        }
+
+            .btn-warning:hover, .btn-warning:focus {
+                background-color: #e68a00;
+            }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border-color: transparent;
+        }
+
+            .btn-danger:hover, .btn-danger:focus {
+                background-color: #c9302c;
+            }
+
+        .btn-secondary {
+            border-color: transparent;
+        }
+    </style>
+}
+
+<h1 class="mb-3">Order Details</h1>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-header">Overview</div>
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Order ID</div>
+            <div class="col-sm-9 v">@Model.Id</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Customer ID</div>
+            <div class="col-sm-9 v">@Model.CustomerId</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Table ID</div>
+            <div class="col-sm-9 v">@Model.TableId</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Order Type</div>
+            <div class="col-sm-9 v">@Model.OrderType</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Status</div>
+            <div class="col-sm-9 v">@Model.Status</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Payment Status</div>
+            <div class="col-sm-9 v">@Model.PaymentStatus</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Created By</div>
+            <div class="col-sm-9 v">@(!string.IsNullOrWhiteSpace(Model.CreatedBy) ? Model.CreatedBy : "-")</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Created On</div>
+            <div class="col-sm-9 v">@((Model.CreatedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
+        </div>
+    </div>
+</div>
+
+<div class="summary-box mb-3">
+    <div class="row">
+        <div class="col-6">
+            <div class="kv">SubTotal</div>
+            <div class="v">@Model.SubTotal</div>
+        </div>
+        <div class="col-6">
+            <div class="kv">Discount</div>
+            <div class="v">@Model.Discount</div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-6">
+            <div class="kv">Service Tax</div>
+            <div class="v">@Model.ServiceTax</div>
+        </div>
+        <div class="col-6">
+            <div class="kv">Total</div>
+            <div class="v">@Model.Total</div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-3 d-flex gap-2">
+    <a asp-controller="Order" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    <a asp-controller="Order" asp-action="Index" class="btn btn-secondary">Back</a>
+</div>
+
+@section Scripts { }

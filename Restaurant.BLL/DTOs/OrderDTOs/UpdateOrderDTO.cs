@@ -11,6 +11,9 @@ namespace Restaurant.BLL.DTOs.OrderDTOs
     {
         public string PaymentStatus { get; set; } = null!;
         public string OrderType { get; set; } = null!;
+        public int Id { get; set; }
+        public int? CustomerId { get; set; }
+        public int? TableId { get; set; }
 
 
     }
