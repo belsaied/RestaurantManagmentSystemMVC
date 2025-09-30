@@ -38,7 +38,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -65,14 +65,14 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime?>("ModifiedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Customer", b =>
@@ -86,7 +86,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
@@ -119,7 +119,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime?>("ModifiedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
@@ -130,7 +130,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Ingredient", b =>
@@ -166,7 +166,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.MenuItem", b =>
@@ -183,7 +183,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -214,7 +214,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime?>("ModifiedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
@@ -227,7 +227,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems");
+                    b.ToTable("MenuItems", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Order", b =>
@@ -241,7 +241,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
@@ -260,7 +260,7 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("varchar(50)");
 
-                    b.Property<DateTime>("ModifiedOn")
+                    b.Property<DateTime?>("ModifiedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
@@ -295,7 +295,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.OrderItems", b =>
@@ -309,10 +309,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -325,10 +325,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -353,7 +353,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Payment", b =>
@@ -370,10 +370,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -383,10 +383,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
@@ -405,7 +405,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.RecipeLine", b =>
@@ -438,7 +438,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeLines");
+                    b.ToTable("RecipeLines", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Table", b =>
@@ -455,10 +455,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedOn")
+                    b.Property<DateTime?>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -475,10 +475,10 @@ namespace Restaurant.DAL.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ModifiedOn")
-                        .ValueGeneratedOnAddOrUpdate()
+                    b.Property<DateTime?>("ModifiedOn")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasComputedColumnSql("GETDATE()");
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("TableNumber")
                         .IsRequired()
@@ -486,7 +486,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tables");
+                    b.ToTable("Tables", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.MenuItem", b =>
@@ -542,7 +542,8 @@ namespace Restaurant.DAL.Migrations
                 {
                     b.HasOne("Restaurant.DAL.Models.Order", "NavOrder")
                         .WithMany("NavPayments")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("NavOrder");
                 });
