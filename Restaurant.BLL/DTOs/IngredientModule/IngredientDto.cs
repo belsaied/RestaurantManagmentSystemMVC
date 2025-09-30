@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.DTOs.IngredientModule
 {
-    internal class IngredientDto
+    public class IngredientDto
     {
         public int Id { get; set; }
                

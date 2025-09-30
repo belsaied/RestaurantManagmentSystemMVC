@@ -1,0 +1,109 @@
+﻿
+
+@using Restaurant.BLL.DTOs.OrderDTOs
+@model CreateOrderDTO
+
+@{
+    ViewData["Title"] = "Add Order";
+}
+
+@section Styles {
+    <style>
+        .card-header {
+            background: #ff6600;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+            .btn-primary:hover, .btn-primary:focus {
+                background-color: #e65c00;
+                border-color: #e65c00;
+            }
+
+        .btn-secondary {
+            border-color: transparent;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .hint {
+            font-size: .9rem;
+            opacity: .85;
+        }
+
+        .text-danger {
+            font-weight: 500;
+        }
+    </style>
+}
+
+<h1 class="mb-3">Add Order</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">Order Information</div>
+            <div class="card-body">
+                <form asp-controller="Order" asp-action="Add" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="CustomerId" class="form-label">Customer ID</label>
+                        <input asp-for="CustomerId" class="form-control" type="number" min="1" />
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PaymentStatus" class="form-label">Payment Status</label>
+                        <select asp-for="PaymentStatus" class="form-select">
+                            <option value="">-- Select status --</option>
+                            <option>Pending</option>
+                            <option>Paid</option>
+                            <option>Unpaid</option>
+                            <option>Refunded</option>
+                            <option>Failed</option>
+                        </select>
+                        <span class="hint">Allowed: Pending, Paid, Unpaid, Refunded, Failed</span>
+                        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="OrderType" class="form-label">Order Type</label>
+                        <select asp-for="OrderType" class="form-select">
+                            <option value="">-- Select type --</option>
+                            <option>DineIn</option>
+                            <option>TakeAway</option>
+                            <option>Delivery</option>
+                            <option>Pickup</option>
+                        </select>
+                        <span class="hint">Allowed: DineIn, TakeAway, Delivery, Pickup</span>
+                        <span asp-validation-for="OrderType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="TableId" class="form-label">Table ID</label>
+                        <input asp-for="TableId" class="form-control" type="number" min="1" />
+                        <span asp-validation-for="TableId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mt-3 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" asp-route-redirect="Index">Save</button>
+                        <a asp-controller="Order" asp-action="Index" class="btn btn-secondary">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { }
+```

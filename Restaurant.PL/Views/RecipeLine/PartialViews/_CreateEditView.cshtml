@@ -1,0 +1,43 @@
+﻿@using Restaurant.BLL.DTOs.IngredientModule
+@using Restaurant.BLL.DTOs.MenuItemDTOs
+@using Restaurant.BLL.Services.Interfaces
+@using Restaurant.PL.ViewModels.RecipeLineVM
+@model RecipeLineViewModel
+@inject IIngredientServices _ingredientService
+@inject IMenuItemServices _menuItemService
+ @{  var ingredients = new SelectList( _ingredientService.GetAllIngredients(),nameof(IngredientDto.Id),nameof(IngredientDto.Name));
+     var menuItems= new SelectList(_menuItemService.GetAllMenuItems(), nameof(MenuItemSelectDto.Id), nameof(MenuItemSelectDto.ItemName));
+    }
+<div class="mb-3">
+    <label asp-for="MenuId" class="form-label"></label>
+    <select asp-for="MenuId" class="form-select" asp-items="@menuItems">
+        <option value="">-- Select Menu Item --</option>
+
+    </select>
+    <span asp-validation-for="MenuId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="IngredientId" class="form-label"></label>
+    <select asp-for="IngredientId" class="form-select" asp-items="@ingredients">
+        <option value="">-- Select an Ingredient --</option>
+
+    </select>
+    <span asp-validation-for="IngredientId" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Quantity" class="form-label"></label>
+    <input asp-for="Quantity" class="form-control" />
+    <span asp-validation-for="Quantity" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Unit" class="form-label"></label>
+    <input asp-for="Unit" class="form-control" />
+    <span asp-validation-for="Unit" class="text-danger"></span>
+</div>
+
+@section ValidationScripts {
+    <script src="c:\users\mega store\desktop\mvcproject\ahmed-elsaadany-st\restaurantsystem\restaurant.pl\wwwroot\lib\jquery-validation\dist\jquery.validate.min.js"></script>
+    <script src="c:\users\mega store\desktop\mvcproject\ahmed-elsaadany-st\restaurantsystem\restaurant.pl\wwwroot\lib\jquery-validation-unobtrusive\dist\jquery.validate.unobtrusive.min.js"></script>
+
+}
+

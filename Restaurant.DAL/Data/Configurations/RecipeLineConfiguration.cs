@@ -23,9 +23,20 @@ namespace Restaurant.DAL.Data.Configurations
 
             builder.HasOne(rl => rl.MenuItem)
                 .WithMany(mi => mi.RecipeLines)
-                .HasForeignKey(rl => rl.RecipeId)
+                .HasForeignKey(rl => rl.MenuId)
                 .OnDelete(DeleteBehavior.Cascade);
-            #endregion    
+            #endregion
+
+            #region Base 
+            builder.Property(t => t.CreatedOn)
+                 .HasDefaultValueSql("GETDATE()");
+
+            builder.Property(c => c.ModifiedOn)
+                .HasComputedColumnSql("GETDATE()");
+
+            builder.Property(c => c.IsDeleted)
+                .HasDefaultValue(false);
+            #endregion
         }
     }
 }
