@@ -1,7 +1,4 @@
-﻿**الخلاصة:** ده View جاهز لأكشن **Update** في كنترولر **Order** مطابق لـ`UpdateOrderDTO` (فقط **PaymentStatus** و**OrderType**). زر **Save Changes** هيبوست لـ`Order/Update` وبـ`redirect=index` علشان يرجّعك لـ`Orders/Index` بعد الحفظ، وزر **Back** بيرجّعك لـ`Order/Details/{id}`. انسخه كملف `Views/Order/Update.cshtml`.
-
-```cshtml
-@using Restaurant.BLL.DTOs.OrderDTOs
+﻿@using Restaurant.BLL.DTOs.OrderDTOs
 @model UpdateOrderDTO
 
 @{
