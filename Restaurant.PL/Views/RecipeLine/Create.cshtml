@@ -1,0 +1,28 @@
+﻿@using Restaurant.BLL.DTOs.IngredientModule
+@using Restaurant.BLL.DTOs.MenuItemDTOs
+@using Restaurant.BLL.Services.Interfaces
+@using Restaurant.PL.ViewModels.RecipeLineVM
+@model RecipeLineViewModel
+
+
+@{
+    ViewData["Title"] = "Create";
+   
+}
+
+<h2>Create Recipe Line</h2>
+
+<form asp-action="Create" method="post">
+    @*Render Partial View*@
+    <partial name="PartialViews/_CreateEditView" model="Model" />
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+

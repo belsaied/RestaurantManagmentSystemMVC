@@ -40,7 +40,10 @@ namespace Restaurant.BLL.Mappings
             #endregion
             #region RecipeLines
             CreateMap<CreateRecipeDto, RecipeLine>();
-            CreateMap<RecipeLine, RecipeDto>().ReverseMap();
+            CreateMap<RecipeLine, RecipeDto>()
+             .ForMember(dest=>dest.IngredientName,options=>options.MapFrom(src=>src.Ingredient.Name))
+             .ForMember(dest=>dest.MenuItemName,options=>options.MapFrom(src=>src.MenuItem.ItemName))
+             .ReverseMap();
             #endregion
             #region OrderItems
             CreateMap<OrderItems, OrderItemDto>();

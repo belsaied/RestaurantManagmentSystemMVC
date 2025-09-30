@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Interfaces
 {
-    internal interface IRecipeLineServices
+    public interface IRecipeLineServices
     {
         public IEnumerable<RecipeDto> GetAllRecipes(bool withTracking = false);
 

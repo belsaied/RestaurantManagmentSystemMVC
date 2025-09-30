@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    internal class RecipeLineServices(IRecipeLineRepository _Recipes,IMapper _mapper) : IRecipeLineServices
+    public class RecipeLineServices(IRecipeLineRepository _Recipes,IMapper _mapper) : IRecipeLineServices
     {
         public int AddRecipe(CreateRecipeDto ingredientDto)
         {
