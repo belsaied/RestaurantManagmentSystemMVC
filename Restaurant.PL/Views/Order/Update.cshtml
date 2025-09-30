@@ -1,0 +1,101 @@
+﻿**الخلاصة:** ده View جاهز لأكشن **Update** في كنترولر **Order** مطابق لـ`UpdateOrderDTO` (فقط **PaymentStatus** و**OrderType**). زر **Save Changes** هيبوست لـ`Order/Update` وبـ`redirect=index` علشان يرجّعك لـ`Orders/Index` بعد الحفظ، وزر **Back** بيرجّعك لـ`Order/Details/{id}`. انسخه كملف `Views/Order/Update.cshtml`.
+
+```cshtml
+@using Restaurant.BLL.DTOs.OrderDTOs
+@model UpdateOrderDTO
+
+@{
+    ViewData["Title"] = "Update Order";
+
+    // Resolve the id for Back -> Details and for POST
+    var idObj = ViewContext.RouteData.Values["id"] ?? ViewBag?.Id ?? ViewBag?.OrderId;
+    int id = 0; if (idObj != null) int.TryParse(idObj.ToString(), out id);
+}
+
+@section Styles {
+    <style>
+        .card-header {
+            background: #ff6600;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
+        }
+
+            .btn-primary:hover, .btn-primary:focus {
+                background-color: #e65c00;
+                border-color: #e65c00;
+            }
+
+        .btn-secondary {
+            border-color: transparent;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .text-danger {
+            font-weight: 500;
+        }
+    </style>
+}
+
+<h1 class="mb-3">Update Order</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header">Edit Information</div>
+            <div class="card-body">
+                <!-- POST to Order/Update -->
+                <form asp-controller="Order" asp-action="Update" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <!-- ensure id is posted back -->
+                    <input type="hidden" name="id" value="@id" />
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="PaymentStatus" class="form-label">Payment Status</label>
+                        <select asp-for="PaymentStatus" class="form-select">
+                            <option value="">-- Select status --</option>
+                            <option>Pending</option>
+                            <option>Paid</option>
+                            <option>Unpaid</option>
+                            <option>Refunded</option>
+                            <option>Failed</option>
+                        </select>
+                        <span asp-validation-for="PaymentStatus" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="OrderType" class="form-label">Order Type</label>
+                        <select asp-for="OrderType" class="form-select">
+                            <option value="">-- Select type --</option>
+                            <option>DineIn</option>
+                            <option>TakeAway</option>
+                            <option>Delivery</option>
+                            <option>Pickup</option>
+                        </select>
+                        <span asp-validation-for="OrderType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mt-3 d-flex gap-2">
+                        <!-- يحفظ ثم يعيد التوجيه إلى Orders/Index -->
+                        <button type="submit" class="btn btn-primary" asp-route-redirect="Index">Save Changes</button>
+                        <!-- رجوع لتفاصيل نفس الأوردر -->
+                        <a asp-controller="Order" asp-action="Index" asp-route-id="@id" class="btn btn-secondary">Back</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { }
+```

@@ -5,7 +5,7 @@
 namespace Restaurant.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class ForAllTables : Migration
+    public partial class noi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

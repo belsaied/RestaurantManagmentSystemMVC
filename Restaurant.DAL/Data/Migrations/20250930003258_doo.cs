@@ -5,14 +5,14 @@
 namespace Restaurant.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class setOrderIdInPaymentNullabel : Migration
+    public partial class doo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "OrderId",
-                table: "Payments",
+                name: "TableId",
+                table: "Orders",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -23,8 +23,8 @@ namespace Restaurant.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "OrderId",
-                table: "Payments",
+                name: "TableId",
+                table: "Orders",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
