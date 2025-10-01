@@ -1,0 +1,92 @@
+﻿@model Restaurant.BLL.DTOs.TableModule.TabelDetailsDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2 class="text-orange mb-4">Table Details</h2>
+
+<div class="card shadow-sm p-4 custom-card">
+    <dl class="row">
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.Id)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.TableNumber)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.TableNumber)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.Capacity)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Capacity)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.Location)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Location)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.IsActive)</dt>
+        <dd class="col-sm-9">
+            @if (Model.IsActive)
+            {
+                <span class="text-success">
+                    <i class="bi bi-check-circle-fill"></i> Active
+                </span>
+            }
+            else
+            {
+                <span class="text-danger">
+                    <i class="bi bi-x-circle-fill"></i> Inactive
+                </span>
+            }
+        </dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.CreatedBy)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedBy)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.CreatedOn)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedOn)</dd>
+
+        <dt class="col-sm-3 text-orange">@Html.DisplayNameFor(model => model.ModifiedOn)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ModifiedOn)</dd>
+    </dl>
+
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-orange">Edit</a>
+        <a asp-action="Index" class="btn btn-outline-orange">Back to List</a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .text-orange {
+            color: #ff6600;
+        }
+
+        .btn-orange {
+            background-color: #ff6600;
+            color: #fff !important;
+            border-radius: 6px;
+            transition: 0.3s;
+            padding: 8px 16px;
+        }
+
+            .btn-orange:hover {
+                background-color: #e65c00;
+            }
+
+        .btn-outline-orange {
+            border: 1px solid #ff6600;
+            color: #ff6600 !important;
+            border-radius: 6px;
+            padding: 8px 16px;
+            transition: 0.3s;
+        }
+
+            .btn-outline-orange:hover {
+                background-color: #ff6600;
+                color: #fff !important;
+            }
+
+        .custom-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+    </style>
+}

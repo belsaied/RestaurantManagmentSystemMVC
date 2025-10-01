@@ -25,10 +25,10 @@ namespace Restaurant.BLL.DTOs.PaymentModule
         public string? CreatedBy { get; set; }   // UserId
 
         [Display(Name = "Created On ")]
-        public DateTime? CreatedOn { get; set; }   // Date of Creation
+        public DateTime CreatedOn { get; set; }   // Date of Creation
 
         [Display(Name =("Last Modify on"))]
-        public DateTime? LastModifiedOn { get; set; }  // the DateTime of Modifying the Record. (Nullable because i'll put a default value for him in the configurations).
+        public DateTime ModifiedOn { get; set; }  // the DateTime of Modifying the Record. 
 
     }
 }

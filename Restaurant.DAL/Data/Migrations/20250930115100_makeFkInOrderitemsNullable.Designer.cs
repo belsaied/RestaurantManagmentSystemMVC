@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.DAL.Data.Contexts;
 
@@ -11,9 +12,11 @@ using Restaurant.DAL.Data.Contexts;
 namespace Restaurant.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250930115100_makeFkInOrderitemsNullable")]
+    partial class makeFkInOrderitemsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +75,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Customer", b =>
@@ -130,7 +133,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Ingredient", b =>
@@ -178,7 +181,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients", (string)null);
+                    b.ToTable("Ingredients");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.MenuItem", b =>
@@ -239,7 +242,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Order", b =>
@@ -304,7 +307,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.OrderItems", b =>
@@ -339,7 +342,7 @@ namespace Restaurant.DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasComputedColumnSql("GETDATE()");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -362,7 +365,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Payment", b =>
@@ -414,7 +417,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.RecipeLine", b =>
@@ -465,7 +468,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("RecipeLines", (string)null);
+                    b.ToTable("RecipeLines");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Table", b =>
@@ -513,7 +516,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tables", (string)null);
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.MenuItem", b =>
@@ -553,7 +556,8 @@ namespace Restaurant.DAL.Migrations
                     b.HasOne("Restaurant.DAL.Models.Order", "NavOrder")
                         .WithMany("NavOrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("MenuItem");
 

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<Restaurant.BLL.DTOs.TableModule.TableDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-orange mb-3">Tables</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-orange">Add New</a>
+</p>
+
+<table class="table custom-table shadow-sm">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TableNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Capacity)</th>
+            <th>@Html.DisplayNameFor(model => model.Location)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TableNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
+                <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-orange">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-orange">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Styles {
+    <style>
+        /* نفس اللون الأورنج بتاع النافبار والفوتر */
+        .btn-orange {
+            background-color: #ff6600;
+            color: #fff !important;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+            .btn-orange:hover {
+                background-color: #e65c00;
+                color: #fff !important;
+            }
+
+        .btn-outline-orange {
+            border: 1px solid #ff6600;
+            color: #ff6600 !important;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+            .btn-outline-orange:hover {
+                background-color: #ff6600;
+                color: #fff !important;
+            }
+
+        .custom-table {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+            .custom-table th {
+                background-color: #ff6600;
+                color: #fff;
+                padding: 10px;
+            }
+
+            .custom-table td {
+                padding: 10px;
+                vertical-align: middle;
+            }
+
+            .custom-table tr:hover {
+                background-color: #fff3e6; /* اورنج فاتح عند hover */
+            }
+
+        .text-orange {
+            color: #ff6600;
+        }
+    </style>
+}

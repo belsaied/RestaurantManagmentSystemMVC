@@ -18,7 +18,7 @@ namespace Restaurant.PL.ViewModels
         [Display(Name = "Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
-
+        public DateTime ModifiedOn { get; set; }
         public string? Status { get; set; }
     }
 }

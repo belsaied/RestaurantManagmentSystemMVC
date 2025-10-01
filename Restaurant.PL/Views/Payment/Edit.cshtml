@@ -9,26 +9,29 @@
 <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);">
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Id" />
+        @* Hidden fields for tracking timestamps *@
+        <input type="hidden" asp-for="CreatedOn" />
+        <input type="hidden" asp-for="ModifiedOn" />
 
-        <div class="form-group" style="margin-bottom: 15px;">
+        <div class="form-group mb-3">
             <label asp-for="Amount" style="color: orange;"></label>
             <input asp-for="Amount" class="form-control" style="border: 1px solid orange;" />
             <span asp-validation-for="Amount" class="text-danger"></span>
         </div>
 
-        <div class="form-group" style="margin-bottom: 15px;">
+        <div class="form-group mb-3">
             <label asp-for="PaymentDate" style="color: orange;"></label>
             <input asp-for="PaymentDate" type="date" class="form-control" style="border: 1px solid orange;" />
             <span asp-validation-for="PaymentDate" class="text-danger"></span>
         </div>
 
-        <div class="form-group" style="margin-bottom: 15px;">
+        <div class="form-group mb-3">
             <label asp-for="TransactionRef" style="color: orange;"></label>
             <input asp-for="TransactionRef" class="form-control" style="border: 1px solid orange;" />
             <span asp-validation-for="TransactionRef" class="text-danger"></span>
         </div>
 
-        <div class="form-group" style="margin-bottom: 15px;">
+        <div class="form-group mb-3">
             <label asp-for="Status" style="color: orange;"></label>
             <input asp-for="Status" class="form-control" style="border: 1px solid orange;" />
             <span asp-validation-for="Status" class="text-danger"></span>

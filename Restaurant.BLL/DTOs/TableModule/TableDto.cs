@@ -8,6 +8,7 @@ namespace Restaurant.BLL.DTOs.TableModule
 {
     public class TableDto
     {
+        public int Id { get; set; }
         public string TableNumber { get; set; } = null!;
 
         public int Capacity { get; set; } = 7;

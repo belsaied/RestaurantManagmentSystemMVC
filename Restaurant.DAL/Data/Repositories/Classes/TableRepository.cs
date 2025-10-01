@@ -18,7 +18,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
 
 
         public Table? GetById(int id) =>
-             _dbContext.Tables.FirstOrDefault(t => t.Id == id);
+             _dbContext.Tables.Find(id);
 
 
         public int Add(Table table)

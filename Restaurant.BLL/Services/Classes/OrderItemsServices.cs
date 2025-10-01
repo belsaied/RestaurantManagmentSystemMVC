@@ -17,7 +17,7 @@ namespace Restaurant.BLL.Services.Classes
         _mapper.Map<IEnumerable<OrderItems>, IEnumerable<OrderItemDto>>(_orderItemRepo.GetAll(WithTracking));
 
         public OrderItemsDetailsDto GetById(int id) =>
-              _mapper.Map<OrderItems, OrderItemsDetailsDto>(_orderItemRepo?.GetById(id));
+              _mapper.Map<OrderItems, OrderItemsDetailsDto>(_orderItemRepo.GetById(id));
 
         public int Add(CreatedOrderItems createdOrderItems) =>
             _orderItemRepo.Add(_mapper.Map<CreatedOrderItems, OrderItems>(createdOrderItems));

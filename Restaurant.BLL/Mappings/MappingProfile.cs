@@ -47,7 +47,7 @@ namespace Restaurant.BLL.Mappings
             #endregion
             #region OrderItems
             CreateMap<OrderItems, OrderItemDto>();
-            CreateMap<OrderItems, OrderDetailsDTO>();
+            CreateMap<OrderItems, OrderItemsDetailsDto>();
             CreateMap<CreatedOrderItems, OrderItems>();
             CreateMap<UpdatedOrderItems, OrderItems>();
             #endregion

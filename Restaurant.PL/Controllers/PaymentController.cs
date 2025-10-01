@@ -14,8 +14,6 @@ namespace Restaurant.PL.Controllers
         }
         public IActionResult Details(int Id)
         {
-           
-            
             return View(_PayServe.GetById(Id));
         }
         [HttpGet]
@@ -47,7 +45,9 @@ namespace Restaurant.PL.Controllers
                 Amount = payment.Amount,
                 Status = payment.Status,
                 TransactionRef = payment.TransactionRef,
-                //CreatedOn = payment.CreatedOn
+                CreatedOn = payment.CreatedOn,
+                ModifiedOn=DateTime.Now
+                
             };
 
             //use View model
@@ -63,6 +63,8 @@ namespace Restaurant.PL.Controllers
                Amount=ModelFromView.Amount,
                Status =ModelFromView.Status,
                TransactionRef=ModelFromView.TransactionRef,
+               CreatedOn = ModelFromView.CreatedOn,
+               ModifiedOn=DateTime.Now
            };
             if (ModelState.IsValid)
             {

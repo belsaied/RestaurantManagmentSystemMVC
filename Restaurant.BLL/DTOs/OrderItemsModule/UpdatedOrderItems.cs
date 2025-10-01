@@ -22,5 +22,7 @@ namespace Restaurant.BLL.DTOs.OrderItemsModule
         [Display(Name = "Special Instructions")]
 
         public string? SpecialInstructions { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }= DateTime.Now;
     }
 }
