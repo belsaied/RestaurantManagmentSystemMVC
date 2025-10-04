@@ -17,9 +17,10 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(t => t.CreatedOn)
                              .HasDefaultValueSql("GETDATE()");
 
-            builder.Property(c => c.ModifiedOn)
-                .HasComputedColumnSql("GETDATE()");                 // HasComputedColumnSql every time i open details it takes a new value(I want that behavior with edit only)
-
+            //builder.Property(c => c.ModifiedOn)
+            //    .HasComputedColumnSql("GETDATE()");                 // HasComputedColumnSql every time i open details it takes a new value(I want that behavior with edit only)
+            builder.Property(e => e.ModifiedOn)
+    .HasDefaultValueSql("GETDATE()");
             builder.Property(c => c.IsDeleted)
                 .HasDefaultValue(false);
 

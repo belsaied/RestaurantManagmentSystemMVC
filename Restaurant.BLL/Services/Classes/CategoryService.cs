@@ -15,9 +15,11 @@ namespace Restaurant.BLL.Services.Classes
     public class CategoryService(ICategoryReposatory _categoryRepository) : ICategoryService
     {
         // GetAll
+
         public IEnumerable<GetAllCategoriesDTO> GetAllCategories()
         {
-            var Category = _categoryRepository.GetAll();
+            var Category = _categoryRepository.GetAll()
+                                .Where(c => !c.IsDeleted);  // Add this filter
             var CategoryDTO = Category.Select(c => new GetAllCategoriesDTO
             {
                 Id = c.Id,

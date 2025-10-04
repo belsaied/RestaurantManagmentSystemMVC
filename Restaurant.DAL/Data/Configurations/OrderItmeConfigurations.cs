@@ -24,8 +24,8 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(t => t.CreatedOn)
                   .HasDefaultValueSql("GETDATE()");
 
-            builder.Property(c => c.ModifiedOn)
-                .HasComputedColumnSql("GETDATE()");
+            builder.Property(e => e.ModifiedOn)
+                .HasDefaultValueSql("GETDATE()");
 
             builder.Property(c => c.IsDeleted)
                 .HasDefaultValue(false);

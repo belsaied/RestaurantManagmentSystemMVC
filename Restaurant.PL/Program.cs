@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Restaurant.BLL.Mappings;
@@ -17,7 +18,11 @@ namespace Restaurant.PL
 
             #region Configure Services
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+            
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -47,6 +52,7 @@ namespace Restaurant.PL
            
             builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             #endregion
 
             builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));
