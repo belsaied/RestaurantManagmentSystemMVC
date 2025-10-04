@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    public class CategoryConfig : IEntityTypeConfiguration<Category>
+    public class CategoryConfig : BaseEntityConfigurations<Category>
     {
-        public void Configure(EntityTypeBuilder<Category> builder)
+        public new void Configure(EntityTypeBuilder<Category> builder)
         {
             // Primary Key
             builder.HasKey(c => c.Id);
@@ -22,17 +22,17 @@ namespace Restaurant.DAL.Data.Configurations
             //builder.Property(c => c.CreatedBy)
             //    .IsRequired();
 
-            builder.Property(c => c.CreatedOn)
-                .HasDefaultValueSql("GETUTCDATE()");
+            //builder.Property(c => c.CreatedOn)
+            //    .HasDefaultValueSql("GETUTCDATE()");
 
             //builder.Property(c => c.ModifiedBy)
             //    .IsRequired();
 
-            builder.Property(c => c.ModifiedOn)
-                .HasDefaultValueSql("GETUTCDATE()");
+            //builder.Property(c => c.ModifiedOn)
+            //    .HasDefaultValueSql("GETUTCDATE()");
 
-            builder.Property(c => c.IsDeleted)
-                .HasDefaultValue(false);
+            //builder.Property(c => c.IsDeleted)
+            //    .HasDefaultValue(false);
 
 
             // Category Specific Properties
@@ -60,7 +60,11 @@ namespace Restaurant.DAL.Data.Configurations
                 .WithOne(m => m.Category)
                 .HasForeignKey(m => m.CategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
-               
+
+
+            //Base
+            base.Configure(builder);
+
         }
     }
 }

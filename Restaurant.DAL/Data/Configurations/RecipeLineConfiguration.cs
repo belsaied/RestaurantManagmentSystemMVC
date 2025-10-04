@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    internal class RecipeLineConfiguration : IEntityTypeConfiguration<RecipeLine>
+    internal class RecipeLineConfiguration : BaseEntityConfigurations<RecipeLine>
     {
-        public void Configure(EntityTypeBuilder<RecipeLine> builder)
+        public new void Configure(EntityTypeBuilder<RecipeLine> builder)
         {
            builder.HasKey(rl => rl.Id);
 
@@ -28,14 +28,8 @@ namespace Restaurant.DAL.Data.Configurations
             #endregion
 
             #region Base 
-            builder.Property(t => t.CreatedOn)
-                 .HasDefaultValueSql("GETDATE()");
+            base.Configure(builder);
 
-            builder.Property(e => e.ModifiedOn)
-                .HasDefaultValueSql("GETDATE()");
-
-            builder.Property(c => c.IsDeleted)
-                .HasDefaultValue(false);
             #endregion
         }
     }

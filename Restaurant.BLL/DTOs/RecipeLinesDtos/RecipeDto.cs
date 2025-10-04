@@ -21,7 +21,6 @@ namespace Restaurant.BLL.DTOs.RecipeLinesDtos
         [Display(Name = "Menu Item")]
         public string MenuItemName { get; set; } = string.Empty;
         
-        public int IngredientId { get; set; }
-        public int MenuId { get; set; }
+       
     }
 }

@@ -14,7 +14,7 @@ namespace Restaurant.BLL.Services.Interfaces
 
         //Get ingredient by Id
 
-        public RecipeDto? GetRecipeById(int id);
+        public RecipesDetailsDto? GetRecipeById(int id);
 
         //Add Ingredient
 
@@ -23,6 +23,6 @@ namespace Restaurant.BLL.Services.Interfaces
         //Remove Ingredient
         public bool RemoveRecipe(int id);
         //Update Ingredient
-        public int UpdateRecipe(RecipeDto ingredientDto);
+        public int UpdateRecipe(UpdatedRecipeDto ingredientDto);
     }
 }

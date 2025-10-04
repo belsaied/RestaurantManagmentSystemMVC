@@ -27,10 +27,10 @@ namespace Restaurant.BLL.Services.Classes
             return _mapper.Map<IEnumerable<Ingredient>, IEnumerable<IngredientDto>>(ingredients);
         }
 
-        public IngredientDto? GetIngredientById(int id)
+        public IngredientDetailsDto? GetIngredientById(int id)
         {
             var ingredient= _ingredients.GetIngredientById(id);
-            return _mapper.Map<Ingredient?, IngredientDto?>(ingredient);
+            return _mapper.Map<Ingredient?, IngredientDetailsDto?>(ingredient);
         }
 
         public bool RemoveIngredient(int id)

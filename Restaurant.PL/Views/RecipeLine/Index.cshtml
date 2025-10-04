@@ -4,52 +4,99 @@
     ViewData["Title"] = "Recipe Lines";
 }
 
-<div>
-    <a asp-action="Create" class="btn btn-primary">Create Recipe Line</a>
+<div class="container-fluid px-4 py-4">
+    <h1 class="mb-4" style="font-weight: 700; color: #FFA500;">Recipe Lines</h1>
+
+    <a class="btn mb-4"
+       asp-action="Create"
+       style="background-color: #FFC107; color: #000; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <i class="bi bi-plus-circle me-1"></i>
+        Add New
+    </a>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="background-color: white; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6;">
+                <thead style="background-color: #f8f9fa;">
+                    <tr>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().MenuItemName)</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().IngredientName)</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().Quantity)</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().Unit)</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Details</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Edit</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var recipe in Model)
+                {
+                    <tr style="border-bottom: 1px solid #e9ecef;">
+                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.MenuItemName)</td>
+                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.IngredientName)</td>
+                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.Quantity)</td>
+                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.Unit)</td>
+                        <td style="padding: 16px;">
+                            <a class="btn btn-sm d-flex align-items-center justify-content-center"
+                               asp-action="Details" asp-route-id="@recipe.Id"
+                               style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                <i class="bi bi-eye-fill me-2"></i>
+                                Details
+                            </a>
+                        </td>
+                        <td style="padding: 16px;">
+                            <a class="btn btn-sm d-flex align-items-center justify-content-center"
+                               asp-action="Edit" asp-route-id="@recipe.Id"
+                               style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                <i class="bi bi-pencil-square me-2"></i>
+                                Edit
+                            </a>
+                        </td>
+                        <td style="padding: 16px;">
+                            <button type="button" class="btn btn-sm d-flex align-items-center justify-content-center"
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal-@recipe.Id"
+                                    style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                <i class="bi bi-trash-fill me-2"></i>
+                                Delete
+                            </button>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal-@recipe.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@recipe.Id" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" style="border-radius: 12px; border: none;">
+                                        <div class="modal-header" style="border-bottom: 1px solid #e9ecef;">
+                                            <h5 class="modal-title" id="deleteModalLabel-@recipe.Id" style="font-weight: 600;">Delete Recipe Line</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body" style="padding: 24px;">
+                                            Are you sure you want to delete this recipe line?
+                                        </div>
+                                        <div class="modal-footer" style="border-top: 1px solid #e9ecef; padding: 16px;">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    style="padding: 8px 20px; border-radius: 6px;">
+                                                Cancel
+                                            </button>
+                                            <form method="post" asp-action="Delete" asp-route-id="@recipe.Id" style="display: inline;">
+                                                <input type="submit" value="Delete" class="btn"
+                                                       style="background-color: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 6px;" />
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" style="border-radius: 8px; padding: 20px;">
+            <h4>No Recipe Lines Found!</h4>
+            <p class="mb-0">Start by creating your first recipe line.</p>
+        </div>
+    }
 </div>
-
-<br />
-
-@if (Model == null || !Model.Any())
-{
-    <div class="alert alert-info">No recipe lines found.</div>
-}
-else
-{
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(m => m.MenuItemName)</th>
-                <th>@Html.DisplayNameFor(m => m.IngredientName)</th>
-                <th>@Html.DisplayNameFor(m => m.Quantity)</th>
-                <th>@Html.DisplayNameFor(m => m.Unit)</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var recipe in Model)
-        {
-            <tr>
-                <td>@recipe.MenuItemName</td>
-                <td>@recipe.IngredientName</td>
-                <td>@recipe.Quantity</td>
-                <td>@recipe.Unit</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-info btn-sm me-1">Details</a>
-                    </td>
-                    <td>
-                    <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-warning btn-sm me-1">Edit</a>
-                    </td>
-                    <td>
-                    <form asp-action="Delete" asp-route-id="@recipe.Id" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this recipe line?');">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-
-
-

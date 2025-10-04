@@ -17,6 +17,33 @@ namespace Restaurant.DAL.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             // to work with Configurations when we decide to add it .
         }
+
+        public override int SaveChanges()
+        {
+            UpdateAuditFields();
+            return base.SaveChanges();
+        }
+
+        private void UpdateAuditFields()
+        {
+            var entries = ChangeTracker.Entries<baseEntity>();
+
+            foreach (var entry in entries)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedOn = DateTime.Now;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    // ✅ Prevent changing CreatedOn by mistake
+                    entry.Property(x => x.CreatedOn).IsModified = false;
+
+                    // ✅ Update ModifiedOn every time an entity is edited
+                    entry.Entity.ModifiedOn = DateTime.Now;
+                }
+            }
+        }
         #region DbSets<>
         public DbSet<Category> Categories { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; } 

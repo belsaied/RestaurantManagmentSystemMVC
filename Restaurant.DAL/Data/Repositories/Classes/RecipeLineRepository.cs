@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Restaurant.DAL.Data.Contexts;
 using Restaurant.DAL.Data.Repositories.Interfaces;
 using System;
@@ -25,7 +26,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
 
         //Get RecipeLine by Id
 
-        public RecipeLine? GetRecipeLineById(int id) => _DbContext.RecipeLines.Find(id);
+        public RecipeLine? GetRecipeLineById(int id) => _DbContext.RecipeLines.Include(e=>e.Ingredient).Include(e=>e.MenuItem).SingleOrDefault(e=>e.Id==id);
 
         //Add RecipeLine
 

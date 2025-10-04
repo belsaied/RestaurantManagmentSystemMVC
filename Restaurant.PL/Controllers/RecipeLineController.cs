@@ -85,7 +85,7 @@ namespace Restaurant.PL.Controllers
             {
                 try
                 {
-                    _recipeLineServices.UpdateRecipe( new RecipeDto
+                    _recipeLineServices.UpdateRecipe( new UpdatedRecipeDto
                     {
                         Id = id.Value,
                         Quantity = recipeLine.Quantity,
@@ -105,6 +105,18 @@ namespace Restaurant.PL.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid data.");
             }
             return View(recipeLine);
+        }
+        #endregion
+
+        #region Details
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if(!id.HasValue ||id == 0) return BadRequest();
+            var Recipe = _recipeLineServices.GetRecipeById(id.Value);
+            if (Recipe is null) return NotFound();
+            return View(Recipe);
         }
         #endregion
 

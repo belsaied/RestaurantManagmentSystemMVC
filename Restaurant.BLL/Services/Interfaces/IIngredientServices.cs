@@ -14,7 +14,7 @@ namespace Restaurant.BLL.Services.Interfaces
 
         //Get ingredient by Id
 
-        public IngredientDto? GetIngredientById(int id);
+        public IngredientDetailsDto? GetIngredientById(int id);
 
         //Add Ingredient
 

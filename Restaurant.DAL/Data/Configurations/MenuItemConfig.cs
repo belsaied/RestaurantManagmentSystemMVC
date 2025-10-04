@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    public class MenuItemConfig : IEntityTypeConfiguration<MenuItem>
+    public class MenuItemConfig : BaseEntityConfigurations<MenuItem>
     {
-        public void Configure(EntityTypeBuilder<MenuItem> builder)
+        public new void Configure(EntityTypeBuilder<MenuItem> builder)
         {
             // Primary Key
             builder.HasKey(m => m.Id);
@@ -22,17 +22,10 @@ namespace Restaurant.DAL.Data.Configurations
             //builder.Property(m => m.CreatedBy)
             //    .IsRequired();
 
-            builder.Property(m => m.CreatedOn)
-                .HasDefaultValueSql("GETUTCDATE()");
+           
 
             //builder.Property(m => m.ModifiedBy)
             //    .IsRequired();
-
-            builder.Property(m => m.ModifiedOn)
-                .HasDefaultValueSql("GETUTCDATE()");
-
-            builder.Property(m => m.IsDeleted)
-                .HasDefaultValue(false);
 
 
             // MenuItem Specific Properties
@@ -68,7 +61,13 @@ namespace Restaurant.DAL.Data.Configurations
                 .WithMany(c => c.MenuItems)
                 .HasForeignKey(m => m.CategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
-                
+
+
+
+            //base
+            base.Configure(builder);
+
+
         }
     }
 }

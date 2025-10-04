@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Restaurant.DAL.Models;
 namespace Restaurant.DAL.Data.Configurations
 {
-    public class CustomerConfigurations : IEntityTypeConfiguration<Customer>
+    public class CustomerConfigurations : BaseEntityConfigurations<Customer>
     {
         #region Old Part it has a problem With the update-database Command
         //public void Configure(EntityTypeBuilder<Customer> builder)
@@ -31,7 +31,7 @@ namespace Restaurant.DAL.Data.Configurations
         //} 
         #endregion
         #region new one
-        public void Configure(EntityTypeBuilder<Customer> builder)
+        public new void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -65,21 +65,19 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(x => x.CreatedBy)
                    .HasColumnType("varchar(50)");
 
-            builder.Property(x => x.CreatedOn)
-                   .HasColumnType("datetime2")
-                   .HasDefaultValueSql("GETDATE()");
+           
 
             builder.Property(x => x.ModifiedBy)
                    .HasColumnType("varchar(50)");
 
-            builder.Property(x => x.ModifiedOn)
-                   .HasColumnType("datetime2")
-                   .HasDefaultValueSql("GETDATE()");
+
             // ملاحظة: هذا يحط قيمة وقت الإدخال فقط، إذا تبغى يتحدث تلقائياً عند كل UPDATE لازم تعمل Trigger في SQL
 
-            builder.Property(x => x.IsDeleted)
-                   .HasColumnType("bit")
-                   .HasDefaultValue(false); // هنا نستخدم false بشكل صحيح
+            // هنا نستخدم false بشكل صحيح
+
+            //base
+            base.Configure(builder);
+
         }
 
 

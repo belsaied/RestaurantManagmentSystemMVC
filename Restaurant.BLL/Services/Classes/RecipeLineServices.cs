@@ -27,11 +27,11 @@ namespace Restaurant.BLL.Services.Classes
             return _mapper.Map<IEnumerable<RecipeLine>, IEnumerable<RecipeDto>>(recipes);
         }
 
-        public RecipeDto? GetRecipeById(int id)
+        public RecipesDetailsDto? GetRecipeById(int id)
         {
            var recipe=_Recipes.GetRecipeLineById(id);
             if (recipe == null) return null;
-            return _mapper.Map<RecipeLine?, RecipeDto?>(recipe);
+            return _mapper.Map<RecipeLine?, RecipesDetailsDto?>(recipe);
         }
 
         public bool RemoveRecipe(int id)
@@ -42,9 +42,9 @@ namespace Restaurant.BLL.Services.Classes
             return _Recipes.UpdateRecipeLine(recipe) > 0;
         }
 
-        public int UpdateRecipe(RecipeDto ingredientDto)
+        public int UpdateRecipe(UpdatedRecipeDto ingredientDto)
         {
-          var recipe=  _mapper.Map<RecipeDto, RecipeLine>(ingredientDto);
+          var recipe=  _mapper.Map<UpdatedRecipeDto, RecipeLine>(ingredientDto);
             return _Recipes.UpdateRecipeLine(recipe);
         }
     }
