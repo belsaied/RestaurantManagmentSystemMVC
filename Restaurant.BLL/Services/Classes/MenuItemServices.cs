@@ -18,6 +18,7 @@ namespace Restaurant.BLL.Services.Classes
         public IEnumerable<GetAllMenuItemsDto> GetAllMenuItems()
         {
             var menuItems = _menuItemRepository.GetAll();
+                
             var menuItemDTO = menuItems.Select(m => new GetAllMenuItemsDto
             {
                 Id = m.Id,

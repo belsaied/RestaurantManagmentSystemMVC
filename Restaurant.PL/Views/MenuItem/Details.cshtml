@@ -1,0 +1,75 @@
+﻿@model GetByIdMenuItemsDto
+@{
+    ViewData["Title"] = "Menu Item Details";
+    Layout = "_Layout";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm" style="border-radius: 12px; border: none;">
+                <div class="card-header" style="background-color: #f8f9fa; border-bottom: 1px solid #e9ecef; padding: 20px; border-radius: 12px 12px 0 0;">
+                    <h2 class="mb-0" style="font-weight: 600;">Menu Item Details: @Model.ItemName</h2>
+                </div>
+                <div class="card-body" style="padding: 30px;">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div class="text-center mb-4">
+                            <img src="@Model.ImageUrl" alt="@Model.ItemName" class="img-fluid rounded" style="max-height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Item Name</label>
+                            <div style="padding: 10px 16px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                                @Model.ItemName
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Price</label>
+                            <div style="padding: 10px 16px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef; font-weight: 600; color: #28a745;">
+                                @Model.Price.ToString("C")
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Availability Status</label>
+                            <div style="padding: 10px 16px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                                @if (Model.IsAvailable)
+                                {
+                                    <span class="badge d-inline-flex align-items-center" style="background-color: #28a745; padding: 6px 12px; border-radius: 6px; font-size: 14px;">
+                                        <i class="bi bi-check-circle-fill me-2"></i> Available
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge d-inline-flex align-items-center" style="background-color: #6c757d; padding: 6px 12px; border-radius: 6px; font-size: 14px;">
+                                        <i class="bi bi-x-circle-fill me-2"></i> Unavailable
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Image URL</label>
+                                <div style="padding: 10px 16px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    @Model.ImageUrl
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="d-flex gap-2 mt-4">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn d-flex align-items-center" style="background-color: #28a745; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 500;">
+                            <i class="bi bi-pencil-square me-2"></i> Edit
+                        </a>
+                        <a asp-action="Index" class="btn btn-outline-secondary d-flex align-items-center" style="padding: 10px 24px; border-radius: 8px; font-weight: 500;">
+                            <i class="bi bi-arrow-left me-2"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

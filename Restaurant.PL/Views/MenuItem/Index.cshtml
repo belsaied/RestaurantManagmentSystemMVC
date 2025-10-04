@@ -1,0 +1,185 @@
+﻿
+@model IEnumerable<GetAllMenuItemsDto>
+@inject ICategoryService _categoryService
+@{
+    ViewData["Title"] = "All Menu Items";
+    Layout = "_Layout";
+}
+
+@if (!string.IsNullOrEmpty(TempData["Message"] as string))
+{
+    var messageType = TempData["MessageType"] as string ?? "success";
+    var headerText = messageType == "success" ? "Success!!" : "Error!!";
+    var headerClass = messageType == "success" ? "text-success" : "text-danger";
+    var toastClass = messageType == "success" ? "bg-success text-white" : "bg-danger text-white";
+
+    <div aria-live="polite" aria-atomic="true"
+         class="toast-container position-fixed p-3"
+         style="bottom: 25px; right:25px; z-index: 9999;">
+        <div id="notificationToast" class="toast @toastClass" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="toast-header">
+                <strong class="me-auto @headerClass">@headerText</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["Message"]
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toastElement = document.getElementById('notificationToast');
+            if (toastElement) {
+                var toast = new bootstrap.Toast(toastElement);
+                toast.show();
+            }
+        });
+    </script>
+}
+
+<div class="container-fluid px-4 py-4">
+    <h1 class="mb-4" style="font-weight: 700; color: #FFA500;">All Menu Items</h1>
+
+    <a class="btn mb-4" asp-controller="MenuItem" asp-action="Create"
+       style="background-color: #FFC107; color: #000; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        Add New
+    </a>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle" style="background-color: white; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6;">
+                <thead style="background-color: #f8f9fa;">
+                    <tr>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Image</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Item Name</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Description</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Price</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Category</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Available</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Details</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Update</th>
+                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var menuItem in Model)
+                    {
+                        <tr style="border-bottom: 1px solid #e9ecef;">
+                            <td style="padding: 16px;">
+                                @if (!string.IsNullOrEmpty(menuItem.ImageUrl))
+                                {
+                                    <img src="@menuItem.ImageUrl" alt="@menuItem.ItemName" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />
+                                }
+                                else
+                                {
+                                    <div style="width: 60px; height: 60px; background-color: #f8f9fa; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-image" style="font-size: 1.5rem; color: #6c757d;"></i>
+                                    </div>
+                                }
+                            </td>
+                            <td style="padding: 16px; font-weight: 500;">@menuItem.ItemName</td>
+                            <td style="padding: 16px; max-width: 250px;">
+                                @if (string.IsNullOrEmpty(menuItem.Description))
+                                {
+                                    <span class="text-muted">No description</span>
+                                }
+                                else if (menuItem.Description.Length > 60)
+                                {
+                                    @(menuItem.Description.Substring(0, 60) + "...")
+                                }
+                                else
+                                {
+                                    @menuItem.Description
+                                }
+                            </td>
+                            <td style="padding: 16px; font-weight: 600; color: #28a745;">@menuItem.Price.ToString("C")</td>
+                            <td style="padding: 16px;">
+                                @{
+                                    var allCategories = _categoryService.GetAllCategories();
+                                    var categoryName = allCategories.FirstOrDefault(c => c.Id == menuItem.CategoryId)?.CategoryName ?? "Unknown Category";
+                                }
+                                <span class="badge" style="background-color: #007bff; padding: 6px 12px; border-radius: 6px; font-size: 13px;">
+                                    @categoryName
+                                </span>
+                            </td>
+                            <td style="padding: 16px; text-align: center;">
+                                <form method="post" asp-action="ToggleAvailability" asp-route-id="@menuItem.Id" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm" style="@(menuItem.IsAvailable ? "background-color: #28a745;" : "background-color: #6c757d;") color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 500;">
+                                        @if (menuItem.IsAvailable)
+                                        {
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+                                
+                                            <span>Available</span>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-x-circle-fill me-1"></i>
+                                
+                                            <span>Unavailable</span>
+                                        }
+                                    </button>
+                                </form>
+                            </td>
+                            <td style="padding: 16px;">
+                                <a class="btn btn-sm d-flex align-items-center justify-content-center" asp-action="Details" asp-route-id="@menuItem.Id"
+                                   style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                    <i class="bi bi-eye-fill me-2"></i>
+                                    Details
+                                </a>
+                            </td>
+                            <td style="padding: 16px;">
+                                <a class="btn btn-sm d-flex align-items-center justify-content-center" asp-action="Edit" asp-route-id="@menuItem.Id"
+                                   style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                    <i class="bi bi-pencil-square me-2"></i>
+                                    Edit
+                                </a>
+                            </td>
+                            <td style="padding: 16px;">
+                                <button type="button" class="btn btn-sm d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteModal-@menuItem.Id"
+                                        style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
+                                    <i class="bi bi-trash-fill me-2"></i>
+                                    Delete
+                                </button>
+
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="deleteModal-@menuItem.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content" style="border-radius: 12px; border: none;">
+                                            <div class="modal-header" style="border-bottom: 1px solid #e9ecef;">
+                                                <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 600;">Delete Menu Item</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" style="padding: 24px;">
+                                                Are you sure you want to delete <strong>@menuItem.ItemName</strong>?
+                                            </div>
+                                            <div class="modal-footer" style="border-top: 1px solid #e9ecef; padding: 16px;">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                        style="padding: 8px 20px; border-radius: 6px;">
+                                                    Cancel
+                                                </button>
+                                                <form method="post" asp-action="Delete" asp-controller="MenuItem" asp-route-id="@menuItem.Id" style="display: inline;">
+                                                    <input type="submit" value="Delete" class="btn"
+                                                           style="background-color: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 6px;" />
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" style="border-radius: 8px; padding: 20px;">
+            <h4>No Menu Items Found!</h4>
+            <p class="mb-0">Start by creating your first menu item.</p>
+        </div>
+    }
+</div>
