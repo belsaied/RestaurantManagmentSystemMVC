@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class CategoryService(ICategoryReposatory _categoryRepository) : ICategoryService
+    public class CategoryService(ICategoryRepository _categoryRepository) : ICategoryService
     {
         // GetAll
 
@@ -138,7 +138,7 @@ namespace Restaurant.BLL.Services.Classes
             {
                 return false;
             }
-            int numberOfRows = _categoryRepository.Delete(category.Id);
+            int numberOfRows = _categoryRepository.DeleteById(category.Id);
             return numberOfRows > 0 ? true : false;
         }
     }

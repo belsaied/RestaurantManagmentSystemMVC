@@ -25,7 +25,7 @@ namespace Restaurant.BLL.Services.Classes
         public int Update(UpdatedOrderItems updatedOrderItems) =>
             _orderItemRepo.Update(_mapper.Map<UpdatedOrderItems, OrderItems>(updatedOrderItems));
 
-        public bool Delete(int id) => _orderItemRepo.Delete(id) > 0;
+        public bool Delete(int id) => _orderItemRepo.DeleteById(id) > 0;
 
 
 

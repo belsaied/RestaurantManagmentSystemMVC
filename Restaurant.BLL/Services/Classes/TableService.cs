@@ -25,6 +25,6 @@ namespace Restaurant.BLL.Services.Classes
         public int Update(UpdatedTableDto updatedTable) =>
             _tableRepo.Update(_mapper.Map<UpdatedTableDto, Table>(updatedTable));
 
-        public bool Delete(int id) => _tableRepo.Delete(id) > 0;
+        public bool Delete(int id) => _tableRepo.DeleteById(id) > 0;
     }
 }

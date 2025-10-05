@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class MenuItemServices(IMenuItemReposatory _menuItemRepository, ICategoryReposatory _categoryRepository) : IMenuItemServices
+    public class MenuItemServices(IMenuItemRepository _menuItemRepository, ICategoryRepository _categoryRepository) : IMenuItemServices
     {
 
         // GetAll
@@ -224,7 +224,7 @@ namespace Restaurant.BLL.Services.Classes
                 return false;
             }
 
-            int numberOfRows = _menuItemRepository.Delete(menuItem.Id);
+            int numberOfRows = _menuItemRepository.DeleteById(menuItem.Id);
             return numberOfRows > 0;
         }
     }

@@ -17,29 +17,29 @@ namespace Restaurant.BLL.Services.Classes
 
         public IEnumerable<OrderDTO> GetAllOrders(bool WithTracking = false)
         {
-            return _mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orderRepository.GetAllOrders(WithTracking));
+            return _mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orderRepository.GetAll(WithTracking));
 
         }
 
         public OrderDetailsDTO? GetOrderById(int Id)
         {
-            return _mapper.Map<Order, OrderDetailsDTO>(orderRepository.GetOrderById(Id));
+            return _mapper.Map<Order, OrderDetailsDTO>(orderRepository.GetById(Id));
         }
 
         public int AddOrder(CreateOrderDTO orderDTO)
         {
-            return orderRepository.AddOrder(_mapper.Map<CreateOrderDTO, Order>(orderDTO));
+            return orderRepository.Add(_mapper.Map<CreateOrderDTO, Order>(orderDTO));
         }
 
         public int UpdateOrder(UpdateOrderDTO orderDTO)
         {
-            return orderRepository.UpdateOrder(_mapper.Map<UpdateOrderDTO, Order>(orderDTO));
+            return orderRepository.Update(_mapper.Map<UpdateOrderDTO, Order>(orderDTO));
 
         }
 
         public int DeleteOrderById(int id)
         {
-            return orderRepository.DeleteOrderById(id);
+            return orderRepository.DeleteById(id);
         }
     }
 }

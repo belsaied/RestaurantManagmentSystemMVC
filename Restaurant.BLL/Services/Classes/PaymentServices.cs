@@ -25,7 +25,7 @@ namespace Restaurant.BLL.Services.Classes
         public int Update(UpdatedPaymentDto updatedPayment) =>
             _paymentRepo.Update(_mapper.Map<UpdatedPaymentDto, Payment>(updatedPayment));
 
-        public bool Delete(int id) => _paymentRepo.Delete(id) > 0;
+        public bool Delete(int id) => _paymentRepo.DeleteById(id) > 0;
 
     }
 }

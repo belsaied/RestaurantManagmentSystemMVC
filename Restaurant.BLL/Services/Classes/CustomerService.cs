@@ -16,13 +16,13 @@ namespace Restaurant.BLL.Services.Classes
     {
         public IEnumerable<CustomerDTO> GetAllCustomers(bool WithTracking = false)
         {
-            var customers = _customerRepository.GetAllCustomers(WithTracking);
+            var customers = _customerRepository.GetAll(WithTracking);
             return _mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerDTO>>(customers);
         }
 
         public CustomerDetailsDTO? GetCustomerById(int Id)
         {
-            var customer = _customerRepository.GetCustomerById(Id);
+            var customer = _customerRepository.GetById(Id);
             return _mapper.Map<Customer, CustomerDetailsDTO>(customer);
         }
 
@@ -31,7 +31,7 @@ namespace Restaurant.BLL.Services.Classes
             if (customerDTO is not null)
             {
                 var customer = _mapper.Map<CreateCustomerDTO, Customer>(customerDTO);
-                return _customerRepository.AddCustomer(customer);
+                return _customerRepository.Add(customer);
             }
             else
             {
@@ -45,7 +45,7 @@ namespace Restaurant.BLL.Services.Classes
         {
             if (customerDTO is not null)
             {
-                return _customerRepository.UpdateCustomer(_mapper.Map<UpdateCustomerDTO, Customer>(customerDTO));
+                return _customerRepository.Update(_mapper.Map<UpdateCustomerDTO, Customer>(customerDTO));
             }
             return 0;
 
@@ -53,10 +53,10 @@ namespace Restaurant.BLL.Services.Classes
 
         public bool DeleteCustomer(int Id)
         {
-            var customer = _customerRepository.GetCustomerById(Id);
+            var customer = _customerRepository.GetById(Id);
             if (customer is not null)
             {
-                _customerRepository.DeleteCustomerById(Id);
+                _customerRepository.DeleteById(Id);
                 return true;
             }
             return false;

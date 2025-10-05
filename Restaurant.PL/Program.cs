@@ -29,8 +29,8 @@ namespace Restaurant.PL
                 // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
             });
             #region Repos
-            builder.Services.AddScoped<ICategoryReposatory, CategoryRepository>();
-            builder.Services.AddScoped<IMenuItemReposatory, MenuItemRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             builder.Services.AddScoped<ITableRepository, TableRepository>();
             builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
@@ -38,7 +38,7 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IRecipeLineRepository, RecipeLineRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             #endregion
             #region BLL Services
