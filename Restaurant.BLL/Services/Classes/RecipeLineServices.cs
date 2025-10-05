@@ -13,39 +13,42 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class RecipeLineServices(IRecipeLineRepository _Recipes,IMapper _mapper) : IRecipeLineServices
+    public class RecipeLineServices(IUnitOfWork _unitOfWork,IMapper _mapper) : IRecipeLineServices
     {
         public int AddRecipe(CreateRecipeDto ingredientDto)
         {
-            return _Recipes.Add(_mapper.Map<CreateRecipeDto, RecipeLine>(ingredientDto));
+             _unitOfWork.RecipeLineRepository.Add(_mapper.Map<CreateRecipeDto, RecipeLine>(ingredientDto));
+        return _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<RecipeDto> GetAllRecipes(bool withTracking = false)
         {
-            var recipes = _Recipes.GetAll(withTracking);
+            var recipes = _unitOfWork.RecipeLineRepository.GetAll(withTracking);
        
             return _mapper.Map<IEnumerable<RecipeLine>, IEnumerable<RecipeDto>>(recipes);
         }
 
         public RecipesDetailsDto? GetRecipeById(int id)
         {
-           var recipe=_Recipes.GetById(id);
+           var recipe=_unitOfWork.RecipeLineRepository.GetById(id);
             if (recipe == null) return null;
             return _mapper.Map<RecipeLine?, RecipesDetailsDto?>(recipe);
         }
 
         public bool RemoveRecipe(int id)
         {
-            var recipe = _Recipes.GetById(id);
+            var recipe = _unitOfWork.RecipeLineRepository.GetById(id);
             if(recipe == null) return false;
             recipe.IsDeleted = true;
-            return _Recipes.Update(recipe) > 0;
+             _unitOfWork.RecipeLineRepository.Update(recipe) ;
+            return _unitOfWork.SaveChanges() > 0 ? true : false;
         }
 
         public int UpdateRecipe(UpdatedRecipeDto ingredientDto)
         {
           var recipe=  _mapper.Map<UpdatedRecipeDto, RecipeLine>(ingredientDto);
-            return _Recipes.Update(recipe);
+             _unitOfWork.RecipeLineRepository.Update(recipe);
+            return _unitOfWork.SaveChanges();
         }
     }
 }

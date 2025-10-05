@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class CustomerService(ICustomerRepository _customerRepository, IMapper _mapper) : ICustomerService
+    public class CustomerService(IUnitOfWork _unitOfWork, IMapper _mapper) : ICustomerService
     {
         public IEnumerable<CustomerDTO> GetAllCustomers(bool WithTracking = false)
         {
-            var customers = _customerRepository.GetAll(WithTracking);
+            var customers = _unitOfWork.CustomerRepository.GetAll(WithTracking);
             return _mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerDTO>>(customers);
         }
 
         public CustomerDetailsDTO? GetCustomerById(int Id)
         {
-            var customer = _customerRepository.GetById(Id);
+            var customer = _unitOfWork.CustomerRepository.GetById(Id);
             return _mapper.Map<Customer, CustomerDetailsDTO>(customer);
         }
 
@@ -31,7 +31,8 @@ namespace Restaurant.BLL.Services.Classes
             if (customerDTO is not null)
             {
                 var customer = _mapper.Map<CreateCustomerDTO, Customer>(customerDTO);
-                return _customerRepository.Add(customer);
+                _unitOfWork.CustomerRepository.Add(customer);
+                return _unitOfWork.SaveChanges();
             }
             else
             {
@@ -45,7 +46,8 @@ namespace Restaurant.BLL.Services.Classes
         {
             if (customerDTO is not null)
             {
-                return _customerRepository.Update(_mapper.Map<UpdateCustomerDTO, Customer>(customerDTO));
+                 _unitOfWork.CustomerRepository.Update(_mapper.Map<UpdateCustomerDTO, Customer>(customerDTO));
+               return _unitOfWork.SaveChanges();
             }
             return 0;
 
@@ -53,14 +55,14 @@ namespace Restaurant.BLL.Services.Classes
 
         public bool DeleteCustomer(int Id)
         {
-            var customer = _customerRepository.GetById(Id);
+            var customer = _unitOfWork.CustomerRepository.GetById(Id);
             if (customer is not null)
             {
-                _customerRepository.DeleteById(Id);
+                _unitOfWork.CustomerRepository.DeleteById(Id);
+                _unitOfWork.SaveChanges();
                 return true;
             }
             return false;
-
 
         }
 

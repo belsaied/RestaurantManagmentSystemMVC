@@ -12,41 +12,43 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class IngredientServices(DAL.Data.Repositories.Interfaces.IIngredientRepository _ingredients, IMapper _mapper) : IIngredientServices
+    public class IngredientServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IIngredientServices
     {
         public int AddIngredient(CreateIngredientDto ingredientDto)
         {
             var ingredient = _mapper.Map<CreateIngredientDto,Ingredient>(ingredientDto);
-            return _ingredients.Add(ingredient);
+             _unitOfWork.IngredientRepository.Add(ingredient);
+            return _unitOfWork.SaveChanges();
         }
 
         public IEnumerable<IngredientDto> GetAllIngredients(bool withTracking = false)
         {
-            var ingredients= _ingredients.GetAll(withTracking).Where(I=>I.IsDeleted==false);   
+            var ingredients= _unitOfWork.IngredientRepository.GetAll(withTracking).Where(I=>I.IsDeleted==false);   
 
             return _mapper.Map<IEnumerable<Ingredient>, IEnumerable<IngredientDto>>(ingredients);
         }
 
         public IngredientDetailsDto? GetIngredientById(int id)
         {
-            var ingredient= _ingredients.GetById(id);
+            var ingredient= _unitOfWork.IngredientRepository.GetById(id);
             return _mapper.Map<Ingredient?, IngredientDetailsDto?>(ingredient);
         }
 
         public bool RemoveIngredient(int id)
         {
-            var ingredient= _ingredients.GetById(id);
+            var ingredient= _unitOfWork.IngredientRepository.GetById(id);
             if (ingredient == null) return false;
             ingredient.IsDeleted = true;
-           
-
-            return _ingredients.Update(ingredient)>0;
+            _unitOfWork.IngredientRepository.Update(ingredient);
+            int numberOfRows = _unitOfWork.SaveChanges();
+            return numberOfRows > 0 ? true : false;
 
         }
 
         public int UpdateIngredient(IngredientDto ingredientDto)
         {
-           return _ingredients.Update(_mapper.Map<IngredientDto, Ingredient>(ingredientDto));
+           _unitOfWork.IngredientRepository.Update(_mapper.Map<IngredientDto, Ingredient>(ingredientDto));
+            return _unitOfWork.SaveChanges();
         }
 
        

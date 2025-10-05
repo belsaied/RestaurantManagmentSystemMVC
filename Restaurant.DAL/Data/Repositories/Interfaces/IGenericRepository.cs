@@ -9,11 +9,11 @@ namespace Restaurant.DAL.Data.Repositories.Interfaces
     public interface IGenericRepository<TEntity> where TEntity : baseEntity
     {
 
-        int Add(TEntity entity);
-        int DeleteById(int id);
+        void Add(TEntity entity);
+        void DeleteById(int id);
         IEnumerable<TEntity>? GetAll(bool WithTracking = false);
         TEntity? GetById(int Id);
-        int Update(TEntity entity);
+        void Update(TEntity entity);
 
 
     }

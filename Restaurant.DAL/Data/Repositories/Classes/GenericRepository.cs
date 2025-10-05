@@ -12,41 +12,42 @@ namespace Restaurant.DAL.Data.Repositories.Classes
 {
     public class GenericRepository<TEntity>(AppDbContext _dbContext) : IGenericRepository<TEntity> where TEntity : baseEntity
     {
-        public int Add(TEntity entity)
+        public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
-            return _dbContext.SaveChanges();
+             _dbContext.SaveChanges();
         }
 
-        public int DeleteById(int id)
+        public void DeleteById(int id)
         {
             var entity= _dbContext.Set<TEntity>().FirstOrDefault(x=>x.Id==id);
-            if (entity != null)
+            if (entity != null && entity.IsDeleted==false)
             {
                 entity.IsDeleted = true;
                 _dbContext.Set<TEntity>().Update(entity);
             }
-            return 0;
+             
         }
 
 
         public IEnumerable<TEntity> GetAll(bool withTracking = false)
         { 
            return withTracking
-            ? _dbContext.Set<TEntity>().Where(p => !p.IsDeleted).ToList()
+            ? _dbContext.Set<TEntity>().Where(p => p.IsDeleted==false).ToList()
             : _dbContext.Set<TEntity>().AsNoTracking().Where(p => !p.IsDeleted).ToList();
 
         }
 
         public TEntity? GetById(int id)
         {
-          return  _dbContext.Set<TEntity>().FirstOrDefault(p => p.Id == id);
+            return _dbContext.Set<TEntity>()
+                          .FirstOrDefault(e => e.Id == id && !e.IsDeleted);
         }
 
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             _dbContext.Set<TEntity>().Update(entity);
-            return _dbContext.SaveChanges();
+            
         }
 
     }

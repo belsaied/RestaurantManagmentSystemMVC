@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class MenuItemServices(IMenuItemRepository _menuItemRepository, ICategoryRepository _categoryRepository) : IMenuItemServices
+    public class MenuItemServices(IUnitOfWork _unitOfWork, ICategoryRepository _categoryRepository) : IMenuItemServices
     {
 
         // GetAll
         public IEnumerable<GetAllMenuItemsDto> GetAllMenuItems()
         {
-            var menuItems = _menuItemRepository.GetAll();
+            var menuItems = _unitOfWork.MenuItemRepository.GetAll();
                 
             var menuItemDTO = menuItems.Select(m => new GetAllMenuItemsDto
             {
@@ -39,7 +39,7 @@ namespace Restaurant.BLL.Services.Classes
         // GetById
         public GetByIdMenuItemsDto? GetMenuItemById(int id)
         {
-            var menuItem = _menuItemRepository.GetById(id);
+            var menuItem = _unitOfWork.MenuItemRepository.GetById(id);
             if (menuItem == null || menuItem.IsDeleted) return null;
 
             return new GetByIdMenuItemsDto
@@ -73,7 +73,8 @@ namespace Restaurant.BLL.Services.Classes
                 CategoryId = createMenuItemDTO.CategoryId,
             };
 
-            return _menuItemRepository.Add(menuItem);
+             _unitOfWork.MenuItemRepository.Add(menuItem);
+            return _unitOfWork.SaveChanges();
         }
 
         // Update
@@ -86,7 +87,7 @@ namespace Restaurant.BLL.Services.Classes
                 throw new InvalidOperationException("Category does not exist or is inactive.");
             }
 
-            return _menuItemRepository.Update(new MenuItem()
+             _unitOfWork.MenuItemRepository.Update(new MenuItem()
             {
                 Id = updateMenuItemDTO.Id,
                 ItemName = updateMenuItemDTO.ItemName,
@@ -96,12 +97,13 @@ namespace Restaurant.BLL.Services.Classes
                 IsAvailable = updateMenuItemDTO.IsAvailable,
                 CategoryId = updateMenuItemDTO.CategoryId,
             });
+            return _unitOfWork.SaveChanges();
         }
 
         // Get available menu items for display (اللي هو لو في MenuItems خلصت) -> (دة يجيب اللي موجود مخلصش)
         public List<MenuItemSelectDto> GetAllAvailableMenuItems()
         {
-            var menuItems = _menuItemRepository.GetAll()
+            var menuItems = _unitOfWork.MenuItemRepository.GetAll()
                                 .Where(m => m.IsAvailable && !m.IsDeleted)
                                 .ToList();
 
@@ -124,7 +126,7 @@ namespace Restaurant.BLL.Services.Classes
         // Get MenuItems By Category
         public List<MenuItemsByCategoryDto> GetMenuItemsByCategory(int categoryId)
         {
-            var menuItems = _menuItemRepository.GetAll()
+            var menuItems = _unitOfWork.MenuItemRepository.GetAll()
                                 .Where(m => m.CategoryId == categoryId && !m.IsDeleted)
                                 .ToList();
 
@@ -155,7 +157,7 @@ namespace Restaurant.BLL.Services.Classes
                 return GetAllAvailableMenuItems();
             }
 
-            var menuItems = _menuItemRepository.GetAll()
+            var menuItems = _unitOfWork.MenuItemRepository.GetAll()
                                 .Where(m => !m.IsDeleted &&
                                            (m.ItemName.Contains(searchTerm) ||
                                             (m.Description != null && m.Description.Contains(searchTerm))))
@@ -180,7 +182,7 @@ namespace Restaurant.BLL.Services.Classes
         // Get menu items by price range
         public List<MenuItemSelectDto> GetMenuItemsByPriceRange(decimal minPrice, decimal maxPrice)
         {
-            var menuItems = _menuItemRepository.GetAll()
+            var menuItems = _unitOfWork.MenuItemRepository.GetAll()
                                 .Where(m => !m.IsDeleted && m.IsAvailable &&
                                            m.Price >= minPrice && m.Price <= maxPrice)
                                 .ToList();
@@ -204,27 +206,29 @@ namespace Restaurant.BLL.Services.Classes
         // Update menu item availability
         public bool UpdateMenuItemAvailability(int id, bool isAvailable)
         {
-            var menuItem = _menuItemRepository.GetById(id);
+            var menuItem = _unitOfWork.MenuItemRepository.GetById(id);
             if (menuItem == null || menuItem.IsDeleted)
             {
                 return false;
             }
 
             menuItem.IsAvailable = isAvailable;
-            int numberOfRows = _menuItemRepository.Update(menuItem);
+             _unitOfWork.MenuItemRepository.Update(menuItem);
+            int numberOfRows = _unitOfWork.SaveChanges();
             return numberOfRows > 0;
         }
 
         // Delete
         public bool DeleteMenuItem(int id)
         {
-            var menuItem = _menuItemRepository.GetById(id);
+            var menuItem = _unitOfWork.MenuItemRepository.GetById(id);
             if (menuItem == null)
             {
                 return false;
             }
 
-            int numberOfRows = _menuItemRepository.DeleteById(menuItem.Id);
+           _unitOfWork.MenuItemRepository.DeleteById(menuItem.Id);
+            int numberOfRows = _unitOfWork.SaveChanges();
             return numberOfRows > 0;
         }
     }
