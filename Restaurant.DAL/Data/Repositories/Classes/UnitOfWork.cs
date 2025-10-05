@@ -11,15 +11,15 @@ namespace Restaurant.DAL.Data.Repositories.Classes
     public class UnitOfWork : IUnitOfWork
     {
         #region private readonly fields
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IMenuItemRepository _MenuItemRepository;
-        private readonly IOrderRepository _OrderRepository;
-        private readonly IOrderItemRepository _OrderItemRepository;
-        private readonly ITableRepository _TableRepository;
-        private readonly ICustomerRepository _CustomerRepository;
-        private readonly IIngredientRepository _IngredientRepository;
-        private readonly IPaymentRepository _PaymentRepository;
-        private readonly IRecipeLineRepository _RecipeLineRepository;
+        private readonly Lazy<ICategoryRepository> _categoryRepository;
+        private readonly Lazy<IMenuItemRepository> _MenuItemRepository;
+        private readonly Lazy<IOrderRepository> _OrderRepository;
+        private readonly Lazy<IOrderItemRepository> _OrderItemRepository;
+        private readonly Lazy<ITableRepository> _TableRepository;
+        private readonly Lazy<ICustomerRepository> _CustomerRepository;
+        private readonly Lazy<IIngredientRepository> _IngredientRepository;
+        private readonly Lazy<IPaymentRepository> _PaymentRepository;
+        private readonly Lazy<IRecipeLineRepository> _RecipeLineRepository;
         private readonly AppDbContext _dbContext ;
         #endregion
 
@@ -35,23 +35,23 @@ namespace Restaurant.DAL.Data.Repositories.Classes
            IRecipeLineRepository recipeLineRepository,
            AppDbContext dbContext)
         {
-            _categoryRepository = categoryRepository;
+            _categoryRepository = new Lazy<ICategoryRepository>(()=>new CategoryRepository(_dbContext));
 
-            _MenuItemRepository = menuItemRepository;
+            _MenuItemRepository = new Lazy<IMenuItemRepository>(()=>new MenuItemRepository(_dbContext));
 
-            _OrderRepository = orderRepository;
+            _OrderRepository = new Lazy<IOrderRepository>(()=>new OrderRepository(_dbContext));
 
-            _OrderItemRepository = orderItemRepository;
+            _OrderItemRepository = new Lazy<IOrderItemRepository>(()=>new OrderItemRepository(_dbContext));
 
-            _TableRepository = tableRepository;
+            _TableRepository =new Lazy<ITableRepository>(()=>new TableRepository(_dbContext));
 
-            _CustomerRepository = customerRepository;
+            _CustomerRepository = new Lazy<ICustomerRepository>(()=>new CustomerRepository(_dbContext));
 
-            _IngredientRepository = ingredientRepository;
+            _IngredientRepository = new Lazy<IIngredientRepository>(()=>new IngredientRepository(_dbContext));
 
-            _PaymentRepository = paymentRepository;
+            _PaymentRepository = new Lazy<IPaymentRepository>(()=>new PaymentRepository(_dbContext));
 
-            _RecipeLineRepository = recipeLineRepository;
+            _RecipeLineRepository = new Lazy<IRecipeLineRepository>(()=>new RecipeLineRepository(_dbContext));
             _dbContext = dbContext;
 
         }
@@ -59,23 +59,23 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         #endregion
 
         #region Properties
-        public ICategoryRepository CategoryRepository => _categoryRepository;
+        public ICategoryRepository CategoryRepository => _categoryRepository.Value;
 
-        public IMenuItemRepository MenuItemRepository => _MenuItemRepository;
+        public IMenuItemRepository MenuItemRepository => _MenuItemRepository.Value;
 
-        public IOrderRepository OrderRepository => _OrderRepository;
+        public IOrderRepository OrderRepository => _OrderRepository.Value;
 
-        public IOrderItemRepository OrderItemRepository => _OrderItemRepository;
+        public IOrderItemRepository OrderItemRepository => _OrderItemRepository.Value;
 
-        public ITableRepository TableRepository => _TableRepository;
+        public ITableRepository TableRepository => _TableRepository.Value;
 
-        public ICustomerRepository CustomerRepository => _CustomerRepository;
+        public ICustomerRepository CustomerRepository => _CustomerRepository.Value;
 
-        public IIngredientRepository IngredientRepository => _IngredientRepository;
+        public IIngredientRepository IngredientRepository => _IngredientRepository.Value;
 
-        public IPaymentRepository PaymentRepository => _PaymentRepository;
+        public IPaymentRepository PaymentRepository => _PaymentRepository.Value;
 
-        public IRecipeLineRepository RecipeLineRepository => _RecipeLineRepository; 
+        public IRecipeLineRepository RecipeLineRepository => _RecipeLineRepository.Value; 
         #endregion
 
         public int SaveChanges()
