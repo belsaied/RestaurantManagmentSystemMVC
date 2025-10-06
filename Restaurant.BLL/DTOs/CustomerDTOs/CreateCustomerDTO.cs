@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Restaurant.BLL.DTOs.CustomerDTOs
 {
@@ -30,5 +31,6 @@ namespace Restaurant.BLL.DTOs.CustomerDTOs
         [EmailAddress(ErrorMessage = "Invalid email address")]
         [StringLength(254, ErrorMessage = "Email must be 254 characters or less")]
         public string Email { get; set; } = null!;
+        public IFormFile? Image { get; set; }
     }
 }

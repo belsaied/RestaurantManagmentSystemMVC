@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore.Storage.Json;
+using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.DTOs.CustomerDTOs;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.DAL.Data.Repositories.Interfaces;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class CustomerService(IUnitOfWork _unitOfWork, IMapper _mapper) : ICustomerService
+    public class CustomerService(IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : ICustomerService
     {
         public IEnumerable<CustomerDTO> GetAllCustomers(bool WithTracking = false)
         {
@@ -31,6 +32,9 @@ namespace Restaurant.BLL.Services.Classes
             if (customerDTO is not null)
             {
                 var customer = _mapper.Map<CreateCustomerDTO, Customer>(customerDTO);
+                if(customerDTO.Image is not null)
+                    customer.ImageName = _attachmentService.Upload(customerDTO.Image,"Images");
+
                 _unitOfWork.CustomerRepository.Add(customer);
                 return _unitOfWork.SaveChanges();
             }
@@ -38,7 +42,6 @@ namespace Restaurant.BLL.Services.Classes
             {
                 return 0;
             }
-
 
         }
 

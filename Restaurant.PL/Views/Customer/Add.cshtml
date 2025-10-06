@@ -7,25 +7,17 @@
 
 @section Styles {
     <style>
-        /* Orange & White theme to match your layout */
-        .table thead th {
-            background: #ff6600;
-            color: #fff;
+        .preview {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
 
-        .btn-primary {
-            background-color: #ff6600;
-            border-color: #ff6600;
-        }
-
-            .btn-primary:hover,
-            .btn-primary:focus {
-                background-color: #e65c00;
-                border-color: #e65c00;
-            }
-
-        .form-label {
-            font-weight: 600;
+        .hint {
+            font-size: .9rem;
+            opacity: .8;
         }
 
         .card-header {
@@ -34,10 +26,15 @@
             font-weight: 600;
         }
 
-        .hint {
-            font-size: .9rem;
-            opacity: .8;
+        .btn-primary {
+            background-color: #ff6600;
+            border-color: #ff6600;
         }
+
+            .btn-primary:hover {
+                background-color: #e65c00;
+                border-color: #e65c00;
+            }
     </style>
 }
 
@@ -48,8 +45,8 @@
         <div class="card shadow-sm">
             <div class="card-header">Customer Information</div>
             <div class="card-body">
-                <!-- point to Customer controller, Add action -->
-                <form asp-controller="Customer" asp-action="Add" method="post" novalidate>
+                <!-- مهم: تمكين رفع الملفات -->
+                <form asp-controller="Customer" asp-action="Add" method="post" enctype="multipart/form-data" novalidate>
                     @Html.AntiForgeryToken()
 
                     <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
@@ -57,7 +54,6 @@
                     <div class="mb-3">
                         <label asp-for="FirstName" class="form-label">First Name</label>
                         <input asp-for="FirstName" class="form-control" placeholder="e.g., Ahmed" />
-                        <div class="hint">2–50 letters. Hyphens and spaces allowed.</div>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
 
@@ -70,7 +66,6 @@
                     <div class="mb-3">
                         <label asp-for="Phone" class="form-label">Phone</label>
                         <input asp-for="Phone" class="form-control" placeholder="+201234567890" />
-                        <div class="hint">7–15 digits, optional +, spaces or dashes.</div>
                         <span asp-validation-for="Phone" class="text-danger"></span>
                     </div>
 
@@ -79,6 +74,17 @@
                         <input asp-for="Email" class="form-control" placeholder="name@example.com" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
+
+                    <!-- حقل رفع الصورة -->
+                    <div class="mb-3">
+                        <label asp-for="Image" class="form-label">Profile Image</label>
+                        <input asp-for="Image" class="form-control" type="file" accept="image/*" />
+                        <div class="hint">المدعوم: .jpg .jpeg .png — حد أقصى 2MB (زي ما محدد في الـAttachmentService).</div>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+
+                    <!-- معاينة -->
+                    <img id="imgPreview" class="preview d-none" alt="Preview" />
 
                     <div class="mt-3 d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Save</button>
@@ -91,5 +97,15 @@
 </div>
 
 @section Scripts {
-    <!-- Ensure jquery-validate + unobtrusive are loaded in the layout for client-side validation -->
+    <script>
+        const fileInput = document.querySelector('input[name="Image"]');
+        const preview   = document.getElementById('imgPreview');
+        fileInput?.addEventListener('change', (e) => {
+            const f = e.target.files?.[0];
+            if (!f) { preview.classList.add('d-none'); return; }
+            const url = URL.createObjectURL(f);
+            preview.src = url;
+            preview.classList.remove('d-none');
+        });
+    </script>
 }
