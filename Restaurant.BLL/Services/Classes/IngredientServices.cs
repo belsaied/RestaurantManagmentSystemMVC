@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.DTOs.IngredientModule;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.DAL.Data.Repositories.Classes;
@@ -12,12 +13,15 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class IngredientServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IIngredientServices
+    public class IngredientServices(IUnitOfWork _unitOfWork, IMapper _mapper,IAttachmentService _attachmentService) : IIngredientServices
     {
         public int AddIngredient(CreateIngredientDto ingredientDto)
         {
             var ingredient = _mapper.Map<CreateIngredientDto,Ingredient>(ingredientDto);
-             _unitOfWork.IngredientRepository.Add(ingredient);
+            if(ingredientDto.Image != null)
+                  ingredient.ImageName = _attachmentService.Upload(ingredientDto.Image, "Images");
+
+            _unitOfWork.IngredientRepository.Add(ingredient);
             return _unitOfWork.SaveChanges();
         }
 

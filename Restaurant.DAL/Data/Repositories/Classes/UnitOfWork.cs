@@ -1,10 +1,5 @@
 ﻿using Restaurant.DAL.Data.Contexts;
 using Restaurant.DAL.Data.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Repositories.Classes
 {
@@ -20,7 +15,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         private readonly Lazy<IIngredientRepository> _IngredientRepository;
         private readonly Lazy<IPaymentRepository> _PaymentRepository;
         private readonly Lazy<IRecipeLineRepository> _RecipeLineRepository;
-        private readonly AppDbContext _dbContext ;
+        private readonly AppDbContext _dbContext;
         #endregion
 
         #region Constructor Injection
@@ -35,23 +30,23 @@ namespace Restaurant.DAL.Data.Repositories.Classes
            IRecipeLineRepository recipeLineRepository,
            AppDbContext dbContext)
         {
-            _categoryRepository = new Lazy<ICategoryRepository>(()=>new CategoryRepository(_dbContext));
+            _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(_dbContext));
 
-            _MenuItemRepository = new Lazy<IMenuItemRepository>(()=>new MenuItemRepository(_dbContext));
+            _MenuItemRepository = new Lazy<IMenuItemRepository>(() => new MenuItemRepository(_dbContext));
 
-            _OrderRepository = new Lazy<IOrderRepository>(()=>new OrderRepository(_dbContext));
+            _OrderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(_dbContext));
 
-            _OrderItemRepository = new Lazy<IOrderItemRepository>(()=>new OrderItemRepository(_dbContext));
+            _OrderItemRepository = new Lazy<IOrderItemRepository>(() => new OrderItemRepository(_dbContext));
 
-            _TableRepository =new Lazy<ITableRepository>(()=>new TableRepository(_dbContext));
+            _TableRepository = new Lazy<ITableRepository>(() => new TableRepository(_dbContext));
 
-            _CustomerRepository = new Lazy<ICustomerRepository>(()=>new CustomerRepository(_dbContext));
+            _CustomerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(_dbContext));
 
-            _IngredientRepository = new Lazy<IIngredientRepository>(()=>new IngredientRepository(_dbContext));
+            _IngredientRepository = new Lazy<IIngredientRepository>(() => new IngredientRepository(_dbContext));
 
-            _PaymentRepository = new Lazy<IPaymentRepository>(()=>new PaymentRepository(_dbContext));
+            _PaymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(_dbContext));
 
-            _RecipeLineRepository = new Lazy<IRecipeLineRepository>(()=>new RecipeLineRepository(_dbContext));
+            _RecipeLineRepository = new Lazy<IRecipeLineRepository>(() => new RecipeLineRepository(_dbContext));
             _dbContext = dbContext;
 
         }
@@ -75,7 +70,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
 
         public IPaymentRepository PaymentRepository => _PaymentRepository.Value;
 
-        public IRecipeLineRepository RecipeLineRepository => _RecipeLineRepository.Value; 
+        public IRecipeLineRepository RecipeLineRepository => _RecipeLineRepository.Value;
         #endregion
 
         public int SaveChanges()

@@ -15,18 +15,14 @@ namespace Restaurant.BLL.DTOs.IngredientModule
         public string? ModifiedBy { get; set; }   // UserId
         public DateTime ModifiedOn { get; set; }  // the DateTime of Modifying the Record. (Nullable because i'll put a default value for him in the configurations).
 
-       
-      
         public string Name { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
-       
 
         public decimal UnitCost { get; set; }
-
         public decimal CurrentStock { get; set; }
         public decimal MinStock { get; set; }
 
         public bool IsActive { get; set; }
-
+        public string? Image { get; set; }
     }
 }

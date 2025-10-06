@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.Mappings;
 using Restaurant.BLL.Services.Classes;
 using Restaurant.BLL.Services.Interfaces;
@@ -18,16 +19,19 @@ namespace Restaurant.PL
 
             #region Configure Services
             // Add services to the container.
+            #region MVC Config
             builder.Services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
-            
+               {
+                   options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+               }); 
+            #endregion
+            #region Contexts
             builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-                // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
-            });
+               {
+                   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                   // success only if the section in the appsettings is ConnectionStrings & the key is Default Connection.
+               }); 
+            #endregion
             #region Repos
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
@@ -54,12 +58,12 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             #endregion
-
-            builder.Services.AddAutoMapper(mapping=>mapping.AddProfile(new MappingProfile()));
+            #region AutoMapper
+            builder.Services.AddAutoMapper(mapping => mapping.AddProfile(new MappingProfile())); 
             #endregion
-
-
+            #endregion
 
             var app = builder.Build();
 

@@ -25,7 +25,8 @@ namespace Restaurant.BLL.Mappings
             #region Ingredients
             CreateMap<Ingredient, IngredientDto>().ReverseMap();
             CreateMap<CreateIngredientDto, Ingredient>();
-            CreateMap<Ingredient,IngredientDetailsDto>();
+            CreateMap<Ingredient,IngredientDetailsDto>()
+                .ForMember(dest=>dest.Image,options=>options.MapFrom(src=>src.ImageName));
             #endregion
             #region Customers
             CreateMap<Customer, CustomerDTO>();
