@@ -3,8 +3,6 @@
 
 @{
     ViewData["Title"] = "Customer Details";
-    var hasImage = !string.IsNullOrWhiteSpace(Model.ImageName);
-    var imageUrl = hasImage ? Url.Content($"~/Files/Images/{Model.ImageName}") : null;
 }
 
 @section Styles {
@@ -59,114 +57,73 @@
         .v {
             color: #111;
         }
-
-        .avatar {
-            width: 180px;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid #e5e5e5;
-            background: #fafafa;
-        }
-
-        .avatar-fallback {
-            width: 180px;
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px dashed #bbb;
-            border-radius: 10px;
-            color: #777;
-            background: #fff;
-            font-size: .95rem;
-        }
     </style>
 }
 
 <h1 class="mb-3">Customer Details</h1>
 
-<div class="card shadow-sm mb-3">
+<div class="card shadow-sm">
     <div class="card-header">Overview</div>
     <div class="card-body">
-        <div class="row g-4 align-items-start">
-            <!-- الصورة -->
-            <div class="col-md-auto">
-                @if (hasImage)
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">First Name</div>
+            <div class="col-sm-9 v">@Model.FirstName</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Last Name</div>
+            <div class="col-sm-9 v">@Model.LastName</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Phone</div>
+            <div class="col-sm-9 v">@Model.Phone</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Email</div>
+            <div class="col-sm-9 v">@Model.Email</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Points</div>
+            <div class="col-sm-9 v">@Model.LoyaltyPoints</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Status</div>
+            <div class="col-sm-9 v">
+                @if (Model.IsActive)
                 {
-                    <img id="custImg" class="avatar" src="@imageUrl" alt="Customer Image" onerror="handleImgError()" />
+                    <span class="badge badge-active">Active</span>
                 }
                 else
                 {
-                    <div class="avatar-fallback">No Image</div>
+                    <span class="badge bg-secondary">Inactive</span>
                 }
             </div>
-
-            <!-- البيانات -->
-            <div class="col">
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">First Name</div>
-                    <div class="col-sm-9 v">@Model.FirstName</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Last Name</div>
-                    <div class="col-sm-9 v">@Model.LastName</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Phone</div>
-                    <div class="col-sm-9 v">@Model.Phone</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Email</div>
-                    <div class="col-sm-9 v">@Model.Email</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Points</div>
-                    <div class="col-sm-9 v">@Model.LoyaltyPoints</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Status</div>
-                    <div class="col-sm-9 v">
-                        @if (Model.IsActive)
-                        {
-                            <span class="badge badge-active">Active</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">Inactive</span>
-                        }
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Created On</div>
-                    <div class="col-sm-9 v">@((Model.CreatedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">Last Modified</div>
-                    <div class="col-sm-9 v">@((Model.ModifiedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-3 kv">ID</div>
-                    <div class="col-sm-9 v">@Model.Id</div>
-                </div>
-            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Created On</div>
+            <div class="col-sm-9 v">@((Model.CreatedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">Last Modified</div>
+            <div class="col-sm-9 v">@((Model.ModifiedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-sm-3 kv">ID</div>
+            <div class="col-sm-9 v">@Model.Id</div>
         </div>
     </div>
 </div>
 
 <div class="mt-3 d-flex gap-2">
+    <!-- Edit -> Update (Customer controller) -->
     <a asp-controller="Customer" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+
+    <!-- Delete -> Delete (Customer controller) -->
     <a asp-controller="Customer" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+
+    <!-- Back -> Index (Customers controller) -->
     <a asp-controller="Customer" asp-action="Index" class="btn btn-secondary">Back</a>
 </div>
 
 @section Scripts {
-    <script>
-        // لو اللينك مكسور، حوّل لفال باك
-        function handleImgError() {
-            const img = document.getElementById('custImg');
-            if (!img) return;
-            img.outerHTML = '<div class="avatar-fallback">Image not found</div>';
-        }
-    </script>
+    <!-- Keep layout scripts as-is -->
 }

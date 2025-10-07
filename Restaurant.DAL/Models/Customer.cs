@@ -10,6 +10,5 @@
         public int? LoyaltyPoints { get; set; }
         public bool? IsActive { get; set; }
         public ICollection<Order>? NavOrders { get; set; }
-        public string? ImageName { get; set; }
     }
 }

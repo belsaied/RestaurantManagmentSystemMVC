@@ -31,8 +31,7 @@ namespace Restaurant.BLL.Mappings
             #region Customers
             CreateMap<Customer, CustomerDTO>();
             CreateMap<Customer,CustomerDetailsDTO>();
-            CreateMap<CreateCustomerDTO,Customer>()
-                .ForMember(dest => dest.ImageName, options => options.MapFrom(src => src.Image)); ;
+            CreateMap<CreateCustomerDTO,Customer>();
             CreateMap<UpdateCustomerDTO, Customer>();
             #endregion
             #region Orders
