@@ -15,7 +15,6 @@ namespace Restaurant.DAL.Data.Repositories.Classes
         public void Add(TEntity entity)
         {
             _dbContext.Set<TEntity>().Add(entity);
-             _dbContext.SaveChanges();
         }
 
         public void DeleteById(int id)
