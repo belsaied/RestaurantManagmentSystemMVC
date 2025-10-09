@@ -15,6 +15,33 @@ namespace Restaurant.PL.Controllers
             return View(_tableService.GetById(Id));
         }
         [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            var table = _tableService.GetById(Id);
+            var UpdatedTable = new UpdatedTableDto()
+            {
+                Id= table.Id,
+                TableNumber = table.TableNumber,
+                Capacity= table.Capacity,
+                IsActive= table.IsActive,
+                Location= table.Location,
+                //ModifiedOn=DateTime.Now,
+                CreatedOn=DateTime.Now,
+                
+            };
+            return View(UpdatedTable);
+        }
+        [HttpPost]
+        public IActionResult Edit(UpdatedTableDto updatedTableDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _tableService.Update(updatedTableDto);
+                return RedirectToAction("Index");
+            }
+            return View(updatedTableDto);
+        }
+        [HttpGet]
         public IActionResult Add()
         {
             return View();

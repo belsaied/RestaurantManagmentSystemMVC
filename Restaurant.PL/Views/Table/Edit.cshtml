@@ -1,0 +1,119 @@
+﻿@model Restaurant.BLL.DTOs.TableModule.UpdatedTableDto
+
+@{
+    ViewData["Title"] = "Edit Table";
+}
+
+<style>
+    body {
+        background-color: #fff8f3;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1, h4 {
+        color: #ff7b00;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(255, 123, 0, 0.2);
+        max-width: 500px;
+        margin: 30px auto;
+    }
+
+    .form-group label {
+        color: #ff7b00;
+        font-weight: 600;
+    }
+
+    .form-control {
+        border: 1px solid #ffb366;
+        border-radius: 10px;
+        transition: 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: #ff7b00;
+            box-shadow: 0 0 6px rgba(255, 123, 0, 0.4);
+        }
+
+    .btn-primary {
+        background-color: #ff7b00;
+        border-color: #ff7b00;
+        border-radius: 8px;
+    }
+
+        .btn-primary:hover {
+            background-color: #e06d00;
+        }
+
+    a {
+        color: #ff7b00;
+        text-decoration: none;
+    }
+
+        a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="form-container">
+    <h1>Edit Table</h1>
+    <h4>Table Details</h4>
+    <hr />
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Hidden fields -->
+        <input asp-for="CreatedOn" type="hidden" />
+        <input asp-for="ModifiedOn" type="hidden" />
+
+        <div class="form-group mb-3">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" readonly />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="TableNumber" class="control-label"></label>
+            <input asp-for="TableNumber" class="form-control" />
+            <span asp-validation-for="TableNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Capacity" class="control-label"></label>
+            <input asp-for="Capacity" class="form-control" />
+            <span asp-validation-for="Capacity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Location" class="control-label"></label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="form-group form-check mb-3">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsActive" />
+                @Html.DisplayNameFor(model => model.IsActive)
+            </label>
+        </div>
+
+        <div class="form-group mb-3">
+            <input type="submit" value="Save" class="btn btn-primary w-100" />
+        </div>
+
+        <div class="text-center">
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

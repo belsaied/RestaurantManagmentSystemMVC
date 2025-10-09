@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Restaurant.DAL.Data.Contexts;
 
 #nullable disable
 
-namespace Restaurant.DAL.Migrations
+namespace Restaurant.DAL.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251005143951_lool")]
-    partial class lool
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,6 +143,9 @@ namespace Restaurant.DAL.Migrations
 
                     b.Property<decimal>("CurrentStock")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

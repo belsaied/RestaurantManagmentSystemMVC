@@ -17,5 +17,7 @@ namespace Restaurant.BLL.DTOs.TableModule
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; } = true;
+        public DateTime ModifiedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Restaurant.DAL.Migrations
+namespace Restaurant.DAL.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class lool : Migration
+    public partial class initialCreation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -67,6 +67,7 @@ namespace Restaurant.DAL.Migrations
                     CurrentStock = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MinStock = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
