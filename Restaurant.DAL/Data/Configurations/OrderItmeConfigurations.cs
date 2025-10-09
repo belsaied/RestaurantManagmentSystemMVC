@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    internal class OrderItmeConfigurations : IEntityTypeConfiguration<OrderItems>
+    internal class OrderItmeConfigurations : BaseEntityConfigurations<OrderItems>
     {
-        public void Configure(EntityTypeBuilder<OrderItems> builder)
+        public new void Configure(EntityTypeBuilder<OrderItems> builder)
         {
 
             builder.HasKey(t => t.Id);
@@ -21,14 +21,7 @@ namespace Restaurant.DAL.Data.Configurations
            .HasComputedColumnSql("[UnitPrice] * [Quantity]");
 
             #region Base Configurations
-            builder.Property(t => t.CreatedOn)
-                  .HasDefaultValueSql("GETDATE()");
-
-            builder.Property(c => c.ModifiedOn)
-                .HasComputedColumnSql("GETDATE()");
-
-            builder.Property(c => c.IsDeleted)
-                .HasDefaultValue(false);
+            base.Configure(builder);
 
             #endregion
         }

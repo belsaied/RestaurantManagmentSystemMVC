@@ -27,5 +27,7 @@ namespace Restaurant.BLL.DTOs.IngredientModule
         public decimal MinStock { get; set; }
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+
+        
     }
 }

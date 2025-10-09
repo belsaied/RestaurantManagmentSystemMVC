@@ -9,7 +9,7 @@ namespace Restaurant.DAL.Models
 {
     public class Ingredient:baseEntity
     {
-        public int Id { get; set; }
+        
         [Required]
         public string Name { get; set; }=string.Empty;
         public string Unit { get; set; }= string.Empty;
@@ -21,9 +21,7 @@ namespace Restaurant.DAL.Models
         public decimal MinStock { get; set; }
 
         public bool IsActive { get; set; }
-
-    
-
+        public string? ImageName { get; set; }
         public ICollection<RecipeLine> RecipeLines { get; set; } = new HashSet<RecipeLine>();
     }
 }

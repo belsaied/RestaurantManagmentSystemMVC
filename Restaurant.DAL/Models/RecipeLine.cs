@@ -10,7 +10,7 @@ namespace Restaurant.DAL.Models
 {
     public class RecipeLine: baseEntity
     {
-        public int Id { get; set; }
+       
         
         public int Quantity { get; set; }
         public string Unit { get; set; } = string.Empty;

@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant.PL.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
         html, body {
@@ -23,86 +25,218 @@
         }
 
         main {
-            flex: 1; /* يخلي المحتوى ياخد المساحة الباقية */
+            flex: 1;
         }
 
         .navbar-custom {
-            background-color: #ffffff;
-            border-bottom: 1px solid #ddd;
+            background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0.8rem 0;
         }
 
-            .navbar-custom .btn-nav {
-                background-color: #ff6600; /* أورنج */
-                color: #fff !important;
-                margin-right: 8px;
-                padding: 6px 12px;
-                border-radius: 6px;
-                font-weight: 500;
-                transition: 0.3s;
+        .navbar-brand-custom {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link-custom {
+            color: white !important;
+            padding: 0.6rem 1rem !important;
+            margin: 0 0.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+            .nav-link-custom:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                transform: translateY(-2px);
             }
 
-                .navbar-custom .btn-nav:hover {
-                    background-color: #e65c00; /* أورنج أغمق عند hover */
-                    color: #fff !important;
-                }
+            .nav-link-custom.active {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+
+        .dropdown-menu-custom {
+            background-color: #ff8c00;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown-item-custom {
+            color: white !important;
+            padding: 0.6rem 1.2rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .dropdown-item-custom:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+
+        .navbar-toggler-custom {
+            border: 2px solid white;
+            padding: 0.5rem 0.8rem;
+        }
+
+            .navbar-toggler-custom:focus {
+                box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+            }
+
+        @@media (max-width: 991px) {
+            .navbar-collapse {
+                background-color: rgba(255, 107, 0, 0.98);
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+
+            .nav-link-custom {
+                margin: 0.3rem 0;
+            }
+
+            .dropdown-menu-custom {
+                background-color: rgba(255, 140, 0, 0.95);
+            }
+        }
+
+        {
+            background-color: rgba(255, 107, 0, 0.98);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .nav-link-custom {
+            margin: 0.3rem 0;
+        }
+
+        .dropdown-menu-custom {
+            background-color: rgba(255, 140, 0, 0.95);
+        }
+
+        }
 
         footer {
-            background-color: #ff6600; /* أورنج عادي */
+            background-color: #ff6600;
             color: #fff;
-            padding: 8px 0;
+            padding: 12px 0;
             font-size: 14px;
-            margin-top: auto; /* يخلي الفوتر ينزل تحت */
+            margin-top: auto;
         }
 
             footer a {
                 color: #fff;
                 text-decoration: underline;
             }
+
+                footer a:hover {
+                    color: #fff;
+                    opacity: 0.8;
+                }
     </style>
     @await RenderSectionAsync("Styles", required: false)
-
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-custom mb-3">
-            <div class="container-fluid">
-                <!-- شلنا Restaurant.PL -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand-custom" href="/">
+                    <i class="bi bi-shop"></i> Restaurant
+                </a>
+
+                <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="bi bi-list text-white" style="font-size: 1.5rem;"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Payment" asp-action="Index">Payments</a>
 
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Ingredient" asp-action="Index">Ingredients</a>
+                            <a class="nav-link-custom" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house-door-fill"></i> Home
+                            </a>
+                        </li>
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link-custom dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-grid-fill"></i> Menu
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-custom">
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="MenuItem" asp-action="Index">
+                                        <i class="bi bi-menu-button-wide-fill"></i> Menu Items
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="Category" asp-action="Index">
+                                        <i class="bi bi-bookmark-fill"></i> Categories
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="Ingredient" asp-action="Index">
+                                        <i class="bi bi-egg-fill"></i> Ingredients
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="RecipeLine" asp-action="Index">
+                                        <i class="bi bi-file-text-fill"></i> Recipe Lines
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="RecipeLine" asp-action="Index">RecipeLines</a>
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link-custom dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-cart-fill"></i> Orders
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-custom">
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="Order" asp-action="Index">
+                                        <i class="bi bi-receipt"></i> Orders
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item dropdown-item-custom" asp-controller="OrderItems" asp-action="Index">
+                                        <i class="bi bi-list-check"></i> Order Items
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Customer" asp-action="Index">Customers</a>
+                            <a class="nav-link-custom" asp-controller="Customer" asp-action="Index">
+                                <i class="bi bi-people-fill"></i> Customers
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Order" asp-action="Index">Orders</a>
+                            <a class="nav-link-custom" asp-controller="Table" asp-action="Index">
+                                <i class="bi bi-table"></i> Tables
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Table" asp-action="Index">Tables</a>
+                            <a class="nav-link-custom" asp-controller="Payment" asp-action="Index">
+                                <i class="bi bi-credit-card-fill"></i> Payments
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="OrderItems" asp-action="Index">All Order Items</a>
+                            <a class="nav-link-custom" asp-controller="Home" asp-action="Privacy">
+                                <i class="bi bi-shield-lock-fill"></i> Privacy
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -127,4 +261,3 @@
     @RenderSection("ValidationScripts", required: false)
 </body>
 </html>
-

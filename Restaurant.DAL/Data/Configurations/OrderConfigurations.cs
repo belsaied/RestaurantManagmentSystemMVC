@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    public class OrderConfigurations : IEntityTypeConfiguration<Order>
+    public class OrderConfigurations : BaseEntityConfigurations<Order>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public new void Configure(EntityTypeBuilder<Order> builder)
         {
             #region problem with database
 
@@ -41,20 +41,13 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(x => x.CreatedBy)
                    .HasColumnType("varchar(50)");
 
-            builder.Property(x => x.CreatedOn)
-                   .HasColumnType("datetime2")
-                   .HasDefaultValueSql("GETDATE()");
+           
 
             builder.Property(x => x.ModifiedBy)
                    .HasColumnType("varchar(50)");
 
-            builder.Property(x => x.ModifiedOn)
-                   .HasColumnType("datetime2")
-                   .HasDefaultValueSql("GETDATE()"); // ✅ بدال HasComputedColumnSql
+           
 
-            builder.Property(x => x.IsDeleted)
-                   .HasColumnType("bit")
-                   .HasDefaultValue(0); // ✅ بدال HasDefaultValueSql("false") 
             #endregion
 
             #region Relationship
@@ -67,6 +60,8 @@ namespace Restaurant.DAL.Data.Configurations
             builder.HasMany(x => x.NavOrderItems).WithOne(c => c.NavOrder).HasForeignKey(p => p.OrderId)
                 .OnDelete(DeleteBehavior.NoAction);
             #endregion
+
+            base.Configure(builder);
 
 
 

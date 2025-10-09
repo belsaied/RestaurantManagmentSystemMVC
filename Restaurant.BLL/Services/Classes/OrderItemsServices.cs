@@ -11,21 +11,29 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class OrderItemsServices(IOrderItemRepository _orderItemRepo, IMapper _mapper) : IOrderItemsServices
+    public class OrderItemsServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IOrderItemsServices
     {
         public IEnumerable<OrderItemDto> GetAll(bool WithTracking = false) =>
-        _mapper.Map<IEnumerable<OrderItems>, IEnumerable<OrderItemDto>>(_orderItemRepo.GetAll(WithTracking));
+        _mapper.Map<IEnumerable<OrderItems>, IEnumerable<OrderItemDto>>(_unitOfWork.OrderItemRepository.GetAll(WithTracking));
 
         public OrderItemsDetailsDto GetById(int id) =>
-              _mapper.Map<OrderItems, OrderItemsDetailsDto>(_orderItemRepo.GetById(id));
+              _mapper.Map<OrderItems, OrderItemsDetailsDto>(_unitOfWork.OrderItemRepository.GetById(id));
 
-        public int Add(CreatedOrderItems createdOrderItems) =>
-            _orderItemRepo.Add(_mapper.Map<CreatedOrderItems, OrderItems>(createdOrderItems));
-
-        public int Update(UpdatedOrderItems updatedOrderItems) =>
-            _orderItemRepo.Update(_mapper.Map<UpdatedOrderItems, OrderItems>(updatedOrderItems));
-
-        public bool Delete(int id) => _orderItemRepo.Delete(id) > 0;
+        public int Add(CreatedOrderItems createdOrderItems)
+        {
+            _unitOfWork.OrderItemRepository.Add(_mapper.Map<CreatedOrderItems, OrderItems>(createdOrderItems));
+            return _unitOfWork.SaveChanges();
+        }
+        public int Update(UpdatedOrderItems updatedOrderItems)
+        { 
+            _unitOfWork.OrderItemRepository.Update(_mapper.Map<UpdatedOrderItems, OrderItems>(updatedOrderItems));
+        return _unitOfWork.SaveChanges();
+        }
+        public bool Delete(int id)
+        {
+            _unitOfWork.OrderItemRepository.DeleteById(id);
+            return _unitOfWork.SaveChanges()>0? true:false;
+        }
 
 
 

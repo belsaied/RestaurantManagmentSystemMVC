@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    internal class TableConfigurations : IEntityTypeConfiguration<Table>
+    internal class TableConfigurations : BaseEntityConfigurations<Table>
     {
-        public void Configure(EntityTypeBuilder<Table> builder)
+        public new void Configure(EntityTypeBuilder<Table> builder)
         {
             builder.HasKey(t => t.Id);
             builder.Property(t=>t.Id).UseIdentityColumn(100,10).ValueGeneratedOnAdd();
@@ -17,12 +17,10 @@ namespace Restaurant.DAL.Data.Configurations
             builder.Property(t => t.CreatedOn)
                              .HasDefaultValueSql("GETDATE()");
 
-            builder.Property(c => c.ModifiedOn)
-                .HasComputedColumnSql("GETDATE()");                 // HasComputedColumnSql every time i open details it takes a new value(I want that behavior with edit only)
-
-            builder.Property(c => c.IsDeleted)
-                .HasDefaultValue(false);
-
+            //builder.Property(c => c.ModifiedOn)
+            //    .HasComputedColumnSql("GETDATE()");                 // HasComputedColumnSql every time i open details it takes a new value(I want that behavior with edit only)
+            
+            base.Configure(builder);
             #endregion
         }
     }

@@ -6,24 +6,20 @@ using System.Threading.Tasks;
 
 namespace Restaurant.DAL.Data.Configurations
 {
-    internal class PaymentConfigurations : IEntityTypeConfiguration<Payment>
+    internal class PaymentConfigurations : BaseEntityConfigurations<Payment>
     {
-        public void Configure(EntityTypeBuilder<Payment> builder)
+        public new void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Id).UseIdentityColumn(1, 1).ValueGeneratedOnAdd();
 
             #region Base Configurations
-            builder.Property(t => t.CreatedOn)
-                  .HasDefaultValueSql("GETDATE()");
+            base.Configure(builder);
 
-            builder.Property(c => c.ModifiedOn)
-                .HasComputedColumnSql("GETDATE()");
-
-            builder.Property(c => c.IsDeleted)
-                .HasDefaultValue(false);
 
             #endregion
+
+
         }
     }
 }

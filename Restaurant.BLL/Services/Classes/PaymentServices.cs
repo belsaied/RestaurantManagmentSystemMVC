@@ -11,21 +11,29 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class PaymentServices(IPaymentRepository _paymentRepo, IMapper _mapper) : IPaymentServices
+    public class PaymentServices(IUnitOfWork _unitOfWork, IMapper _mapper) : IPaymentServices
     {
         public IEnumerable<PaymentDto> GetAll(bool withTracking = false) =>
-       _mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentDto>>(_paymentRepo.GetAll(withTracking));
+       _mapper.Map<IEnumerable<Payment>, IEnumerable<PaymentDto>>(_unitOfWork.PaymentRepository.GetAll(withTracking));
 
         public PaymentDetailsDto GetById(int id) =>
-            _mapper.Map<Payment, PaymentDetailsDto>(_paymentRepo.GetById(id));
+            _mapper.Map<Payment, PaymentDetailsDto>(_unitOfWork.PaymentRepository.GetById(id));
 
-        public int Add(CreatedPaymentDto createdPayment) =>
-            _paymentRepo.Add(_mapper.Map<CreatedPaymentDto, Payment>(createdPayment));
-
-        public int Update(UpdatedPaymentDto updatedPayment) =>
-            _paymentRepo.Update(_mapper.Map<UpdatedPaymentDto, Payment>(updatedPayment));
-
-        public bool Delete(int id) => _paymentRepo.Delete(id) > 0;
+        public int Add(CreatedPaymentDto createdPayment)
+        {
+            _unitOfWork.PaymentRepository.Add(_mapper.Map<CreatedPaymentDto, Payment>(createdPayment));
+            return _unitOfWork.SaveChanges();
+        }
+        public int Update(UpdatedPaymentDto updatedPayment)
+        {
+            _unitOfWork.PaymentRepository.Update(_mapper.Map<UpdatedPaymentDto, Payment>(updatedPayment));
+            return _unitOfWork.SaveChanges();
+        }
+        public bool Delete(int id)
+        { 
+            _unitOfWork.PaymentRepository.DeleteById(id);
+            return _unitOfWork.SaveChanges() > 0 ? true : false;
+        }
 
     }
 }

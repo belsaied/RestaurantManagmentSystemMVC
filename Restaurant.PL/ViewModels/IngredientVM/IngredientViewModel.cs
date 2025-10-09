@@ -32,5 +32,6 @@ namespace Restaurant.PL.ViewModels.IngredientVM
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
+        
     }
 }

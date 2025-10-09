@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,5 +25,6 @@ namespace Restaurant.BLL.DTOs.IngredientModule
         public decimal MinStock { get; set; }
       
         public bool IsActive { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

@@ -93,7 +93,9 @@ namespace Restaurant.PL.Controllers
                         UnitCost = ingredientVM.UnitCost,
                         CurrentStock = ingredientVM.CurrentStock,
                         MinStock = ingredientVM.MinStock,
-                        IsActive = ingredientVM.IsActive
+                        IsActive = ingredientVM.IsActive,
+                       
+
                     };
                     _ingredients.UpdateIngredient(ingredient);
                     return RedirectToAction(nameof(Index));
@@ -108,6 +110,19 @@ namespace Restaurant.PL.Controllers
                 ModelState.AddModelError(string.Empty, "Ingredient Can not be Updated");
             }
             return View(ingredientVM);
+        }
+        #endregion
+
+        #region Details
+        [HttpGet]
+        public IActionResult Details(int? id) { 
+        
+            if(!id.HasValue) return BadRequest();
+            var Ingred=_ingredients.GetIngredientById(id.Value);
+            if(Ingred == null) return NotFound();
+            
+            return View(Ingred);
+        
         }
         #endregion
 

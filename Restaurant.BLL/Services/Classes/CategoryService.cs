@@ -12,12 +12,14 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class CategoryService(ICategoryReposatory _categoryRepository) : ICategoryService
+    public class CategoryService(IUnitOfWork _unitOfWork) : ICategoryService
     {
         // GetAll
+
         public IEnumerable<GetAllCategoriesDTO> GetAllCategories()
         {
-            var Category = _categoryRepository.GetAll();
+            var Category = _unitOfWork.CategoryRepository.GetAll()
+                                .Where(c => !c.IsDeleted);  // Add this filter
             var CategoryDTO = Category.Select(c => new GetAllCategoriesDTO
             {
                 Id = c.Id,
@@ -36,7 +38,7 @@ namespace Restaurant.BLL.Services.Classes
         // GetById
         public GetByIdCategoryDTO? GetCategoryById(int id)
         {
-            var category = _categoryRepository.GetById(id);
+            var category = _unitOfWork.CategoryRepository.GetById(id);
             if (category == null || category.IsDeleted) return null;
 
             return new GetByIdCategoryDTO
@@ -60,13 +62,13 @@ namespace Restaurant.BLL.Services.Classes
                 IsActive = createCategoryDTO.IsActive,
             };
 
-            return _categoryRepository.Add(category);
-
+             _unitOfWork.CategoryRepository.Add(category);
+            return _unitOfWork.SaveChanges();
         }
         // Update:
         public int UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
-            return _categoryRepository.Update(new Category()
+             _unitOfWork.CategoryRepository.Update(new Category()
             {
                 CategoryName = updateCategoryDTO.CategoryName,
                 Description = updateCategoryDTO.Description,
@@ -74,16 +76,15 @@ namespace Restaurant.BLL.Services.Classes
                 Id = updateCategoryDTO.Id,
                 DisplayOrder = updateCategoryDTO.DisplayOrder,
             });
+            return _unitOfWork.SaveChanges();   
         }
 
         // 1 Get categories for dropdown lists  (اللي هو لو في Categories خلصت )  -> (دة يجيب اللي موجود مخلصش)
         public List<CategorySelectDTO> GetAllActiveCategories()
         {
-            var categories = _categoryRepository.GetAll()
+            var categories = _unitOfWork.CategoryRepository.GetAll()
                                 .Where(c => c.IsActive && !c.IsDeleted) // filter active categories
                                 .ToList();
-
-
             var result = new List<CategorySelectDTO>();
             foreach (var category in categories)
             {
@@ -101,7 +102,7 @@ namespace Restaurant.BLL.Services.Classes
         //  Get categories with item count
         public List<CountItemsInCategoryDTO> GetCategoriesWithItemCount()
         {
-            var categories = _categoryRepository.GetAll()
+            var categories = _unitOfWork.CategoryRepository.GetAll()
                                 .Where(c => !c.IsDeleted)
                                 .ToList();
 
@@ -131,12 +132,13 @@ namespace Restaurant.BLL.Services.Classes
         // Delete
         public bool DeleteCategory(int id)
         {
-            var category = _categoryRepository.GetById(id);
+            var category = _unitOfWork.CategoryRepository.GetById(id);
             if (category == null)
             {
                 return false;
             }
-            int numberOfRows = _categoryRepository.Delete(category.Id);
+            _unitOfWork.CategoryRepository.DeleteById(category.Id);
+            int numberOfRows = _unitOfWork.SaveChanges();
             return numberOfRows > 0 ? true : false;
         }
     }

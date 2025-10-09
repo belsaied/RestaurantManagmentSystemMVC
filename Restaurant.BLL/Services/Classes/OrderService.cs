@@ -12,34 +12,37 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class OrderService(IOrderRepository orderRepository, IMapper _mapper) : IOrderService
+    public class OrderService(IUnitOfWork _unitOfWork, IMapper _mapper) : IOrderService
     {
 
         public IEnumerable<OrderDTO> GetAllOrders(bool WithTracking = false)
         {
-            return _mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(orderRepository.GetAllOrders(WithTracking));
+            return _mapper.Map<IEnumerable<Order>, IEnumerable<OrderDTO>>(_unitOfWork.OrderRepository.GetAll(WithTracking));
 
         }
 
         public OrderDetailsDTO? GetOrderById(int Id)
         {
-            return _mapper.Map<Order, OrderDetailsDTO>(orderRepository.GetOrderById(Id));
+            return _mapper.Map<Order, OrderDetailsDTO>(_unitOfWork.OrderRepository.GetById(Id));
         }
 
         public int AddOrder(CreateOrderDTO orderDTO)
         {
-            return orderRepository.AddOrder(_mapper.Map<CreateOrderDTO, Order>(orderDTO));
+             _unitOfWork.OrderRepository.Add(_mapper.Map<CreateOrderDTO, Order>(orderDTO));
+            return _unitOfWork.SaveChanges();
         }
 
         public int UpdateOrder(UpdateOrderDTO orderDTO)
         {
-            return orderRepository.UpdateOrder(_mapper.Map<UpdateOrderDTO, Order>(orderDTO));
+             _unitOfWork.OrderRepository.Update(_mapper.Map<UpdateOrderDTO, Order>(orderDTO));
+            return _unitOfWork.SaveChanges();
 
         }
 
         public int DeleteOrderById(int id)
         {
-            return orderRepository.DeleteOrderById(id);
+             _unitOfWork.OrderRepository.DeleteById(id);
+            return _unitOfWork.SaveChanges();
         }
     }
 }
