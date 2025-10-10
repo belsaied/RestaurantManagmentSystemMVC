@@ -10,5 +10,6 @@ namespace Restaurant.BLL.DTOs.CategoryDTOs
     {
         public int Id { get; set; }
         public bool IsDeleted { get; set; }
+        public string? ImageName { get; set; }
     }
 }

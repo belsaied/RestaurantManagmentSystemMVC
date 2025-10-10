@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.DTOs.CategoryDTOs;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.PL.ViewModels.CategoryVM;
 
 namespace Restaurant.PL.Controllers
 {
-    public class CategoryController(ICategoryService _categoryService, IHostEnvironment _env, ILogger<CategoryController> _logger) : Controller
+    public class CategoryController(ICategoryService _categoryService, IHostEnvironment _env, ILogger<CategoryController> _logger,IAttachmentService _attachmentService) : Controller
     {
         #region Index
         [HttpGet]
@@ -30,15 +31,21 @@ namespace Restaurant.PL.Controllers
             {
                 try
                 {
-                    var result = _categoryService.AddCategory(new CreateCategoryDTO()
+                    var createCategoryDTO = new CreateCategoryDTO()
                     {
                         CategoryName = categoryViewModel.CategoryName,
                         Description = categoryViewModel.Description,
                         DisplayOrder = categoryViewModel.DisplayOrder,
-                        IsActive = categoryViewModel.IsActive
-                    });
+                        IsActive = categoryViewModel.IsActive,
+                        Image = categoryViewModel.Image
+                    };
+
+                    var result = _categoryService.AddCategory(createCategoryDTO);
+
                     if (result > 0)
                     {
+                        TempData["Message"] = "Category created successfully";
+                        TempData["MessageType"] = "success";
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -88,7 +95,8 @@ namespace Restaurant.PL.Controllers
                 CategoryName = category.CategoryName,
                 Description = category.Description,
                 DisplayOrder = category.DisplayOrder,
-                IsActive = category.IsActive
+                IsActive = category.IsActive,
+                ImageName = category.ImageName
             };
 
             return View(categoryVM);
@@ -105,15 +113,34 @@ namespace Restaurant.PL.Controllers
 
             try
             {
+                // Get existing category to preserve image if not updating
+                var existingCategory = _categoryService.GetCategoryById(id.Value);
+
+                // Handle old image deletion if new image is uploaded
+                if (categoryViewModel.Image != null && !string.IsNullOrEmpty(existingCategory?.ImageName))
+                {
+                    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot\\Files\\Categories", existingCategory.ImageName);
+                    _attachmentService.Delete(oldImagePath);
+                }
+
                 int result = _categoryService.UpdateCategory(new UpdateCategoryDTO()
                 {
                     Id = id.Value,
                     CategoryName = categoryViewModel.CategoryName,
                     Description = categoryViewModel.Description,
                     DisplayOrder = categoryViewModel.DisplayOrder,
-                    IsActive = categoryViewModel.IsActive
+                    IsActive = categoryViewModel.IsActive,
+                    Image = categoryViewModel.Image,
+                    ImageName = categoryViewModel.Image == null ? existingCategory?.ImageName : null
                 });
-                if (result > 0) return RedirectToAction(nameof(Index));
+
+                if (result > 0)
+                {
+                    TempData["Message"] = "Category updated successfully";
+                    TempData["MessageType"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Category Can't be updated");

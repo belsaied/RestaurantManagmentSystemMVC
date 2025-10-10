@@ -14,6 +14,6 @@ namespace Restaurant.BLL.DTOs.CategoryDTOs
         public string? ModifiedBy { get; set; }   // UserId
         public DateTime? ModifiedOn { get; set; }  // the DateTime of Modifying the Record. (Nullable because i'll put a default value for him in the configurations).
         public bool IsDeleted { get; set; }
-
+        public string? ImageName { get; set; }
     }
 }

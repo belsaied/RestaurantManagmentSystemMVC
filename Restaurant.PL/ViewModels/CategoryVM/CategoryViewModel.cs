@@ -22,5 +22,9 @@ namespace Restaurant.PL.ViewModels.CategoryVM
 
         [Display(Name = "Is Active")]
         public bool IsActive { get; set; } = true;
+        [Display(Name = "Category Image")]
+        public IFormFile? Image { get; set; }
+
+        public string? ImageName { get; set; }
     }
 }

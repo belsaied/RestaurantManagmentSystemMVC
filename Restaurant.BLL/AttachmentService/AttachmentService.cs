@@ -35,9 +35,7 @@ namespace Restaurant.BLL.AttachmentService
                 File.Delete(FilePath);
                 return true;
             }
-
         }
-
 
     }
 }

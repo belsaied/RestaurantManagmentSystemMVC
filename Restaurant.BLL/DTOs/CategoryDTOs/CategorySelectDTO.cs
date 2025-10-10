@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.DTOs.CategoryDTOs
 {
-    public class CategorySelectDTO
+    public class CategorySelectDTO:CategoryBaseDTO
     {
         public int Id { get; set; }
         public string CategoryName { get; set; } = string.Empty;

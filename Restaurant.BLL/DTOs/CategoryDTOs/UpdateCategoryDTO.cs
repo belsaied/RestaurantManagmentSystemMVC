@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace Restaurant.BLL.DTOs.CategoryDTOs
         [Required(ErrorMessage = "Category ID is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Invalid category ID")]
         public int Id { get; set; }
+        
+        public string? ImageName { get; set; }
     }
 }

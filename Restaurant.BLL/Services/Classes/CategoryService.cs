@@ -1,4 +1,5 @@
-﻿using Restaurant.BLL.DTOs.CategoryDTOs;
+﻿using Restaurant.BLL.AttachmentService;
+using Restaurant.BLL.DTOs.CategoryDTOs;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.DAL.Data.Repositories.Classes;
 using Restaurant.DAL.Data.Repositories.Interfaces;
@@ -12,14 +13,13 @@ using System.Threading.Tasks;
 
 namespace Restaurant.BLL.Services.Classes
 {
-    public class CategoryService(IUnitOfWork _unitOfWork) : ICategoryService
+    public class CategoryService(IUnitOfWork _unitOfWork, IAttachmentService _attachmentService) : ICategoryService
     {
         // GetAll
-
         public IEnumerable<GetAllCategoriesDTO> GetAllCategories()
         {
             var Category = _unitOfWork.CategoryRepository.GetAll()
-                                .Where(c => !c.IsDeleted);  // Add this filter
+                                .Where(c => !c.IsDeleted);
             var CategoryDTO = Category.Select(c => new GetAllCategoriesDTO
             {
                 Id = c.Id,
@@ -32,10 +32,12 @@ namespace Restaurant.BLL.Services.Classes
                 ModifiedBy = c.ModifiedBy,
                 ModifiedOn = c.ModifiedOn,
                 IsDeleted = c.IsDeleted,
+                ImageName = c.ImageName
             });
             return CategoryDTO;
         }
-        // GetById
+
+        // GetById - No changes needed here
         public GetByIdCategoryDTO? GetCategoryById(int id)
         {
             var category = _unitOfWork.CategoryRepository.GetById(id);
@@ -49,41 +51,92 @@ namespace Restaurant.BLL.Services.Classes
                 IsActive = category.IsActive,
                 DisplayOrder = category.DisplayOrder,
                 IsDeleted = category.IsDeleted,
+                ImageName = category.ImageName
             };
         }
-        // Add:
+
+        // Add - No changes needed here
         public int AddCategory(CreateCategoryDTO createCategoryDTO)
         {
-            var category = new Category()
+            try
             {
-                CategoryName = createCategoryDTO.CategoryName,
-                Description = createCategoryDTO.Description,
-                DisplayOrder = createCategoryDTO.DisplayOrder,
-                IsActive = createCategoryDTO.IsActive,
-            };
+                var category = new Category()
+                {
+                    CategoryName = createCategoryDTO.CategoryName,
+                    Description = createCategoryDTO.Description,
+                    DisplayOrder = createCategoryDTO.DisplayOrder,
+                    IsActive = createCategoryDTO.IsActive,
+                };
 
-             _unitOfWork.CategoryRepository.Add(category);
-            return _unitOfWork.SaveChanges();
+                // Handle image upload
+                if (createCategoryDTO.Image is not null)
+                {
+                    string? imgName = _attachmentService.Upload(createCategoryDTO.Image, "Categories");
+                    if (imgName is not null)
+                    {
+                        category.ImageName = imgName;
+                    }
+                }
+
+                _unitOfWork.CategoryRepository.Add(category);
+                return _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
-        // Update:
+
+        // Update - FIXED VERSION
         public int UpdateCategory(UpdateCategoryDTO updateCategoryDTO)
         {
-             _unitOfWork.CategoryRepository.Update(new Category()
+            try
             {
-                CategoryName = updateCategoryDTO.CategoryName,
-                Description = updateCategoryDTO.Description,
-                IsActive = updateCategoryDTO.IsActive,
-                Id = updateCategoryDTO.Id,
-                DisplayOrder = updateCategoryDTO.DisplayOrder,
-            });
-            return _unitOfWork.SaveChanges();   
+                // Fetch the existing tracked entity from the database
+                var existingCategory = _unitOfWork.CategoryRepository.GetById(updateCategoryDTO.Id);
+
+                if (existingCategory == null || existingCategory.IsDeleted)
+                {
+                    return 0; // Category not found or deleted
+                }
+
+                // Update the properties of the EXISTING tracked entity
+                existingCategory.CategoryName = updateCategoryDTO.CategoryName;
+                existingCategory.Description = updateCategoryDTO.Description;
+                existingCategory.IsActive = updateCategoryDTO.IsActive;
+                existingCategory.DisplayOrder = updateCategoryDTO.DisplayOrder;
+                existingCategory.ModifiedOn = DateTime.Now;
+                // existingCategory.ModifiedBy = "CurrentUser"; // Set this if you have user context
+
+                // Handle new image upload
+                if (updateCategoryDTO.Image is not null)
+                {
+                    string? imgName = _attachmentService.Upload(updateCategoryDTO.Image, "Categories");
+                    if (imgName is not null)
+                    {
+                        existingCategory.ImageName = imgName;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(updateCategoryDTO.ImageName))
+                {
+                    // Keep the existing image if no new image uploaded
+                    existingCategory.ImageName = updateCategoryDTO.ImageName;
+                }
+
+                // No need to call Update() - EF Core is already tracking the entity
+                // Just save the changes
+                return _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        // 1 Get categories for dropdown lists  (اللي هو لو في Categories خلصت )  -> (دة يجيب اللي موجود مخلصش)
         public List<CategorySelectDTO> GetAllActiveCategories()
         {
             var categories = _unitOfWork.CategoryRepository.GetAll()
-                                .Where(c => c.IsActive && !c.IsDeleted) // filter active categories
+                                .Where(c => c.IsActive && !c.IsDeleted)
                                 .ToList();
             var result = new List<CategorySelectDTO>();
             foreach (var category in categories)
@@ -99,13 +152,11 @@ namespace Restaurant.BLL.Services.Classes
             return result;
         }
 
-        //  Get categories with item count
         public List<CountItemsInCategoryDTO> GetCategoriesWithItemCount()
         {
             var categories = _unitOfWork.CategoryRepository.GetAll()
                                 .Where(c => !c.IsDeleted)
                                 .ToList();
-
 
             var result = new List<CountItemsInCategoryDTO>();
             foreach (var category in categories)
@@ -116,12 +167,7 @@ namespace Restaurant.BLL.Services.Classes
                     Description = category.Description,
                     DisplayOrder = category.DisplayOrder,
                     IsActive = category.IsActive,
-
-                    // Additional properties from CategoryDto
                     Id = category.Id,
-
-
-                    // Additional property from CountItemsInCategoryDTO
                     MenuItemsCount = category.MenuItems?.Count(mi => !mi.IsDeleted) ?? 0
                 });
             }
@@ -129,7 +175,6 @@ namespace Restaurant.BLL.Services.Classes
             return result;
         }
 
-        // Delete
         public bool DeleteCategory(int id)
         {
             var category = _unitOfWork.CategoryRepository.GetById(id);

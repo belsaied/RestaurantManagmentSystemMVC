@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace Restaurant.BLL.DTOs.CategoryDTOs
         public int DisplayOrder { get; set; }
 
         public bool IsActive { get; set; } = true;
+        // Filename 
+        public IFormFile? Image { get; set; }
     }
 }

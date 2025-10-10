@@ -12,6 +12,13 @@
                     <h2 class="mb-0" style="font-weight: 600;">Category Details: @Model.CategoryName</h2>
                 </div>
                 <div class="card-body" style="padding: 30px;">
+                    @if (!string.IsNullOrEmpty(Model.ImageName))
+                    {
+                        <div class="mb-4 text-center">
+                            <img src="~/Files/Categories/@Model.ImageName" alt="@Model.CategoryName" class="img-fluid rounded shadow-sm" style="max-width: 300px; max-height: 300px; object-fit: cover;" />
+                        </div>
+                    }
+
                     <div class="row">
                         <div class="col-md-6 mb-4">
                             <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Category Name</label>
