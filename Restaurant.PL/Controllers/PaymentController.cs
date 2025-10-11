@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.PaymentModule;
 using Restaurant.BLL.Services.Interfaces;
-using Restaurant.PL.ViewModels;
+using Restaurant.PL.ViewModels.PaymentVM;
 
 namespace Restaurant.PL.Controllers
 {

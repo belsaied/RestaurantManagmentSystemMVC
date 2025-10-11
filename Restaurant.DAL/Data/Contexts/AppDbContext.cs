@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Restaurant.DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,13 @@ using System.Threading.Tasks;
 namespace Restaurant.DAL.Data.Contexts
 {
     // Applying Dependency Injection.
-    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options) :IdentityDbContext<ApplicationUser>(options)
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             // to work with Configurations when we decide to add it .
+            base.OnModelCreating(modelBuilder); // Important for Identity Package
         }
 
         public override int SaveChanges()

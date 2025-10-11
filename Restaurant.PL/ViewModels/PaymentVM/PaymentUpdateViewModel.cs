@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Restaurant.PL.ViewModels
+namespace Restaurant.PL.ViewModels.PaymentVM
 {
     public class PaymentUpdateViewModel
     {

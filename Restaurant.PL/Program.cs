@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -8,6 +9,7 @@ using Restaurant.BLL.Services.Interfaces;
 using Restaurant.DAL.Data.Contexts;
 using Restaurant.DAL.Data.Repositories.Classes;
 using Restaurant.DAL.Data.Repositories.Interfaces;
+using Restaurant.DAL.Models;
 
 namespace Restaurant.PL
 {
@@ -61,7 +63,20 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             #endregion
             #region AutoMapper
-            builder.Services.AddAutoMapper(mapping => mapping.AddProfile(new MappingProfile())); 
+            builder.Services.AddAutoMapper(mapping => mapping.AddProfile(new MappingProfile()));
+            #endregion
+            #region Identity
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options=>
+            {
+                //Password Validations
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireDigit = false;
+            }
+                )
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
             #endregion
             #endregion
 
@@ -83,7 +98,7 @@ namespace Restaurant.PL
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Home}/{action=Landing}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

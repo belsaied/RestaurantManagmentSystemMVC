@@ -12,7 +12,7 @@ using Restaurant.DAL.Data.Contexts;
 namespace Restaurant.DAL.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251009104912_initialCreation")]
+    [Migration("20251010134253_initialCreation")]
     partial class initialCreation
     {
         /// <inheritdoc />
@@ -50,6 +50,9 @@ namespace Restaurant.DAL.Data.Migrations
 
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

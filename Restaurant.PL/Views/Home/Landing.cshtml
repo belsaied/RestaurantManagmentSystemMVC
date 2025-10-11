@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Landing";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<!-- Hero Section -->
+<section class="text-white text-center d-flex align-items-center justify-content-center"
+         style="background: url('/images/hero-restaurant.jpg') center/cover no-repeat; height: 70vh;">
+    <div class="bg-dark bg-opacity-50 p-5 rounded">
+        <h1 class="display-4 fw-bold text-warning">Welcome to Krusty Krab Restaurant</h1>
+        <p class="lead fs-5 mb-3">Where luxury meets flavor</p>
+        <a href="#about" class="btn btn-warning text-white fw-bold mt-2 px-4 py-2 shadow">Discover More</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5 bg-light text-center">
+    <div class="container">
+        <h2 class="text-warning fw-bold mb-4">About Krusty Krab</h2>
+        <p class="text-muted fs-5 w-75 mx-auto mb-4">
+            Krusty Krab Restaurant is a fine dining experience that blends elegance and taste.
+            We offer a wide variety of world-class dishes prepared by top chefs — from pasta and steak
+            to seafood and fresh juices. Enjoy the finest food in a cozy, modern atmosphere.
+        </p>
+        <img src="/images/aboutUs.jpg" alt="About Restaurant"
+             class="img-fluid rounded shadow-lg mt-3"
+             style="max-height: 400px; width: 90%; object-fit: cover;">
+    </div>
+</section>
+
+<!-- Menu Highlights -->
+<section class="py-5 bg-white">
+    <div class="container text-center">
+        <h2 class="text-warning fw-bold mb-5">Our Specialties</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="/images/pasta.jpg" class="card-img-top" alt="Pasta">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning fw-bold">Italian Pasta</h5>
+                        <p class="card-text text-muted">Rich and creamy sauces with fresh ingredients.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="/images/pizza.jpg" class="card-img-top" alt="Pizza">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning fw-bold">Wood-Fired Pizza</h5>
+                        <p class="card-text text-muted">Crispy crust and melted cheese perfection.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="/images/steak.jpg" class="card-img-top" alt="Steak">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning fw-bold">Grilled Steak</h5>
+                        <p class="card-text text-muted">Premium cuts grilled to your preference.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="/images/drinks.jpg" class="card-img-top" alt="Drinks">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning fw-bold">Fresh Drinks</h5>
+                        <p class="card-text text-muted">Refreshing natural juices and mocktails.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 text-center text-white"
+         style="background: url('/images/restaurant-night2.jpg') center/cover no-repeat; background-attachment: fixed;">
+    <div class="bg-dark bg-opacity-50 py-5">
+        <h2 class="fw-bold text-warning mb-3">Reserve Your Table</h2>
+        <p class="fs-5 mb-4">Please log in to reserve a table and enjoy your experience at Krusty Krab.</p>
+        <a href="/Account/Login" class="btn btn-light text-warning fw-bold px-4 py-2 shadow">Log In</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-warning text-white text-center py-3 mt-5">
+    <p class="mb-0 fw-bold">© @(DateTime.Now.Year) Krusty Krab Restaurant | All Rights Reserved</p>
+</footer>
