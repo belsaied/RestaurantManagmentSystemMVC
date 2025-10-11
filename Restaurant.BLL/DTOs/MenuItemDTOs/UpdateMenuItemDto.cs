@@ -12,5 +12,6 @@ namespace Restaurant.BLL.DTOs.MenuItemDTOs
         [Required(ErrorMessage = "Menu item ID is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Invalid menu item ID")]
         public int Id { get; set; }
+        public string? ImageName { get; set; }
     }
 }

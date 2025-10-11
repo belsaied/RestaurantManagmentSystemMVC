@@ -1,6 +1,6 @@
-﻿
-@inject ICategoryService _categoryService
+﻿@inject ICategoryService _categoryService
 @model MenuItemsViewModel
+
 @{
     // Only get active, non-deleted categories
     var activeCategories = _categoryService.GetAllCategories()
@@ -16,22 +16,47 @@
         <input asp-for="ItemName" class="form-control" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;" />
         <span asp-validation-for="ItemName" class="text-danger small"></span>
     </div>
+
     <div class="col-md-6 mb-3">
         <label class="form-label" asp-for="Price" style="font-weight: 500; margin-bottom: 8px;">Price</label>
         <input asp-for="Price" class="form-control" type="number" step="0.01" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;" />
         <span asp-validation-for="Price" class="text-danger small"></span>
     </div>
+
     <div class="col-12 mb-3">
         <label class="form-label" asp-for="Description" style="font-weight: 500; margin-bottom: 8px;">Description</label>
         <textarea asp-for="Description" class="form-control" rows="4" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;"></textarea>
         <span asp-validation-for="Description" class="text-danger small"></span>
     </div>
-    <div class="col-md-6 mb-3">
-        <label class="form-label" asp-for="ImageUrl" style="font-weight: 500; margin-bottom: 8px;">Image URL</label>
-        <input asp-for="ImageUrl" class="form-control" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;" placeholder="https://example.com/image.jpg" />
-        <span asp-validation-for="ImageUrl" class="text-danger small"></span>
-        <small class="form-text text-muted">Enter the full URL of the menu item image</small>
+
+    <!-- Menu Item Image Upload -->
+    <div class="col-12 mb-3">
+        <label class="form-label" asp-for="Image" style="font-weight: 500; margin-bottom: 8px;">
+            @(Model != null && !string.IsNullOrEmpty(Model.ImageName) ? "Change Menu Item Image (Optional)" : "Menu Item Image")
+        </label>
+        <input asp-for="Image" type="file" class="form-control" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;" accept="image/*" />
+        <span asp-validation-for="Image" class="text-danger small"></span>
+        <small class="form-text text-muted">Allowed formats: JPG, JPEG, PNG (Max size: 2MB)</small>
     </div>
+
+    <!-- Current Image Display (Only show if editing and image exists) -->
+    @if (Model != null && !string.IsNullOrEmpty(Model.ImageName))
+    {
+        <div class="col-12 mb-3">
+            <label class="form-label" style="font-weight: 500; margin-bottom: 8px;">Current Image</label>
+            <div class="position-relative d-inline-block">
+                <img src="~/Files/MenuItems/@Model.ImageName"
+                     alt="Menu Item Image"
+                     class="img-thumbnail"
+                     style="max-width: 200px; max-height: 200px; border-radius: 8px; object-fit: cover;"
+                     onerror="this.onerror=null; this.src='/images/placeholder.png'; this.alt='Image not found';" />
+                <div class="mt-2">
+                    <small class="text-muted">Leave the image field empty to keep this image</small>
+                </div>
+            </div>
+        </div>
+    }
+
     <div class="col-md-6 mb-3">
         <label class="form-label" asp-for="CategoryId" style="font-weight: 500; margin-bottom: 8px;">Category</label>
         <select asp-for="CategoryId" asp-items="Categories" class="form-control" style="padding: 10px 16px; border-radius: 6px; border: 1px solid #ced4da;">
@@ -39,6 +64,7 @@
         </select>
         <span asp-validation-for="CategoryId" class="text-danger small"></span>
     </div>
+
     <div class="col-12 mb-4">
         <div class="form-check">
             <input asp-for="IsAvailable" class="form-check-input" type="checkbox" style="width: 18px; height: 18px; margin-top: 3px;" />

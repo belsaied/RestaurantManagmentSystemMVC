@@ -12,7 +12,7 @@
                     <h2 class="mb-0" style="font-weight: 600;">Create Menu Item</h2>
                 </div>
                 <div class="card-body" style="padding: 30px;">
-                    <form method="post" asp-controller="MenuItem" asp-action="Create">
+                    <form method="post" asp-controller="MenuItem" asp-action="Create" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="border-radius: 8px;"></div>
 
                         <partial name="PartialView/_CreateEditMenuItemsPartialView" model="Model" />

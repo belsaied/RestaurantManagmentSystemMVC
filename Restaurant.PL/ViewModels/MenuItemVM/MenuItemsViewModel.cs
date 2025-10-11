@@ -4,6 +4,8 @@ namespace Restaurant.PL.ViewModels.MenuItemVM
 {
     public class MenuItemsViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "Item Name is required")]
         [MaxLength(100, ErrorMessage = "Max length should be 100 characters")]
         [MinLength(3, ErrorMessage = "Min length should be 3 characters")]
@@ -18,9 +20,10 @@ namespace Restaurant.PL.ViewModels.MenuItemVM
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        [Display(Name = "Image URL")]
-        [MaxLength(500, ErrorMessage = "Max length should be 500 characters")]
-        public string? ImageUrl { get; set; }
+        [Display(Name = "Menu Item Image")]
+        public IFormFile? Image { get; set; }
+
+        public string? ImageName { get; set; }
 
         [Display(Name = "Is Available")]
         public bool IsAvailable { get; set; }

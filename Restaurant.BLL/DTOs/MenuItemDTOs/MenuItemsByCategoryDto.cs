@@ -12,7 +12,7 @@ namespace Restaurant.BLL.DTOs.MenuItemDTOs
         public string ItemName { get; set; }
         public string Description { get; set; } = string.Empty;
          public decimal price { get; set; }
-          public string ImageUrl { get; set; }
+          public string ImageName { get; set; }
           public bool IsAvailable { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }    

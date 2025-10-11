@@ -12,14 +12,18 @@
                     <h2 class="mb-0" style="font-weight: 600;">Edit Menu Item</h2>
                 </div>
                 <div class="card-body" style="padding: 30px;">
-                    <form method="post" asp-controller="MenuItem" asp-action="Edit">
+                    <form method="post" asp-controller="MenuItem" asp-action="Edit" asp-route-id="@Model.Id" enctype="multipart/form-data">
+                        @* CRITICAL: Ensure these hidden fields are properly bound *@
+                        <input type="hidden" asp-for="Id" value="@Model.Id" />
+                        <input type="hidden" asp-for="ImageName" value="@Model.ImageName" />
+
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="border-radius: 8px;"></div>
 
                         <partial name="PartialView/_CreateEditMenuItemsPartialView" model="Model" />
 
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn" style="background-color: #28a745; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 500;">
-                                Save
+                            <button type="submit" class="btn btn-success" style="border: none; padding: 10px 24px; border-radius: 6px; font-weight: 500;">
+                                Update
                             </button>
                             <a class="btn btn-outline-secondary" asp-controller="MenuItem" asp-action="Index" style="padding: 10px 24px; border-radius: 6px; font-weight: 500;">
                                 Back to list

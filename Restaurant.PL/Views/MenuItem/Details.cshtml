@@ -12,10 +12,14 @@
                     <h2 class="mb-0" style="font-weight: 600;">Menu Item Details: @Model.ItemName</h2>
                 </div>
                 <div class="card-body" style="padding: 30px;">
-                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    @if (!string.IsNullOrEmpty(Model.ImageName))
                     {
                         <div class="text-center mb-4">
-                            <img src="@Model.ImageUrl" alt="@Model.ItemName" class="img-fluid rounded" style="max-height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+                            <img src="~/Files/MenuItems/@Model.ImageName"
+                                 alt="@Model.ItemName"
+                                 class="img-fluid rounded"
+                                 style="max-height: 300px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"
+                                 onerror="this.onerror=null; this.src='/images/no-image.png';" />
                         </div>
                     }
 
@@ -49,12 +53,12 @@
                                 }
                             </div>
                         </div>
-                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        @if (!string.IsNullOrEmpty(Model.ImageName))
                         {
                             <div class="col-md-6 mb-4">
-                                <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Image URL</label>
+                                <label class="form-label text-muted" style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">Image File</label>
                                 <div style="padding: 10px 16px; background-color: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                    @Model.ImageUrl
+                                    @Model.ImageName
                                 </div>
                             </div>
                         }

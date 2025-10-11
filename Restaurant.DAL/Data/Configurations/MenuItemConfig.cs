@@ -43,7 +43,7 @@ namespace Restaurant.DAL.Data.Configurations
                 .HasColumnType("decimal(10,2)")
                 .HasPrecision(10, 2);
 
-            builder.Property(m => m.ImageUrl)
+            builder.Property(m => m.ImageName)
                 .HasMaxLength(255)
                 .HasColumnType("nvarchar(255)");
 

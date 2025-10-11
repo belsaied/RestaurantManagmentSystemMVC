@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,13 +21,13 @@ namespace Restaurant.BLL.DTOs.MenuItemDTOs
         [Range(0.01, 9999.99, ErrorMessage = "Price must be between 0.01 and 9999.99")]
         public decimal Price { get; set; }
 
-        [StringLength(255, ErrorMessage = "Image URL cannot exceed 255 characters")]
-        public string? ImageUrl { get; set; }
-
         public bool IsAvailable { get; set; } = true;
 
         [Required(ErrorMessage = "Category is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Invalid category ID")]
         public int CategoryId { get; set; }
+
+        // Image file for upload
+        public IFormFile? Image { get; set; }
     }
 }

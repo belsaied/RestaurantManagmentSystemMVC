@@ -9,11 +9,11 @@ using Restaurant.DAL.Data.Contexts;
 
 #nullable disable
 
-namespace Restaurant.DAL.Data.Migrations
+namespace Restaurant.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251010162657_AddIdentityTablesToApp")]
-    partial class AddIdentityTablesToApp
+    [Migration("20251011220816_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -412,7 +412,7 @@ namespace Restaurant.DAL.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsAvailable")
