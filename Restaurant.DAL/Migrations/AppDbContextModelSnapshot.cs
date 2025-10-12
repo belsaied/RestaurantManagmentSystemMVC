@@ -271,7 +271,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Customer", b =>
@@ -327,7 +327,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Ingredient", b =>
@@ -384,7 +384,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("Ingredients", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.MenuItem", b =>
@@ -439,7 +439,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems");
+                    b.ToTable("MenuItems", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Order", b =>
@@ -504,7 +504,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.OrderItems", b =>
@@ -560,7 +560,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Payment", b =>
@@ -612,7 +612,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.RecipeLine", b =>
@@ -663,7 +663,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("RecipeLines");
+                    b.ToTable("RecipeLines", (string)null);
                 });
 
             modelBuilder.Entity("Restaurant.DAL.Models.Table", b =>
@@ -711,7 +711,7 @@ namespace Restaurant.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tables");
+                    b.ToTable("Tables", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

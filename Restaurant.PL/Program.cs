@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.Mappings;
+using Restaurant.BLL.SendEmailService;
 using Restaurant.BLL.Services.Classes;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.DAL.Data.Contexts;
@@ -61,6 +63,8 @@ namespace Restaurant.PL
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+            
+            builder.Services.AddScoped<ISendEmailService,SendEmailService>();    
             #endregion
             #region AutoMapper
             builder.Services.AddAutoMapper(mapping => mapping.AddProfile(new MappingProfile()));
@@ -78,6 +82,7 @@ namespace Restaurant.PL
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
             #endregion
+
             #endregion
 
             var app = builder.Build();

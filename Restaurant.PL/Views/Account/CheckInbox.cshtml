@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Check Your Inbox";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm" style="border-radius: 16px;">
+            <div class="card-body p-5 text-center">
+                <i class="bi bi-envelope-check" style="font-size: 3rem; color: #ff7f27;"></i>
+                <h2 class="fw-bold mt-3" style="color: #ff7f27;">Check your inbox</h2>
+                <p class="text-muted mt-3 mb-4">
+                    We've just sent an email to your Gmail address.<br />
+                </p>
+                <a href="https://mail.google.com" target="_blank" rel="noopener"
+                   class="btn w-100 py-2 fw-bold mt-2 "
+                   style="background-color: #fff; color: #ff7f27; border: 2px solid #ff7f27; border-radius: 8px;">
+                    <i class="bi bi-envelope-open"></i> Go to Gmail
+                </a>
+                <br/>
+                <a asp-action="Login" asp-controller="Account"
+                   class="btn w-100 py-2 fw-bold mt-2"
+                   style="background-color: #ff7f27; color: #fff; border-radius: 8px;">
+                    <i class="bi bi-box-arrow-in-right"></i> Back to Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
