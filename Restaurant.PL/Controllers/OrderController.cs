@@ -1,10 +1,13 @@
 ﻿using Humanizer.Localisation.Ordinalizers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.OrderDTOs;
 using Restaurant.BLL.Services.Interfaces;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class OrderController(IOrderService _orderService) : Controller
     {
         [HttpGet]

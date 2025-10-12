@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.CustomerDTOs;
 using Restaurant.BLL.Services.Interfaces;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class CustomerController(ICustomerService _customerService) : Controller
     {
         [HttpGet]

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.DTOs.MenuItemDTOs;
 using Restaurant.BLL.Services.Classes;
@@ -7,6 +8,8 @@ using Restaurant.PL.ViewModels.MenuItemVM;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class MenuItemController(IMenuItemServices _menuItemService,IHostEnvironment _env, ILogger<MenuItemController> _logger,IAttachmentService _attachmentService) : Controller
     {
         #region Old Controller without Attachment .

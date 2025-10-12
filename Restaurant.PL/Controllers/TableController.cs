@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.TableModule;
 using Restaurant.BLL.Services.Interfaces;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class TableController(ITableService _tableService) : Controller
     {
         public IActionResult Index()

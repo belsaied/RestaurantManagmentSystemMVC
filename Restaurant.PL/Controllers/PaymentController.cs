@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.PaymentModule;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.PL.ViewModels.PaymentVM;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class PaymentController(IPaymentServices _PayServe) : Controller
     {
         public IActionResult Index()

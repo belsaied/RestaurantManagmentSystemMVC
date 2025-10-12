@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.IngredientModule;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.PL.ViewModels.IngredientVM;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class IngredientController(IIngredientServices _ingredients) : Controller
     {
         #region Index

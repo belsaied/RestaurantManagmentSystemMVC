@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.PL.ViewModels.Auth_ViewModels;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class RoleController(RoleManager<IdentityRole>_roleManager) : Controller
     {
         [HttpGet]

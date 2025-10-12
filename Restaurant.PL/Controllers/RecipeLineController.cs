@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.RecipeLinesDtos;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.PL.ViewModels.RecipeLineVM;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class RecipeLineController(IRecipeLineServices _recipeLineServices) : Controller
     {
         #region Index

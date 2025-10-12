@@ -238,6 +238,15 @@
                                 <i class="bi bi-shield-lock-fill"></i> Privacy
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="nav-link-custom"
+                                        style="background: none; border: none; color: #fff; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="bi bi-box-arrow-right" style="color: #dc3545;"></i>
+                                    <span style="color: #dc3545;">Log Out</span>
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>

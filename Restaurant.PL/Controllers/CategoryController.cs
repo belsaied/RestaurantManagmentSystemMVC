@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.AttachmentService;
 using Restaurant.BLL.DTOs.CategoryDTOs;
 using Restaurant.BLL.Services.Interfaces;
@@ -6,6 +7,7 @@ using Restaurant.PL.ViewModels.CategoryVM;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
     public class CategoryController(ICategoryService _categoryService, IHostEnvironment _env, ILogger<CategoryController> _logger,IAttachmentService _attachmentService) : Controller
     {
         #region Index

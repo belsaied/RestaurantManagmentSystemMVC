@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.OrderItemsModule;
 using Restaurant.BLL.Services.Interfaces;
 
 namespace Restaurant.PL.Controllers
 {
+    [Authorize]
+
     public class OrderItemsController(IOrderItemsServices _OrderItmesService) : Controller
     {
         public IActionResult Index()
