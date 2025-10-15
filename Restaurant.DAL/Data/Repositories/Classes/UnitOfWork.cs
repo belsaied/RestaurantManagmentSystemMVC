@@ -30,6 +30,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
            IRecipeLineRepository recipeLineRepository,
            AppDbContext dbContext)
         {
+            _dbContext = dbContext;
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(_dbContext));
 
             _MenuItemRepository = new Lazy<IMenuItemRepository>(() => new MenuItemRepository(_dbContext));
@@ -47,7 +48,7 @@ namespace Restaurant.DAL.Data.Repositories.Classes
             _PaymentRepository = new Lazy<IPaymentRepository>(() => new PaymentRepository(_dbContext));
 
             _RecipeLineRepository = new Lazy<IRecipeLineRepository>(() => new RecipeLineRepository(_dbContext));
-            _dbContext = dbContext;
+       
 
         }
 
