@@ -10,6 +10,13 @@ namespace Restaurant.PL.Controllers
     public class RoleController(RoleManager<IdentityRole>_roleManager) : Controller
     {
         [HttpGet]
+        public IActionResult Index()
+        {
+            var roles = _roleManager.Roles.ToList();
+            return View(roles);
+        }
+
+        [HttpGet]
         public IActionResult AddRole()
         {
             return View();
@@ -29,7 +36,7 @@ namespace Restaurant.PL.Controllers
                 if (result.Succeeded)
                 {
                     ViewBag.sucess = true;
-                    return View();
+                    return RedirectToAction(nameof(Index));
                 }
                 foreach (var error in result.Errors)
                 {

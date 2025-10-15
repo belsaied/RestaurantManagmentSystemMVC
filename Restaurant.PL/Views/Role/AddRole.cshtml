@@ -1,0 +1,42 @@
+﻿@model Restaurant.PL.ViewModels.Auth_ViewModels.RoleViewModel
+
+@{
+    ViewData["Title"] = "AddRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-center" style="background-color: #ff7a00; color: white;">
+                    <h3 class="mb-0">Add New Role</h3>
+                </div>
+
+                <div class="card-body bg-white">
+                    <form asp-action="AddRole">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="RoleName" class="form-label fw-bold" style="color: #ff7a00;"></label>
+                            <input asp-for="RoleName" class="form-control border-2" style="border-color: #ff7a00;" />
+                            <span asp-validation-for="RoleName" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <input type="submit" value="Create" class="btn text-white fw-bold" style="background-color: #ff7a00;" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer text-center bg-light">
+                    <a asp-action="Index" class="text-decoration-none fw-semibold" style="color: #ff7a00;">
+                        ← Back to List
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

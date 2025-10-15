@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Restaurant.PL.Controllers
 {
-    [Authorize]
+   
 
     public class HomeController : Controller
     {
@@ -19,12 +19,13 @@ namespace Restaurant.PL.Controllers
         {
             return View();
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();
