@@ -29,6 +29,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Customers);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Tables.Any())
             {
 
@@ -39,6 +41,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Tables);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Orders.Any())
             {
 
@@ -50,6 +54,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Orders);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Categories.Any())
             {
                 var CategoriesData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\Categories.json");
@@ -59,6 +65,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Categories);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.MenuItems.Any())
             {
                 var MenuItemsData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\MenuItems.json");
@@ -68,6 +76,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(MenuItems);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Payments.Any())
             {
                 var PaymentsData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\Payment.json");
@@ -77,6 +87,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Payments);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.OrderItems.Any())
             {
                 var OrderItemsData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\OrderItems.json");
@@ -86,6 +98,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(OrderItems);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Ingredients.Any())
             {
                 var IngredientsData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\Ingredients.json");
@@ -95,6 +109,8 @@ namespace Restaurant.DAL.DataSeeding
                     _dbContext.AddRange(Ingredients);
                 }
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.RecipeLines.Any())
             {
                 var RecipeLinesData = File.ReadAllText("..\\Restaurant.DAL\\DataSeeding\\JsonFiles\\RecipeLines.json");
