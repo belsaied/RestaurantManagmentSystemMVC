@@ -1,0 +1,37 @@
+[
+  { "MenuId": 1,  "IngredientId": 1, "Quantity": 200, "Unit": "g"   },
+  { "MenuId": 1,  "IngredientId": 2, "Quantity": 1,   "Unit": "pcs" },
+  { "MenuId": 1,  "IngredientId": 3, "Quantity": 15,  "Unit": "ml"  },
+  { "MenuId": 2,  "IngredientId": 4, "Quantity": 120, "Unit": "g"   },
+  { "MenuId": 2,  "IngredientId": 5, "Quantity": 40,  "Unit": "g"   },
+
+  { "MenuId": 3,  "IngredientId": 6, "Quantity": 160, "Unit": "g"   },
+  { "MenuId": 3,  "IngredientId": 7, "Quantity": 2,   "Unit": "pcs" },
+  { "MenuId": 3,  "IngredientId": 8, "Quantity": 10,  "Unit": "ml"  },
+  { "MenuId": 4,  "IngredientId": 9, "Quantity": 180, "Unit": "g"   },
+  { "MenuId": 4,  "IngredientId": 10, "Quantity": 25,  "Unit": "g"   },
+
+  { "MenuId": 5,  "IngredientId": 11, "Quantity": 90,  "Unit": "g"   },
+  { "MenuId": 5,  "IngredientId": 12, "Quantity": 1,   "Unit": "pcs" },
+  { "MenuId": 6,  "IngredientId": 13, "Quantity": 75,  "Unit": "g"   },
+  { "MenuId": 6,  "IngredientId": 14, "Quantity": 30,  "Unit": "ml"  },
+  { "MenuId": 6,  "IngredientId": 15, "Quantity": 2,   "Unit": "pcs" },
+
+  { "MenuId": 7,  "IngredientId": 16, "Quantity": 220, "Unit": "g"   },
+  { "MenuId": 7,  "IngredientId": 17, "Quantity": 60,  "Unit": "g"   },
+  { "MenuId": 8,  "IngredientId": 18, "Quantity": 150, "Unit": "g"   },
+  { "MenuId": 8,  "IngredientId": 19, "Quantity": 20,  "Unit": "ml"  },
+  { "MenuId": 9,  "IngredientId": 20, "Quantity": 1,   "Unit": "pcs" },
+
+  { "MenuId": 9,  "IngredientId": 21, "Quantity": 200, "Unit": "ml"  },
+  { "MenuId": 10, "IngredientId": 22, "Quantity": 300, "Unit": "g"   },
+  { "MenuId": 10, "IngredientId": 23, "Quantity": 2,   "Unit": "pcs" },
+  { "MenuId": 11, "IngredientId": 24, "Quantity": 50,  "Unit": "g"   },
+  { "MenuId": 11, "IngredientId": 25, "Quantity": 15,  "Unit": "ml"  },
+
+  { "MenuId": 12, "IngredientId": 26, "Quantity": 180, "Unit": "g"   },
+  { "MenuId": 12, "IngredientId": 27, "Quantity": 1,   "Unit": "pcs" },
+  { "MenuId": 13, "IngredientId": 28, "Quantity": 220, "Unit": "g"   },
+  { "MenuId": 13, "IngredientId": 29, "Quantity": 25,  "Unit": "g"   },
+  { "MenuId": 14, "IngredientId": 30, "Quantity": 200, "Unit": "ml"  }
+]

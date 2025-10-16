@@ -1,0 +1,37 @@
+[
+  { "Amount": 149.00, "PaymentDate": "2025-07-01T10:15:00Z", "TransactionRef": "TXN-20250701-0001", "Status": "Completed" },
+  { "Amount": 89.50,  "PaymentDate": "2025-07-02T12:40:00Z", "TransactionRef": "TXN-20250702-0002", "Status": "Pending" },
+  { "Amount": 54.00,  "PaymentDate": "2025-07-03T09:05:00Z", "TransactionRef": "TXN-20250703-0003", "Status": "Failed" },
+  { "Amount": 199.00, "PaymentDate": "2025-07-04T18:20:00Z", "TransactionRef": "TXN-20250704-0004", "Status": "Completed" },
+  { "Amount": 39.90,  "PaymentDate": "2025-07-05T14:10:00Z", "TransactionRef": "TXN-20250705-0005", "Status": "Refunded" },
+
+  { "Amount": 109.00, "PaymentDate": "2025-08-01T11:00:00Z", "TransactionRef": "TXN-20250801-0006", "Status": "Completed" },
+  { "Amount": 225.00, "PaymentDate": "2025-08-02T20:30:00Z", "TransactionRef": "TXN-20250802-0007", "Status": "Completed" },
+  { "Amount": 69.00,  "PaymentDate": "2025-08-03T08:55:00Z", "TransactionRef": "TXN-20250803-0008", "Status": "Completed" },
+  { "Amount": 29.00,  "PaymentDate": "2025-08-03T09:10:00Z", "TransactionRef": "TXN-20250803-0009", "Status": "Completed" },
+  { "Amount": 35.00,  "PaymentDate": "2025-08-04T07:45:00Z", "TransactionRef": "TXN-20250804-0010", "Status": "Failed" },
+
+  { "Amount": 139.00, "PaymentDate": "2025-08-05T16:05:00Z", "TransactionRef": "TXN-20250805-0011", "Status": "Completed" },
+  { "Amount": 115.00, "PaymentDate": "2025-08-06T13:20:00Z", "TransactionRef": "TXN-20250806-0012", "Status": "Pending" },
+  { "Amount": 95.00,  "PaymentDate": "2025-08-07T12:05:00Z", "TransactionRef": "TXN-20250807-0013", "Status": "Completed" },
+  { "Amount": 58.00,  "PaymentDate": "2025-08-08T10:30:00Z", "TransactionRef": "TXN-20250808-0014", "Status": "Refunded" },
+  { "Amount": 12.00,  "PaymentDate": "2025-08-09T21:15:00Z", "TransactionRef": "TXN-20250809-0015", "Status": "Completed" },
+
+  { "Amount": 10.00,  "PaymentDate": "2025-09-01T09:00:00Z", "TransactionRef": "TXN-20250901-0016", "Status": "Completed" },
+  { "Amount": 149.00, "PaymentDate": "2025-09-02T19:10:00Z", "TransactionRef": "TXN-20250902-0017", "Status": "Completed" },
+  { "Amount": 89.00,  "PaymentDate": "2025-09-03T15:25:00Z", "TransactionRef": "TXN-20250903-0018", "Status": "Completed" },
+  { "Amount": 325.00, "PaymentDate": "2025-09-04T17:45:00Z", "TransactionRef": "TXN-20250904-0019", "Status": "Completed" },
+  { "Amount": 49.00,  "PaymentDate": "2025-09-05T08:20:00Z", "TransactionRef": "TXN-20250905-0020", "Status": "Pending" },
+
+  { "Amount": 139.00, "PaymentDate": "2025-09-06T13:35:00Z", "TransactionRef": "TXN-20250906-0021", "Status": "Completed" },
+  { "Amount": 55.00,  "PaymentDate": "2025-09-07T12:10:00Z", "TransactionRef": "TXN-20250907-0022", "Status": "Completed" },
+  { "Amount": 149.00, "PaymentDate": "2025-09-08T11:40:00Z", "TransactionRef": "TXN-20250908-0023", "Status": "Completed" },
+  { "Amount": 52.00,  "PaymentDate": "2025-09-09T09:50:00Z", "TransactionRef": "TXN-20250909-0024", "Status": "Completed" },
+  { "Amount": 69.00,  "PaymentDate": "2025-09-10T20:05:00Z", "TransactionRef": "TXN-20250910-0025", "Status": "Refunded" },
+
+  { "Amount": 115.00, "PaymentDate": "2025-10-01T10:00:00Z", "TransactionRef": "TXN-20251001-0026", "Status": "Completed" },
+  { "Amount": 199.00, "PaymentDate": "2025-10-03T18:25:00Z", "TransactionRef": "TXN-20251003-0027", "Status": "Completed" },
+  { "Amount": 35.00,  "PaymentDate": "2025-10-06T07:30:00Z", "TransactionRef": "TXN-20251006-0028", "Status": "Failed" },
+  { "Amount": 25.00,  "PaymentDate": "2025-10-10T16:40:00Z", "TransactionRef": "TXN-20251010-0029", "Status": "Completed" },
+  { "Amount": 149.00, "PaymentDate": "2025-10-15T13:55:00Z", "TransactionRef": "TXN-20251015-0030", "Status": "Completed" }
+]

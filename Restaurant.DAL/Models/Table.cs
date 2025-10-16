@@ -16,7 +16,7 @@ namespace Restaurant.DAL.Models
         public string Location { get; set; } = null!;
 
         [Display(Name = "Is Active")]
-        public bool IsActive { get; set; } = true;
+        public bool? IsActive { get; set; } = true;
         public ICollection<Order>? NavOrders { get; set; }
 
     }

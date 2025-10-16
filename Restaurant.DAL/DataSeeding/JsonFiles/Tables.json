@@ -1,0 +1,190 @@
+[
+  {
+    "TableNumber": "1",
+    "Capacity": 2,
+    "Location": "Indoor - Window"
+  },
+  {
+    "TableNumber": "2",
+    "Capacity": 4,
+    "Location": "Indoor - Booth"
+    
+  },
+  {
+    "TableNumber": "3",
+    "Capacity": 2,
+    "Location": "Indoor - Corner"
+  },
+  {
+    "TableNumber": "4",
+    "Capacity": 6,
+    "Location": "Indoor - Center"
+  },
+  {
+    "TableNumber": "5",
+    "Capacity": 4,
+    "Location": "Indoor - Near Kitchen"
+  },
+  {
+    "TableNumber": "6",
+    "Capacity": 8,
+    "Location": "Indoor - Family Area"
+  },
+  {
+    "TableNumber": "7",
+    "Capacity": 2,
+    "Location": "Outdoor - Patio"
+  },
+  {
+    "TableNumber": "8",
+    "Capacity": 4,
+    "Location": "Outdoor - Patio"
+  },
+  {
+    "TableNumber": "9",
+    "Capacity": 6,
+    "Location": "Outdoor - Terrace"
+  },
+  {
+    "TableNumber": "10",
+    "Capacity": 2,
+    "Location": "Outdoor - Garden"
+    
+  },
+
+  {
+    "TableNumber": "11",
+    "Capacity": 4,
+    "Location": "Indoor - Window"
+    
+  },
+  {
+    "TableNumber": "12",
+    "Capacity": 6,
+    "Location": "Indoor - Booth"
+    
+  },
+  {
+    "TableNumber": "13",
+    "Capacity": 2,
+    "Location": "Indoor - Corner"
+    
+  },
+  {
+    "TableNumber": "14",
+    "Capacity": 8,
+    "Location": "Indoor - Private Room"
+    
+  },
+  {
+    "TableNumber": "15",
+    "Capacity": 4,
+    "Location": "Indoor - Center"
+    
+  },
+  {
+    "TableNumber": "16",
+    "Capacity": 2,
+    "Location": "Indoor - Near Entrance"
+    
+
+  },
+  {
+    "TableNumber": "17",
+    "Capacity": 6,
+    "Location": "Outdoor - Terrace"
+    
+
+  },
+  {
+    "TableNumber": "18",
+    "Capacity": 4,
+    "Location": "Outdoor - Garden"
+    
+
+  },
+  {
+    "TableNumber": "19",
+    "Capacity": 2,
+    "Location": "Outdoor - Patio"
+    
+
+  },
+  {
+    "TableNumber": "20",
+    "Capacity": 8,
+    "Location": "Indoor - Family Area"
+    
+
+  },
+
+  {
+    "TableNumber": "21",
+    "Capacity": 2,
+    "Location": "Indoor - Window"
+    
+
+  },
+  {
+    "TableNumber": "22",
+    "Capacity": 4,
+    "Location": "Indoor - Booth"
+    
+
+  },
+  {
+    "TableNumber": "23",
+    "Capacity": 6,
+    "Location": "Indoor - Corner"
+   
+
+  },
+  {
+    "TableNumber": "24",
+    "Capacity": 4,
+    "Location": "Indoor - Center"
+   
+
+  },
+  {
+    "TableNumber": "25",
+    "Capacity": 2,
+    "Location": "Indoor - Near Kitchen"
+    
+
+  },
+  {
+    "TableNumber": "26",
+    "Capacity": 6,
+    "Location": "Outdoor - Terrace"
+    
+
+  },
+  {
+    "TableNumber": "27",
+    "Capacity": 4,
+    "Location": "Outdoor - Garden"
+
+  },
+  {
+    "TableNumber": "28",
+    "Capacity": 8,
+    "Location": "Indoor - Private Room"
+    
+
+  },
+  {
+    "TableNumber": "29",
+    "Capacity": 2,
+    "Location": "Outdoor - Patio"
+    
+
+  },
+  {
+    "TableNumber": "30",
+    "Capacity": 6,
+    "Location": "Indoor - Family Area"
+    
+
+  }
+]

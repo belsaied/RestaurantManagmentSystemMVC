@@ -1,0 +1,39 @@
+[
+  { "Name": "Beef Tenderloin",        "Unit": "kg",  "UnitCost": 420.00, "CurrentStock": 18.5, "MinStock": 5.0,  "IsActive": true },
+  { "Name": "Chicken Breast",         "Unit": "kg",  "UnitCost": 165.00, "CurrentStock": 32.0, "MinStock": 8.0,  "IsActive": true },
+  { "Name": "Fresh Salmon",           "Unit": "kg",  "UnitCost": 380.00, "CurrentStock": 9.0,  "MinStock": 3.0,  "IsActive": true },
+  { "Name": "Shrimp Large",           "Unit": "kg",  "UnitCost": 450.00, "CurrentStock": 7.5,  "MinStock": 2.0,  "IsActive": true },
+  { "Name": "Halloumi Cheese",        "Unit": "kg",  "UnitCost": 210.00, "CurrentStock": 11.0, "MinStock": 3.0,  "IsActive": true },
+
+  { "Name": "Mozzarella",             "Unit": "kg",  "UnitCost": 190.00, "CurrentStock": 14.0, "MinStock": 4.0,  "IsActive": true },
+  { "Name": "Cheddar",                "Unit": "kg",  "UnitCost": 230.00, "CurrentStock": 6.0,  "MinStock": 2.0,  "IsActive": true },
+  { "Name": "Flour 72%",              "Unit": "kg",  "UnitCost": 16.50,  "CurrentStock": 95.0, "MinStock": 25.0, "IsActive": true },
+  { "Name": "White Sugar",            "Unit": "kg",  "UnitCost": 30.00,  "CurrentStock": 42.0, "MinStock": 10.0, "IsActive": true },
+  { "Name": "Basmati Rice",           "Unit": "kg",  "UnitCost": 65.00,  "CurrentStock": 60.0, "MinStock": 20.0, "IsActive": true },
+
+  { "Name": "Sunflower Oil",          "Unit": "ltr", "UnitCost": 55.00,  "CurrentStock": 35.0, "MinStock": 10.0, "IsActive": true },
+  { "Name": "Olive Oil Extra",        "Unit": "ltr", "UnitCost": 165.00, "CurrentStock": 12.0, "MinStock": 4.0,  "IsActive": true },
+  { "Name": "Butter Unsalted",        "Unit": "kg",  "UnitCost": 210.00, "CurrentStock": 8.0,  "MinStock": 3.0,  "IsActive": true },
+  { "Name": "Yeast Instant",          "Unit": "kg",  "UnitCost": 95.00,  "CurrentStock": 3.5,  "MinStock": 1.0,  "IsActive": true },
+  { "Name": "Baking Powder",          "Unit": "kg",  "UnitCost": 75.00,  "CurrentStock": 2.8,  "MinStock": 1.0,  "IsActive": true },
+
+  { "Name": "Tomato Fresh",           "Unit": "kg",  "UnitCost": 18.00,  "CurrentStock": 50.0, "MinStock": 12.0, "IsActive": true },
+  { "Name": "Cucumber",               "Unit": "kg",  "UnitCost": 22.00,  "CurrentStock": 20.0, "MinStock": 6.0,  "IsActive": true },
+  { "Name": "Lettuce Iceberg",        "Unit": "kg",  "UnitCost": 35.00,  "CurrentStock": 10.0, "MinStock": 3.0,  "IsActive": true },
+  { "Name": "Onion",                  "Unit": "kg",  "UnitCost": 17.00,  "CurrentStock": 38.0, "MinStock": 10.0, "IsActive": true },
+  { "Name": "Garlic",                 "Unit": "kg",  "UnitCost": 80.00,  "CurrentStock": 6.5,  "MinStock": 2.0,  "IsActive": true },
+
+  { "Name": "Black Pepper",           "Unit": "kg",  "UnitCost": 260.00, "CurrentStock": 1.2,  "MinStock": 0.4,  "IsActive": true },
+  { "Name": "Paprika",                "Unit": "kg",  "UnitCost": 180.00, "CurrentStock": 1.0,  "MinStock": 0.3,  "IsActive": true },
+  { "Name": "Cumin",                  "Unit": "kg",  "UnitCost": 160.00, "CurrentStock": 0.9,  "MinStock": 0.3,  "IsActive": true },
+  { "Name": "Salt Fine",              "Unit": "kg",  "UnitCost": 9.00,   "CurrentStock": 25.0, "MinStock": 6.0,  "IsActive": true },
+  { "Name": "Vinegar White",          "Unit": "ltr", "UnitCost": 18.00,  "CurrentStock": 22.0, "MinStock": 6.0,  "IsActive": true },
+
+  { "Name": "Ketchup",                "Unit": "kg",  "UnitCost": 42.00,  "CurrentStock": 9.0,  "MinStock": 3.0,  "IsActive": true },
+  { "Name": "Mayonnaise",             "Unit": "kg",  "UnitCost": 65.00,  "CurrentStock": 7.5,  "MinStock": 2.0,  "IsActive": true },
+  { "Name": "Mustard",                "Unit": "kg",  "UnitCost": 70.00,  "CurrentStock": 4.0,  "MinStock": 1.5,  "IsActive": true },
+  { "Name": "French Fries (Frozen)",  "Unit": "kg",  "UnitCost": 52.00,  "CurrentStock": 28.0, "MinStock": 8.0,  "IsActive": true },
+  { "Name": "Burger Buns",            "Unit": "pcs", "UnitCost": 4.00,   "CurrentStock": 180,  "MinStock": 60,   "IsActive": true },
+
+  { "Name": "Tortilla Wraps",         "Unit": "pcs", "UnitCost": 3.50,   "CurrentStock": 160,  "MinStock": 50,   "IsActive": false }
+]

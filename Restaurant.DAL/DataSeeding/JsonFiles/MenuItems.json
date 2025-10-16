@@ -1,0 +1,37 @@
+[
+  { "ItemName": "Garlic Bread",            "Price": 39.90,  "Description": "Toasted baguette with garlic butter.",                 "CategoryId": 1,  "IsAvailable": true },
+  { "ItemName": "Chicken Caesar Salad",    "Price": 89.50,  "Description": "Crisp romaine, chicken, parmesan, caesar dressing.", "CategoryId": 2,  "IsAvailable": true },
+  { "ItemName": "Tomato Basil Soup",       "Price": 54.00,  "Description": "Slow-cooked tomato soup with fresh basil.",           "CategoryId": 3,  "IsAvailable": true },
+  { "ItemName": "Grilled Chicken Plate",   "Price": 149.00, "Description": "Char-grilled chicken breast with sides.",             "CategoryId": 4,  "IsAvailable": true },
+  { "ItemName": "Alfredo Pasta",           "Price": 119.90, "Description": "Creamy alfredo sauce over fettuccine.",               "CategoryId": 5,  "IsAvailable": true },
+
+  { "ItemName": "Margherita Pizza",        "Price": 129.00, "Description": "Tomato, mozzarella, fresh basil.",                    "CategoryId": 6,  "IsAvailable": true },
+  { "ItemName": "Classic Beef Burger",     "Price": 115.00, "Description": "Beef patty, cheddar, lettuce, tomato.",               "CategoryId": 7,  "IsAvailable": true },
+  { "ItemName": "Club Sandwich",           "Price": 95.00,  "Description": "Turkey, beef bacon, lettuce, tomato, mayo.",          "CategoryId": 8,  "IsAvailable": true },
+  { "ItemName": "Grilled Salmon",          "Price": 199.00, "Description": "Fresh salmon fillet with lemon butter.",              "CategoryId": 9,  "IsAvailable": true },
+  { "ItemName": "Mixed Grill Platter",     "Price": 225.00, "Description": "Kofta, shish tawook, kebab with sides.",              "CategoryId": 10, "IsAvailable": true },
+
+  { "ItemName": "Chocolate Lava Cake",     "Price": 69.00,  "Description": "Warm chocolate cake with molten center.",             "CategoryId": 11, "IsAvailable": true },
+  { "ItemName": "Sparkling Water",         "Price": 29.00,  "Description": "Chilled bottled sparkling water.",                    "CategoryId": 12, "IsAvailable": true },
+  { "ItemName": "Turkish Coffee",          "Price": 35.00,  "Description": "Rich, foamy Turkish-style coffee.",                   "CategoryId": 13, "IsAvailable": true },
+  { "ItemName": "Iced Latte",              "Price": 52.00,  "Description": "Chilled espresso with milk and ice.",                 "CategoryId": 14, "IsAvailable": true },
+  { "ItemName": "Classic Omelette",        "Price": 65.00,  "Description": "Three-egg omelette with cheese.",                     "CategoryId": 15, "IsAvailable": false },
+
+  { "ItemName": "Kids Chicken Nuggets",    "Price": 59.00,  "Description": "Crispy nuggets with fries.",                          "CategoryId": 16, "IsAvailable": true },
+  { "ItemName": "Vegan Buddha Bowl",       "Price": 109.00, "Description": "Quinoa, chickpeas, roasted veggies, tahini.",         "CategoryId": 17, "IsAvailable": true },
+  { "ItemName": "Halloumi Wrap",           "Price": 89.00,  "Description": "Grilled halloumi, tomatoes, mint yogurt.",            "CategoryId": 18, "IsAvailable": true },
+  { "ItemName": "GF Margherita Pizza",     "Price": 139.00, "Description": "Gluten-free crust, tomato, mozzarella, basil.",       "CategoryId": 19, "IsAvailable": true },
+  { "ItemName": "Grilled Chicken Salad",   "Price": 99.00,  "Description": "Lean protein with mixed greens.",                      "CategoryId": 20, "IsAvailable": true },
+
+  { "ItemName": "Chef’s Ribeye",           "Price": 325.00, "Description": "Charred ribeye, herb butter, jus.",                   "CategoryId": 21, "IsAvailable": true },
+  { "ItemName": "Pumpkin Soup",            "Price": 58.00,  "Description": "Seasonal pumpkin with cream and nutmeg.",             "CategoryId": 22, "IsAvailable": false },
+  { "ItemName": "Burger Combo",            "Price": 149.00, "Description": "Burger, fries, and soft drink.",                      "CategoryId": 23, "IsAvailable": true },
+  { "ItemName": "Truffle Fries",           "Price": 55.00,  "Description": "Fries tossed with truffle oil and parmesan.",         "CategoryId": 24, "IsAvailable": true },
+  { "ItemName": "Garlic Aioli",            "Price": 12.00,  "Description": "Creamy garlic mayo dip.",                              "CategoryId": 25, "IsAvailable": true },
+
+  { "ItemName": "Extra Cheese",            "Price": 10.00,  "Description": "Add-on cheddar or mozzarella.",                        "CategoryId": 26, "IsAvailable": true },
+  { "ItemName": "Sourdough Loaf",          "Price": 35.00,  "Description": "Freshly baked sourdough bread.",                      "CategoryId": 27, "IsAvailable": false },
+  { "ItemName": "Vanilla Ice Cream",       "Price": 25.00,  "Description": "Creamy vanilla scoop.",                               "CategoryId": 28, "IsAvailable": true },
+  { "ItemName": "Mango Smoothie",          "Price": 55.00,  "Description": "Blended mango with yogurt.",                          "CategoryId": 29, "IsAvailable": true },
+  { "ItemName": "Fresh Orange Juice",      "Price": 49.00,  "Description": "Cold-pressed oranges.",                               "CategoryId": 30, "IsAvailable": true }
+]

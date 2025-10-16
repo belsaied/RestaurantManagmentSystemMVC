@@ -1,17 +1,18 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+ using Restaurant.BLL.AttachmentService;
+ using Restaurant.BLL.Mappings;
+ using Restaurant.BLL.SendEmailService;
+ using Restaurant.BLL.Services.Classes;
+ using Restaurant.BLL.Services.Interfaces;
+ using Microsoft.Extensions.Options;
+ using Restaurant.DAL.Data.Contexts;
+ using Restaurant.DAL.Data.Repositories.Classes;
+ using Restaurant.DAL.Data.Repositories.Interfaces;
+ using Restaurant.DAL.DataSeeding;
+ using Restaurant.DAL.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Restaurant.BLL.AttachmentService;
-using Restaurant.BLL.Mappings;
-using Restaurant.BLL.SendEmailService;
-using Restaurant.BLL.Services.Classes;
-using Restaurant.BLL.Services.Interfaces;
-using Restaurant.DAL.Data.Contexts;
-using Restaurant.DAL.Data.Repositories.Classes;
-using Restaurant.DAL.Data.Repositories.Interfaces;
-using Restaurant.DAL.Models;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace Restaurant.PL
 {
@@ -22,7 +23,6 @@ namespace Restaurant.PL
             var builder = WebApplication.CreateBuilder(args);
 
             #region Configure Services
-            // Add services to the container.
             #region MVC Config
             builder.Services.AddControllersWithViews(options =>
                {
@@ -82,12 +82,15 @@ namespace Restaurant.PL
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
             #endregion
-
+            #region DataSeeding
+            builder.Services.AddScoped<IDataSeeding,DataSeeding>();
             #endregion
 
+            #endregion
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
+            using var Scope = app.Services.CreateScope();
+            var ObjectOfDataSeeding = Scope.ServiceProvider.GetRequiredService<IDataSeeding>();
+            ObjectOfDataSeeding.SeedData();
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
