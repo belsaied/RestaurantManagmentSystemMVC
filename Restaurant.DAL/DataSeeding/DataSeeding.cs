@@ -19,6 +19,8 @@ namespace Restaurant.DAL.DataSeeding
             {
                 _dbContext.Database.Migrate();
             }
+            _dbContext.SaveChanges();
+
             if (!_dbContext.Customers.Any())
             {
 

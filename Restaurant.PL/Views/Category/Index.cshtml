@@ -8,6 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0" style="font-weight: 600;">All Categories</h1>
         <a class="btn btn-primary" asp-controller="Category" asp-action="Create" style="padding: 10px 24px; border-radius: 6px; font-weight: 500;">
+            
             <i class="bi bi-plus-circle me-2"></i>Create New Category
         </a>
     </div>
@@ -34,7 +35,7 @@
                         <div class="position-relative" style="height: 200px; overflow: hidden; background-color: #f8f9fa;">
                             @if (!string.IsNullOrEmpty(category.ImageName))
                             {
-                                <img src="~/Files/Categories/@category.ImageName"
+                                <img src="~/Files/Images/@category.ImageName"
                                      alt="@category.CategoryName"
                                      class="w-100 h-100"
                                      style="object-fit: cover;"

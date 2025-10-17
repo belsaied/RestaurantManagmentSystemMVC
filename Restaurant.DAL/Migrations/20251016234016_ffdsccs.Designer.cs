@@ -12,8 +12,8 @@ using Restaurant.DAL.Data.Contexts;
 namespace Restaurant.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251016230524_jdnd")]
-    partial class jdnd
+    [Migration("20251016234016_ffdsccs")]
+    partial class ffdsccs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

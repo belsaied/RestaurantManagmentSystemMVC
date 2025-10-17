@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Restaurant.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class jdnd : Migration
+    public partial class ffdsccs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
