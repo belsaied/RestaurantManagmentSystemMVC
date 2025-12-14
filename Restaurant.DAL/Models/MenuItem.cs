@@ -14,6 +14,8 @@ namespace Restaurant.DAL.Models
         public decimal Price { get; set; }
         public string? ImageName { get; set; }
         public bool IsAvailable { get; set; }
+        // Add this property
+        public int Stock { get; set; } = 100;  // Default stock value
 
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }

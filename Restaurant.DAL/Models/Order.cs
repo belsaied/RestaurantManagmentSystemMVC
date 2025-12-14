@@ -16,6 +16,8 @@ namespace Restaurant.DAL.Models
         public int Discount { get; set; }
         public string? OrderType { get; set; } = null!;
         public string? Status { get; set; } = null!;
+        // Add this property
+        public DateTime OrderDate { get; set; } = DateTime.Now;
         public int? TableId { get; set; } //FK From Table
         public Table? NavTable { get; set; } 
         public Customer? NavCustomer { get; set; }
