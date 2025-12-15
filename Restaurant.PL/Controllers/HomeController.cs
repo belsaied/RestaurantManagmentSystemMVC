@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Restaurant.PL.Controllers
 {
-   
+
 
     public class HomeController : Controller
     {

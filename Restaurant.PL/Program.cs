@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
  using Restaurant.BLL.SendEmailService;
  using Restaurant.BLL.Services.Classes;
  using Restaurant.BLL.Services.Interfaces;
-using Restaurant.BLL.Settings;
+
  using Restaurant.DAL.Data.Contexts;
  using Restaurant.DAL.Data.Repositories.Classes;
  using Restaurant.DAL.Data.Repositories.Interfaces;
@@ -52,11 +52,7 @@ namespace Restaurant.PL
 
             #endregion
             #region BLL Services
-            // Configure Stripe settings
-            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-
-            // Register Stripe payment service
-            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<IOrderItemsServices, OrderItemsServices>();
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<IIngredientServices, IngredientServices>();

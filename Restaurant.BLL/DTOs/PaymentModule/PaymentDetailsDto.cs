@@ -27,7 +27,7 @@ namespace Restaurant.BLL.DTOs.PaymentModule
         [Display(Name = "Created On ")]
         public DateTime CreatedOn { get; set; }   // Date of Creation
 
-        [Display(Name =("Last Modify on"))]
+        [Display(Name = ("Last Modify on"))]
         public DateTime ModifiedOn { get; set; }  // the DateTime of Modifying the Record. 
 
     }

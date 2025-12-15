@@ -1,78 +1,86 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Restaurant.BLL.DTOs.PaymentModule;
 using Restaurant.BLL.Services.Interfaces;
-using Restaurant.BLL.Settings;
+using Restaurant.PL.ViewModels.PaymentVM;
 
 namespace Restaurant.PL.Controllers
 {
     [Authorize]
-    public class PaymentController : Controller
+
+    public class PaymentController(IPaymentService _PayServe) : Controller
     {
-        private readonly IStripePaymentService _paymentService;
-        private readonly StripeSettings _stripeSettings;
-
-        public PaymentController(IStripePaymentService paymentService, IOptions<StripeSettings> stripeSettings)
-        {
-            _paymentService = paymentService;
-            _stripeSettings = stripeSettings.Value;
-        }
-
-        [HttpGet]
         public IActionResult Index()
         {
+            
+            return View(_PayServe.GetAll());
+        }
+        public IActionResult Details(int Id)
+        {
+            return View(_PayServe.GetById(Id));
+        }
+        [HttpGet]
+        public IActionResult Add()
+        {
             return View();
         }
-
-        [HttpGet]
-        public IActionResult ProcessPayment(int orderId, decimal amount)
-        {
-            ViewBag.OrderId = orderId;
-            ViewBag.Amount = amount;
-            ViewBag.StripePublishableKey = _stripeSettings.PublishableKey;
-            return View();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreatePaymentIntent([FromBody] CreatePaymentDto createPaymentDto)
+        public IActionResult Add(CreatedPaymentDto createdPaymentDto)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var paymentIntent = await _paymentService.CreatePaymentIntent(createPaymentDto);
-                return Json(new { clientSecret = paymentIntent.ClientSecret });
+                _PayServe.Add(createdPaymentDto);
+                return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
+            
+                return View("Add", createdPaymentDto);
+            
         }
-
-        [HttpPost]
-        public async Task<IActionResult> ConfirmPayment([FromBody] string paymentIntentId)
-        {
-            try
-            {
-                var success = await _paymentService.ConfirmPayment(paymentIntentId);
-                if (success)
-                {
-                    TempData["Message"] = "Payment successful!";
-                    TempData["MessageType"] = "success";
-                    return Json(new { success = true });
-                }
-                return BadRequest(new { error = "Payment confirmation failed" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
-        }
-
         [HttpGet]
-        public IActionResult PaymentStatus(int orderId)
+        public IActionResult Edit(int Id)
         {
-            var payment = _paymentService.GetPaymentByOrderId(orderId);
-            return View(payment);
+            var payment=_PayServe.GetById(Id);
+
+            var PayViweModle = new PaymentUpdateViewModel()
+            {
+                Id = payment.Id,
+                PaymentDate = payment.PaymentDate,
+                Amount = payment.Amount,
+                Status = payment.Status,
+                TransactionRef = payment.TransactionRef,
+                CreatedOn = payment.CreatedOn,
+                ModifiedOn=DateTime.Now
+                
+            };
+
+            //use View model
+            return View(PayViweModle);
+        }
+        [HttpPost]
+        public IActionResult Edit(PaymentUpdateViewModel ModelFromView)
+        {
+           var UpdatedPayment = new UpdatedPaymentDto()
+           {
+               Id  = ModelFromView.Id,
+               PaymentDate=ModelFromView.PaymentDate,
+               Amount=ModelFromView.Amount,
+               Status =ModelFromView.Status,
+               TransactionRef=ModelFromView.TransactionRef,
+               CreatedOn = ModelFromView.CreatedOn,
+               ModifiedOn=DateTime.Now
+           };
+            if (ModelState.IsValid)
+            {
+                _PayServe.Update(UpdatedPayment);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(UpdatedPayment);
+        }
+
+        public IActionResult Delete(int Id)
+        {
+            _PayServe.Delete(Id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

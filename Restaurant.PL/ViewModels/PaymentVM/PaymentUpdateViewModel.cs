@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Restaurant.DAL.Models
+namespace Restaurant.PL.ViewModels.PaymentVM
 {
-    public class Payment:baseEntity
+    public class PaymentUpdateViewModel
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "*")]
         public decimal Amount { get; set; }
 
@@ -15,10 +17,8 @@ namespace Restaurant.DAL.Models
         [Required(ErrorMessage = "*")]
         [Display(Name = "Transaction Reference")]
         public string TransactionRef { get; set; } = null!;
+        public DateTime CreatedOn { get; set; }
+        public DateTime ModifiedOn { get; set; }
         public string? Status { get; set; }
-        #region Relation With Order
-        public int? OrderId { get; set; } //FK From Order
-        public virtual Order? NavOrder { get; set; } = null!;
-        #endregion
     }
 }

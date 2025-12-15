@@ -59,7 +59,9 @@ namespace Restaurant.BLL.Mappings
             #endregion
             #region Payment
             CreateMap<Payment, PaymentDto>();
-            CreateMap<CreatePaymentDto, Payment>();
+            CreateMap<Payment, PaymentDetailsDto>();
+            CreateMap<CreatedPaymentDto, Payment>();
+            CreateMap<UpdatedPaymentDto, Payment>();
 
             #endregion
             #region Table
