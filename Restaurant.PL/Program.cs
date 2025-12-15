@@ -1,17 +1,18 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+ using Microsoft.Extensions.Options;
  using Restaurant.BLL.AttachmentService;
  using Restaurant.BLL.Mappings;
  using Restaurant.BLL.SendEmailService;
  using Restaurant.BLL.Services.Classes;
  using Restaurant.BLL.Services.Interfaces;
- using Microsoft.Extensions.Options;
+using Restaurant.BLL.Settings;
  using Restaurant.DAL.Data.Contexts;
  using Restaurant.DAL.Data.Repositories.Classes;
  using Restaurant.DAL.Data.Repositories.Interfaces;
  using Restaurant.DAL.DataSeeding;
  using Restaurant.DAL.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 
 namespace Restaurant.PL
@@ -51,7 +52,11 @@ namespace Restaurant.PL
 
             #endregion
             #region BLL Services
-            builder.Services.AddScoped<IPaymentServices, PaymentServices>();
+            // Configure Stripe settings
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+            // Register Stripe payment service
+            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
             builder.Services.AddScoped<IOrderItemsServices, OrderItemsServices>();
             builder.Services.AddScoped<ITableService, TableService>();
             builder.Services.AddScoped<IIngredientServices, IngredientServices>();

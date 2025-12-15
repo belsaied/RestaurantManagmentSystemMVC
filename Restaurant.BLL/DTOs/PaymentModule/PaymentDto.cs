@@ -9,13 +9,12 @@ namespace Restaurant.BLL.DTOs.PaymentModule
 {
     public class PaymentDto
     {
-        public int Id { get; set; } 
+        public int Id { get; set; }
+        public int OrderId { get; set; }
         public decimal Amount { get; set; }
-
-        [Display(Name = "Payment Date")]
-        public DateTime PaymentDate { get; set; }
-
-        [Display(Name = "Transaction Reference")]
-        public string TransactionRef { get; set; } = null!;
+        public string Currency { get; set; } = "usd";
+        public string Status { get; set; } = string.Empty;
+        public string? StripePaymentIntentId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

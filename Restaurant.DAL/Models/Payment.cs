@@ -1,29 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Restaurant.DAL.Models
+﻿namespace Restaurant.DAL.Models
 {
     public class Payment:baseEntity
     {
-        [Required(ErrorMessage ="*")]
+        public int OrderId { get; set; }
         public decimal Amount { get; set; }
+        public string Currency { get; set; } = "usd";
+        public string Status { get; set; } = "pending";
+        public string? StripePaymentIntentId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-
-        [Required(ErrorMessage ="*")]
-        [Display(Name ="Payment Date")]
-        public DateTime PaymentDate { get; set; }
-
-        [Required(ErrorMessage ="*")]
-        [Display(Name ="Transaction Reference")]
-        public string TransactionRef { get; set; } = null!;
-        public string? Status { get; set; }
-        #region Relation With Order
-        public int? OrderId { get; set; } //FK From Order
-        public Order? NavOrder { get; set; } = null!; 
-        #endregion
+        // Navigation property
+        public Order? NavOrder { get; set; }
     }
 }
