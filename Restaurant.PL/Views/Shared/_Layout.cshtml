@@ -3,15 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Restaurant.PL</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Krusty Krab Restaurant</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons - CRITICAL: Load this before custom CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Font Awesome (Optional - for additional icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Restaurant.PL.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"   />
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
         html, body {
@@ -22,90 +27,173 @@
         }
 
         body {
-            background-color: #ffffff;
+            background-color: #f8f9fa;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         main {
             flex: 1;
+            padding-top: 2rem;
         }
 
+        /* Enhanced Navbar */
         .navbar-custom {
             background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 0.8rem 0;
+            box-shadow: 0 4px 20px rgba(255, 102, 0, 0.3);
+            padding: 1rem 0;
+            border-bottom: 3px solid #e65c00;
         }
 
         .navbar-brand-custom {
             color: white !important;
-            font-weight: 700;
-            font-size: 1.5rem;
+            font-weight: 800;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+            .navbar-brand-custom:hover {
+                transform: scale(1.05);
+            }
+
+            .navbar-brand-custom i {
+                font-size: 1.8rem;
+                animation: pulse 2s ease-in-out infinite;
+            }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         .nav-link-custom {
             color: white !important;
-            padding: 0.6rem 1rem !important;
-            margin: 0 0.2rem;
-            border-radius: 8px;
-            font-weight: 500;
+            padding: 0.7rem 1.2rem !important;
+            margin: 0 0.3rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
             text-decoration: none;
+            position: relative;
+            overflow: hidden;
         }
 
+            .nav-link-custom::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.2);
+                transition: left 0.3s ease;
+            }
+
+            .nav-link-custom:hover::before {
+                left: 100%;
+            }
+
             .nav-link-custom:hover {
-                background-color: rgba(255, 255, 255, 0.2);
+                background-color: rgba(255, 255, 255, 0.25);
                 transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             }
 
             .nav-link-custom.active {
-                background-color: rgba(255, 255, 255, 0.3);
+                background-color: rgba(255, 255, 255, 0.35);
+                box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
             }
 
+            .nav-link-custom i {
+                font-size: 1.1rem;
+            }
+
+        /* Enhanced Dropdown */
         .dropdown-menu-custom {
-            background-color: #ff8c00;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%);
             border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border-radius: 12px;
             margin-top: 0.5rem;
+            padding: 0.5rem 0;
+            animation: slideDown 0.3s ease;
+        }
+
+        @@keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .dropdown-item-custom {
             color: white !important;
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.5rem;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
+            font-weight: 500;
+            border-left: 3px solid transparent;
         }
 
             .dropdown-item-custom:hover {
-                background-color: rgba(255, 255, 255, 0.2);
+                background-color: rgba(255, 255, 255, 0.25);
+                border-left-color: white;
+                padding-left: 1.8rem;
             }
 
+            .dropdown-item-custom i {
+                font-size: 1rem;
+                width: 20px;
+                text-align: center;
+            }
+
+        /* Mobile Navigation */
         .navbar-toggler-custom {
             border: 2px solid white;
-            padding: 0.5rem 0.8rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
+            .navbar-toggler-custom:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                transform: rotate(90deg);
+            }
+
             .navbar-toggler-custom:focus {
-                box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+                box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.5);
             }
 
         @@media (max-width: 991px) {
             .navbar-collapse {
-                background-color: rgba(255, 107, 0, 0.98);
-                padding: 1rem;
-                border-radius: 8px;
+                background: linear-gradient(135deg, rgba(255, 107, 0, 0.98) 0%, rgba(255, 140, 0, 0.98) 100%);
+                padding: 1.5rem;
+                border-radius: 12px;
                 margin-top: 1rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             }
 
             .nav-link-custom {
-                margin: 0.3rem 0;
+                margin: 0.4rem 0;
             }
 
             .dropdown-menu-custom {
@@ -113,40 +201,41 @@
             }
         }
 
-        {
-            background-color: rgba(255, 107, 0, 0.98);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .nav-link-custom {
-            margin: 0.3rem 0;
-        }
-
-        .dropdown-menu-custom {
-            background-color: rgba(255, 140, 0, 0.95);
-        }
-
-        }
-
+        /* Enhanced Footer */
         footer {
-            background-color: #ff6600;
+            background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
             color: #fff;
-            padding: 12px 0;
-            font-size: 14px;
+            padding: 1.5rem 0;
+            font-size: 0.95rem;
             margin-top: auto;
+            box-shadow: 0 -4px 20px rgba(255, 102, 0, 0.3);
+            border-top: 3px solid #e65c00;
         }
 
             footer a {
                 color: #fff;
-                text-decoration: underline;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
             }
 
                 footer a:hover {
                     color: #fff;
-                    opacity: 0.8;
+                    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+                    transform: translateX(5px);
+                    display: inline-block;
                 }
+
+        /* Logout Button Special Styling */
+        .logout-btn {
+            background: rgba(220, 53, 69, 0.2) !important;
+            border: 2px solid #dc3545;
+        }
+
+            .logout-btn:hover {
+                background: #dc3545 !important;
+                border-color: #c82333;
+            }
     </style>
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -155,7 +244,8 @@
         <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
             <div class="container-fluid px-4">
                 <a class="navbar-brand-custom" href="/">
-                    <i class="bi bi-shop"></i> Restaurant
+                    <i class="bi bi-shop-window"></i>
+                    Krusty Krab
                 </a>
 
                 <button class="navbar-toggler navbar-toggler-custom" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -172,27 +262,27 @@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link-custom dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-grid-fill"></i> Menu
+                                <i class="bi bi-grid-3x3-gap-fill"></i> Menu
                             </a>
                             <ul class="dropdown-menu dropdown-menu-custom">
                                 <li>
                                     <a class="dropdown-item dropdown-item-custom" asp-controller="MenuItem" asp-action="Index">
-                                        <i class="bi bi-menu-button-wide-fill"></i> Menu Items
+                                        <i class="bi bi-journal-text"></i> Menu Items
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item dropdown-item-custom" asp-controller="Category" asp-action="Index">
-                                        <i class="bi bi-bookmark-fill"></i> Categories
+                                        <i class="bi bi-bookmarks-fill"></i> Categories
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item dropdown-item-custom" asp-controller="Ingredient" asp-action="Index">
-                                        <i class="bi bi-egg-fill"></i> Ingredients
+                                        <i class="bi bi-basket-fill"></i> Ingredients
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item dropdown-item-custom" asp-controller="RecipeLine" asp-action="Index">
-                                        <i class="bi bi-file-text-fill"></i> Recipe Lines
+                                        <i class="bi bi-file-earmark-text-fill"></i> Recipe Lines
                                     </a>
                                 </li>
                             </ul>
@@ -224,7 +314,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link-custom" asp-controller="Table" asp-action="Index">
-                                <i class="fa-solid fa-couch"></i> Tables
+                                <i class="bi bi-table"></i> Tables
                             </a>
                         </li>
 
@@ -239,20 +329,17 @@
                                 <i class="bi bi-shield-lock-fill"></i> Privacy
                             </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link-custom d-flex align-items-center gap-2" asp-controller="Role" asp-action="AddRole">
-                                <i class="bi bi-person-fill-gear text-white"></i>
-                                <span>Add Role</span>
+                            <a class="nav-link-custom" asp-controller="Role" asp-action="AddRole">
+                                <i class="bi bi-person-fill-gear"></i> Add Role
                             </a>
                         </li>
 
-
                         <li class="nav-item">
                             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                                <button type="submit" class="nav-link-custom"
-                                        style="background: none; border: none; color: #fff; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="bi bi-box-arrow-right" style="color: #dc3545;"></i>
-                                    <span style="color: #dc3545;">Log Out</span>
+                                <button type="submit" class="nav-link-custom logout-btn" style="background: none; border: none;">
+                                    <i class="bi bi-box-arrow-right"></i> Log Out
                                 </button>
                             </form>
                         </li>
@@ -262,13 +349,18 @@
         </nav>
     </header>
 
-    <main class="container pb-3">
+    <main class="container-fluid px-4">
         @RenderBody()
     </main>
 
     <footer class="text-center">
         <div class="container">
-            &copy; 2025 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <p class="mb-0">
+                <i class="bi bi-c-circle"></i> 2025 Krusty Krab Restaurant -
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">
+                    <i class="bi bi-shield-check"></i> Privacy Policy
+                </a>
+            </p>
         </div>
     </footer>
 
