@@ -1,133 +1,316 @@
 ﻿@{
-    ViewData["Title"] = "Landing";
+    ViewData["Title"] = "Welcome to Krusty Krab";
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
+
 <style>
     body {
-        background: linear-gradient(135deg, rgba(255, 179, 71, 0.15), rgba(255, 140, 0, 0.1));
+        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 50%, #ffa500 100%);
         position: relative;
         min-height: 100vh;
         overflow-x: hidden;
     }
 
-    /* موجة خلفية خفيفة في الأعلى والأسفل */
-    .orange-waves::before,
-    .orange-waves::after {
-        content: "";
-        position: fixed;
-        left: 0;
-        width: 100%;
-        height: 200px;
-        background-repeat: no-repeat;
-        background-size: cover;
-        opacity: 0.15;
-        z-index: -1;
+    /* Hero Section */
+    .hero-section {
+        text-align: center;
+        padding: 60px 20px 40px;
+        position: relative;
+        z-index: 10;
     }
 
-    .orange-waves::before {
-        top: 0;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23ff9800' fill-opacity='1' d='M0,64L48,69.3C96,75,192,85,288,90.7C384,96,480,96,576,106.7C672,117,768,139,864,144C960,149,1056,139,1152,138.7C1248,139,1344,149,1392,154.7L1440,160L1440,0L0,0Z'></path></svg>");
+    .hero-logo {
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 30px;
+        font-size: 60px;
+        color: white;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        animation: bounce 2s ease-in-out infinite;
     }
 
-    .orange-waves::after {
-        bottom: 0;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'><path fill='%23ff9800' fill-opacity='1' d='M0,288L60,277.3C120,267,240,245,360,234.7C480,224,600,224,720,213.3C840,203,960,181,1080,181.3C1200,181,1320,203,1380,213.3L1440,224L1440,320L0,320Z'></path></svg>");
+    @@keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .hero-title {
+        color: white;
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin-bottom: 40px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Auth Buttons Container */
+    .auth-buttons-container {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 50px;
+    }
+
+    .auth-btn {
+        padding: 18px 50px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        min-width: 200px;
+        justify-content: center;
+    }
+
+    .auth-btn-login {
+        background: white;
+        color: #ff6600;
+    }
+
+        .auth-btn-login:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+    .auth-btn-register {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+    }
+
+        .auth-btn-register:hover {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+    /* Features Section */
+    .features-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px 40px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 50px;
+    }
+
+    .feature-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 35px 25px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 35px;
+        color: white;
+        box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+    }
+
+    .feature-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 12px;
+    }
+
+    .feature-description {
+        color: #6c757d;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* Security Badge */
+    .security-badge {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 20px;
+        padding: 25px 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        backdrop-filter: blur(10px);
+    }
+
+    .security-icon {
+        font-size: 50px;
+        color: #0284c7;
+    }
+
+    .security-text h3 {
+        color: #0c4a6e;
+        font-weight: 700;
+        font-size: 1.3rem;
+        margin-bottom: 8px;
+    }
+
+    .security-text p {
+        color: #075985;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+
+    /* Responsive Design */
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .auth-buttons-container {
+            flex-direction: column;
+            padding: 0 20px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .security-badge {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-logo {
+            width: 100px;
+            height: 100px;
+            font-size: 50px;
+        }
+
+        .feature-card {
+            padding: 25px 20px;
+        }
     }
 </style>
 
-<div class="orange-waves"></div>
-
 <!-- Hero Section -->
-<section class="text-white text-center d-flex align-items-center justify-content-center"
-         style="background: url('/images/hero-restaurant.jpg') center/cover no-repeat; height: 70vh;">
-    <div class="bg-dark bg-opacity-50 p-5 rounded">
-        <h1 class="display-4 fw-bold text-warning">Welcome to Krusty Krab Restaurant</h1>
-        <p class="lead fs-5 mb-3">Where luxury meets flavor</p>
-        <a href="#about" class="btn btn-warning text-white fw-bold mt-2 px-4 py-2 shadow">Discover More</a>
+<div class="hero-section">
+    <div class="hero-logo">
+        <i class="bi bi-shop"></i>
     </div>
-</section>
+    <h1 class="hero-title">Welcome to Krusty Krab</h1>
+    <p class="hero-subtitle">Your Premium Dining Experience Awaits</p>
 
-<!-- About Section -->
-<section id="about" class="py-5 bg-light text-center">
-    <div class="container">
-        <h2 class="text-warning fw-bold mb-4">About Krusty Krab</h2>
-        <p class="text-muted fs-5 w-75 mx-auto mb-4">
-            Krusty Krab Restaurant is a fine dining experience that blends elegance and taste.
-            We offer a wide variety of world-class dishes prepared by top chefs — from pasta and steak
-            to seafood and fresh juices. Enjoy the finest food in a cozy, modern atmosphere.
-        </p>
-        <img src="/images/aboutUs.jpg" alt="About Restaurant"
-             class="img-fluid rounded shadow-lg mt-3"
-             style="max-height: 400px; width: 90%; object-fit: cover;">
+    <!-- Auth Buttons -->
+    <div class="auth-buttons-container">
+        <a href="@Url.Action("Login", "Account")" class="auth-btn auth-btn-login">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Login
+        </a>
+        <a href="@Url.Action("Register", "Account")" class="auth-btn auth-btn-register">
+            <i class="bi bi-person-plus"></i>
+            Create Account
+        </a>
     </div>
-</section>
+</div>
 
-<!-- Menu Highlights -->
-<section class="py-5 bg-white">
-    <div class="container text-center">
-        <h2 class="text-warning fw-bold mb-5">Our Specialties</h2>
-        <div class="row g-4">
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="/images/pasta.jpg" class="card-img-top" alt="Pasta">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning fw-bold">Italian Pasta</h5>
-                        <p class="card-text text-muted">Rich and creamy sauces with fresh ingredients.</p>
-                    </div>
-                </div>
+<!-- Features Section -->
+<div class="features-section">
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-menu-button-wide"></i>
             </div>
+            <h3 class="feature-title">Diverse Menu</h3>
+            <p class="feature-description">Explore our extensive selection of world-class dishes prepared by expert chefs</p>
+        </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="/images/pizza.jpg" class="card-img-top" alt="Pizza">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning fw-bold">Wood-Fired Pizza</h5>
-                        <p class="card-text text-muted">Crispy crust and melted cheese perfection.</p>
-                    </div>
-                </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-calendar-check"></i>
             </div>
+            <h3 class="feature-title">Easy Reservations</h3>
+            <p class="feature-description">Book your table instantly with our seamless reservation system</p>
+        </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="/images/steak.jpg" class="card-img-top" alt="Steak">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning fw-bold">Grilled Steak</h5>
-                        <p class="card-text text-muted">Premium cuts grilled to your preference.</p>
-                    </div>
-                </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-truck"></i>
             </div>
+            <h3 class="feature-title">Fast Delivery</h3>
+            <p class="feature-description">Enjoy restaurant-quality meals delivered right to your doorstep</p>
+        </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm h-100">
-                    <img src="/images/drinks.jpg" class="card-img-top" alt="Drinks">
-                    <div class="card-body">
-                        <h5 class="card-title text-warning fw-bold">Fresh Drinks</h5>
-                        <p class="card-text text-muted">Refreshing natural juices and mocktails.</p>
-                    </div>
-                </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-star-fill"></i>
             </div>
+            <h3 class="feature-title">Premium Quality</h3>
+            <p class="feature-description">Experience the finest ingredients and exceptional service every time</p>
         </div>
     </div>
-</section>
 
-<!-- Call to Action -->
-<section class="py-5 text-center text-white"
-         style="background: url('/images/restaurant-night2.jpg') center/cover no-repeat; background-attachment: fixed;">
-    <div class="bg-dark bg-opacity-50 py-5">
-        <h2 class="fw-bold text-warning mb-3">Reserve Your Table or Ask for Delivery</h2>
-        <p class="fs-5 mb-4">Please log in to reserve a table or request delivery and enjoy your experience at Krusty Krab.</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="/Account/Login" class="btn btn-light text-warning fw-bold px-4 py-2 shadow">
-                Reserve Table
-            </a>
-            <a href="/Account/Login" class="btn btn-outline-light fw-bold px-4 py-2 shadow">
-                Ask for Delivery
-            </a>
+    <!-- Security Badge -->
+    <div class="security-badge">
+        <i class="bi bi-shield-lock-fill security-icon"></i>
+        <div class="security-text">
+            <h3>Secure & Private</h3>
+            <p>Your data is protected with OAuth 2.0 and OpenID Connect enterprise-grade security</p>
         </div>
     </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-warning text-white text-center py-3 mt-5">
-    <p class="mb-0 fw-bold">© @(DateTime.Now.Year) Krusty Krab Restaurant | All Rights Reserved</p>
-</footer>
+</div>
