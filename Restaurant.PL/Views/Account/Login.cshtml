@@ -6,116 +6,9 @@
 }
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 50%, #ffa500 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        position: relative;
-        overflow: hidden;
-    }
-
-        /* Animated background elements */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -250px;
-            right: -250px;
-            animation: float 8s ease-in-out infinite;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            bottom: -200px;
-            left: -200px;
-            animation: float 10s ease-in-out infinite reverse;
-        }
-
-    /* Additional decorative elements */
-    .bg-shapes {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 1;
-    }
-
-    .shape {
-        position: absolute;
-        opacity: 0.1;
-    }
-
-    .shape-1 {
-        width: 300px;
-        height: 300px;
-        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2));
-        border-radius: 50%;
-        top: 10%;
-        left: 5%;
-        animation: float 15s ease-in-out infinite;
-    }
-
-    .shape-2 {
-        width: 200px;
-        height: 200px;
-        background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.15));
-        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-        bottom: 15%;
-        right: 10%;
-        animation: float 12s ease-in-out infinite reverse;
-    }
-
-    .shape-3 {
-        width: 150px;
-        height: 150px;
-        background: linear-gradient(225deg, transparent, rgba(255, 255, 255, 0.1));
-        border-radius: 50%;
-        top: 50%;
-        left: 15%;
-        animation: float 18s ease-in-out infinite;
-    }
-
-    .pattern-overlay {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px), repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 2px, rgba(255, 255, 255, 0.03) 4px);
-        z-index: 1;
-    }
-
-    @@keyframes float {
-        0%, 100% {
-            transform: translateY(0) rotate(0deg);
-        }
-
-        50% {
-            transform: translateY(-30px) rotate(5deg);
-        }
-    }
-
     .login-container {
-        max-width: 450px;
+        max-width: 480px;
         width: 100%;
-        position: relative;
-        z-index: 10;
     }
 
     .login-card {
@@ -141,7 +34,7 @@
 
     .login-header {
         background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
-        padding: 40px 30px 35px;
+        padding: 45px 40px;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -154,7 +47,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient( 45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px );
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px);
             animation: slide 20s linear infinite;
         }
 
@@ -181,17 +74,6 @@
         color: white;
         position: relative;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        animation: bounce 2s ease-in-out infinite;
-    }
-
-    @@keyframes bounce {
-        0%, 100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-10px);
-        }
     }
 
     .login-header h1 {
@@ -212,8 +94,41 @@
     }
 
     .login-body {
-        padding: 40px 35px;
+        padding: 40px;
     }
+
+    /* OAuth Security Badge */
+    .security-badge {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        border: 2px solid #bae6fd;
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .security-badge i {
+            color: #0284c7;
+            font-size: 24px;
+        }
+
+    .security-badge-text {
+        flex: 1;
+    }
+
+        .security-badge-text strong {
+            color: #0c4a6e;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .security-badge-text span {
+            color: #075985;
+            font-size: 12px;
+        }
 
     .form-floating {
         margin-bottom: 20px;
@@ -259,8 +174,14 @@
             color: #ff6600;
         }
 
-    .form-check {
+    .form-options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin: 24px 0;
+    }
+
+    .form-check {
         padding-left: 0;
         display: flex;
         align-items: center;
@@ -289,6 +210,18 @@
         user-select: none;
         font-size: 14px;
     }
+
+    .forgot-link {
+        color: #ff6600;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+        .forgot-link:hover {
+            color: #ff8c00;
+        }
 
     .btn-login {
         width: 100%;
@@ -335,46 +268,90 @@
         display: flex;
         align-items: center;
         text-align: center;
-        margin: 30px 0;
+        margin: 30px 0 25px;
     }
 
         .divider::before,
         .divider::after {
             content: '';
             flex: 1;
-            border-bottom: 1px solid #dee2e6;
+            border-bottom: 2px solid #e9ecef;
         }
 
         .divider span {
-            padding: 0 15px;
+            padding: 0 20px;
             color: #6c757d;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-    .forgot-password {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        color: #ff6600;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-        padding: 10px 20px;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-        background: rgba(255, 102, 0, 0.05);
+    .external-login-section {
+        margin-bottom: 30px;
     }
 
-        .forgot-password:hover {
-            background: rgba(255, 102, 0, 0.1);
-            color: #ff8c00;
-            transform: translateX(3px);
+    .external-login-btn {
+        width: 100%;
+        padding: 14px 20px;
+        border: 2px solid #dee2e6;
+        border-radius: 12px;
+        background: white;
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 12px;
+    }
+
+        .external-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .external-login-btn.google {
+            border-color: #ea4335;
+            color: #ea4335;
+        }
+
+            .external-login-btn.google:hover {
+                background: #ea4335;
+                color: white;
+                box-shadow: 0 6px 20px rgba(234, 67, 53, 0.3);
+            }
+
+                .external-login-btn.google:hover svg path {
+                    fill: white;
+                }
+
+        .external-login-btn.microsoft {
+            border-color: #00a4ef;
+            color: #00a4ef;
+        }
+
+            .external-login-btn.microsoft:hover {
+                background: #00a4ef;
+                color: white;
+                box-shadow: 0 6px 20px rgba(0, 164, 239, 0.3);
+            }
+
+                .external-login-btn.microsoft:hover svg path {
+                    fill: white;
+                }
+
+        .external-login-btn svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
         }
 
     .register-link {
         text-align: center;
-        margin-top: 25px;
         padding-top: 25px;
         border-top: 1px solid #e9ecef;
     }
@@ -431,11 +408,11 @@
 
     @@media (max-width: 576px) {
         .login-container {
-            padding: 0 10px;
+            max-width: 100%;
         }
 
         .login-header {
-            padding: 30px 20px 25px;
+            padding: 35px 25px;
         }
 
             .login-header h1 {
@@ -445,29 +422,42 @@
         .login-body {
             padding: 30px 25px;
         }
+
+        .security-badge {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .form-options {
+            flex-direction: column;
+            gap: 15px;
+            align-items: flex-start;
+        }
     }
 </style>
-
-<div class="bg-shapes">
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-</div>
-<div class="pattern-overlay"></div>
 
 <div class="login-container">
     <div class="login-card">
         <!-- Header -->
         <div class="login-header">
             <div class="logo-icon">
-                <i class="bi bi-shop"></i>
+                <i class="bi bi-shield-lock"></i>
             </div>
-            <h1>Welcome Back!</h1>
-            <p>Sign in to continue to Krusty Krab</p>
+            <h1>Secure Login</h1>
+            <p>Access your Krusty Krab account</p>
         </div>
 
         <!-- Body -->
         <div class="login-body">
+            <!-- OAuth 2.0 Security Badge -->
+            <div class="security-badge">
+                <i class="bi bi-shield-check"></i>
+                <div class="security-badge-text">
+                    <strong>Protected by OAuth 2.0</strong>
+                    <span>Enterprise-grade security with OpenID Connect</span>
+                </div>
+            </div>
+
             <form asp-action="Login">
                 <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
 
@@ -487,42 +477,69 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
-                <!-- Remember Me -->
-                <div class="form-check">
-                    <input class="form-check-input" asp-for="RememberMe" />
-                    <label class="form-check-label" asp-for="RememberMe">
-                        @Html.DisplayNameFor(model => model.RememberMe)
-                    </label>
+                <!-- Remember Me & Forgot Password -->
+                <div class="form-options">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="RememberMe" />
+                        <label class="form-check-label" asp-for="RememberMe">
+                            @Html.DisplayNameFor(model => model.RememberMe)
+                        </label>
+                    </div>
+                    <a asp-action="ForgetPassword" class="forgot-link">
+                        Forgot password?
+                    </a>
                 </div>
 
                 <!-- Login Button -->
                 <button type="submit" class="btn-login">
                     <i class="bi bi-box-arrow-in-right me-2"></i>
-                    Sign In
+                    Sign In Securely
                 </button>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>OR</span>
-                </div>
-
-                <!-- Forgot Password -->
-                <div class="text-center">
-                    <a asp-action="ForgetPassword" class="forgot-password">
-                        <i class="bi bi-key"></i>
-                        Forgot your password?
-                    </a>
-                </div>
-
-                <!-- Register Link -->
-                <div class="register-link">
-                    <p>Don't have an account?</p>
-                    <a asp-action="Register" asp-controller="Account">
-                        <i class="bi bi-person-plus me-1"></i>
-                        Create Account
-                    </a>
-                </div>
             </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span>Or continue with</span>
+            </div>
+
+            <!-- External Login Providers -->
+            <div class="external-login-section">
+                <!-- Google Login -->
+                <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+                    <input type="hidden" name="provider" value="Google" />
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    <button type="submit" class="external-login-btn google">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+                        </svg>
+                        Continue with Google
+                    </button>
+                </form>
+
+                <!-- Microsoft Login -->
+                <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+                    <input type="hidden" name="provider" value="Microsoft" />
+                    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+                    <button type="submit" class="external-login-btn microsoft">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#00a4ef" d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z" />
+                        </svg>
+                        Continue with Microsoft
+                    </button>
+                </form>
+            </div>
+
+            <!-- Register Link -->
+            <div class="register-link">
+                <p>Don't have an account?</p>
+                <a asp-action="Register" asp-controller="Account">
+                    <i class="bi bi-person-plus me-1"></i>
+                    Create Account
+                </a>
+            </div>
         </div>
     </div>
 </div>

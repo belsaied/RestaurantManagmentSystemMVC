@@ -1,27 +1,45 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Restaurant.BLL.SendEmailService;
 using Restaurant.DAL.Models;
 using Restaurant.PL.ViewModels.Auth_ViewModels;
+using System.Security.Claims;
 
 namespace Restaurant.PL.Controllers
 {
-    public class AccountController(UserManager<ApplicationUser> _userManager
-        , SignInManager<ApplicationUser> _signInManager,ISendEmailService _emailSender) : Controller
+    public class AccountController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ISendEmailService _emailSender;
+        private readonly ILogger<AccountController> _logger;
+
+        public AccountController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            ISendEmailService emailSender,
+            ILogger<AccountController> logger)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
+            _logger = logger;
+        }
+
         #region Register
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserViewModel registerUserViewModel)
         {
             if (ModelState.IsValid)
             {
-                //Mapping
                 var appUser = new ApplicationUser()
                 {
                     UserName = registerUserViewModel.UserName,
@@ -29,50 +47,180 @@ namespace Restaurant.PL.Controllers
                     Address = registerUserViewModel.Address,
                     PhoneNumber = registerUserViewModel.PhoneNumber,
                 };
-                //Save in Database
+
                 var result = await _userManager.CreateAsync(appUser, registerUserViewModel.Password);
                 if (result.Succeeded)
-                { // if succeeded Create Cookie
+                {
                     await _signInManager.SignInAsync(appUser, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
-                //else
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-
-
             }
             return View(registerUserViewModel);
         }
         #endregion
+
         #region Login
         [HttpGet]
-        public IActionResult Login() => View();
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginUserViewModel loginUserViewModel)
+        public IActionResult Login(string? returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginUserViewModel loginUserViewModel, string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
-                //Check if the user found (by name)
                 var appUser = await _userManager.FindByNameAsync(loginUserViewModel.UserName);
                 if (appUser != null)
                 {
-                    // if the user found Check on the password 
                     bool isEqual = await _userManager.CheckPasswordAsync(appUser, loginUserViewModel.Password);
                     if (isEqual)
                     {
-                        //if the two Passwords are equal Create a Cookie for this user
                         await _signInManager.SignInAsync(appUser, loginUserViewModel.RememberMe);
+
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError("", "User Name or Password is In correct");
+                ModelState.AddModelError("", "User Name or Password is incorrect");
             }
             return View(loginUserViewModel);
         }
         #endregion
+
+        #region External Login (Google & Microsoft)
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+        {
+            // Request a redirect to the external login provider
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return RedirectToAction(nameof(Login));
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                return RedirectToAction(nameof(Login));
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            var result = await _signInManager.ExternalLoginSignInAsync(
+                info.LoginProvider,
+                info.ProviderKey,
+                isPersistent: false,
+                bypassTwoFactor: true);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.",
+                    info.Principal.Identity?.Name, info.LoginProvider);
+                return LocalRedirect(returnUrl);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return RedirectToAction(nameof(Lockout));
+            }
+            else
+            {
+                // If the user does not have an account, create one
+                ViewData["ReturnUrl"] = returnUrl;
+                ViewData["Provider"] = info.LoginProvider;
+
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel
+                {
+                    Email = email ?? "",
+                    Name = name ?? ""
+                });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginConfirmation(
+            ExternalLoginConfirmationViewModel model,
+            string? returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            if (ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Error loading external login information.");
+                    return View(nameof(ExternalLoginConfirmation));
+                }
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Address = model.Address ?? "Not provided",
+                    EmailConfirmed = true // Auto-confirm email for OAuth users
+                };
+
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(nameof(ExternalLoginConfirmation), model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Lockout()
+        {
+            return View();
+        }
+        #endregion
+
         #region Logout
         public async Task<IActionResult> Logout()
         {
@@ -80,12 +228,14 @@ namespace Restaurant.PL.Controllers
             return RedirectToAction("Landing", "Home");
         }
         #endregion
+
         #region Forget Password
         [HttpGet]
         public IActionResult ForgetPassword()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult SendResetPassword(ForgetPasswordViewModel model)
         {
@@ -94,11 +244,10 @@ namespace Restaurant.PL.Controllers
                 var user = _userManager.FindByEmailAsync(model.Email).Result;
                 if (user is not null)
                 {
-
                     var token = _userManager.GeneratePasswordResetTokenAsync(user).Result;
-                    var resetLink = Url.Action("ResetPassword", "Account", new { email = user.Email, token = token }, Request.Scheme);
-                    //send email
-                    #region Body
+                    var resetLink = Url.Action("ResetPassword", "Account",
+                        new { email = user.Email, token = token }, Request.Scheme);
+
                     string body = $@"
 <html>
 <head>
@@ -174,17 +323,16 @@ namespace Restaurant.PL.Controllers
     </div>
 </body>
 </html>";
-                    #endregion
+
                     Email email = new Email()
                     {
-                        To = user.Email,
+                        To = user.Email!,
                         Subject = "Reset Password",
                         Body = body
                     };
                     _emailSender.SendEmail(email);
 
                     return RedirectToAction("CheckInbox");
-
                 }
                 else
                 {
@@ -201,31 +349,30 @@ namespace Restaurant.PL.Controllers
             return View();
         }
         #endregion
+
         #region Reset Password
         [HttpGet]
-        public IActionResult ResetPassword(string email, string token){
-            
-            if(email is null || token is null)
+        public IActionResult ResetPassword(string email, string token)
+        {
+            if (email is null || token is null)
                 return BadRequest();
             TempData["email"] = email;
             TempData["token"] = token;
             return View();
-
-
-
         }
-        [HttpPost]
-        public IActionResult ResetPassword(ResetPasswordViewModel model) {
 
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
             if (ModelState.IsValid)
             {
                 string email = TempData.Peek("email")?.ToString() ?? "";
                 string token = TempData.Peek("token")?.ToString() ?? "";
                 var user = _userManager.FindByEmailAsync(email).Result;
-                if(user is not null)
+                if (user is not null)
                 {
-                    var res=_userManager.ResetPasswordAsync(user,token,model.Password).Result;
-                    if(res.Succeeded)
+                    var res = _userManager.ResetPasswordAsync(user, token, model.Password).Result;
+                    if (res.Succeeded)
                     {
                         return RedirectToAction("Login");
                     }
@@ -237,15 +384,12 @@ namespace Restaurant.PL.Controllers
                         }
                     }
                 }
-                
-
             }
-            
-                ModelState.AddModelError("", "Invalid Operation");
-            
+
+            ModelState.AddModelError("", "Invalid Operation");
+
             return View(model);
         }
         #endregion
     }
 }
-

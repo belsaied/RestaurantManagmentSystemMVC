@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
  using Restaurant.BLL.SendEmailService;
  using Restaurant.BLL.Services.Classes;
  using Restaurant.BLL.Services.Interfaces;
-
  using Restaurant.DAL.Data.Contexts;
  using Restaurant.DAL.Data.Repositories.Classes;
  using Restaurant.DAL.Data.Repositories.Interfaces;
@@ -82,6 +81,44 @@ namespace Restaurant.PL
                 )
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+            // After the Identity configuration
+
+            #region External Authentication Providers
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? "";
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? "";
+                    options.CallbackPath = "/signin-google";
+                    // Optional: Request additional scopes
+                    options.Scope.Add("profile");
+                    options.Scope.Add("email");
+                })
+                .AddMicrosoftAccount(options =>
+                {
+                    options.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"] ?? "";
+                    options.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"] ?? "";
+                    options.CallbackPath = "/signin-microsoft";
+                    // Optional: Request additional scopes
+                    options.Scope.Add("User.Read");
+                });
+
+            // Add after authentication configuration
+            builder.Services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            });
+            #endregion
             #endregion
             #region DataSeeding
             builder.Services.AddScoped<IDataSeeding,DataSeeding>();
