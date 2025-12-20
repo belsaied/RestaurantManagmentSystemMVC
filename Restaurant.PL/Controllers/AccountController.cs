@@ -115,7 +115,8 @@ namespace Restaurant.PL.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            // FIX: Default to authenticated dashboard instead of root
+            returnUrl = returnUrl ?? Url.Action("Index", "Home");
 
             if (remoteError != null)
             {
@@ -141,7 +142,15 @@ namespace Restaurant.PL.Controllers
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.",
                     info.Principal.Identity?.Name, info.LoginProvider);
-                return LocalRedirect(returnUrl);
+
+                // FIX: Validate returnUrl is local before redirecting
+                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                // FIX: Explicit redirect to authenticated dashboard
+                return RedirectToAction("Index", "Home");
             }
 
             if (result.IsLockedOut)
@@ -171,7 +180,8 @@ namespace Restaurant.PL.Controllers
             ExternalLoginConfirmationViewModel model,
             string? returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            // FIX: Default to authenticated dashboard instead of root
+            returnUrl = returnUrl ?? Url.Action("Index", "Home");
 
             if (ModelState.IsValid)
             {
@@ -199,7 +209,15 @@ namespace Restaurant.PL.Controllers
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-                        return LocalRedirect(returnUrl);
+
+                        // FIX: Validate returnUrl is local before redirecting
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+
+                        // FIX: Explicit redirect to authenticated dashboard
+                        return RedirectToAction("Index", "Home");
                     }
                 }
 

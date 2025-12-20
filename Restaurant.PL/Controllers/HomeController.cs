@@ -19,6 +19,7 @@ namespace Restaurant.PL.Controllers
             _logger = logger;
             _context = context;
         }
+        
         public IActionResult Landing()
         {
             return View();

@@ -5,115 +5,319 @@
 
 <style>
     body {
-        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 50%, #ffa500 100%);
+        background: #0a0e27;
         position: relative;
         min-height: 100vh;
         overflow-x: hidden;
     }
 
+    /* Premium Blurred Background Image */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+    }
+
+    .bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('~/images/KrustyKrab.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(60px) brightness(0.4);
+        transform: scale(1.1);
+    }
+
+    .bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at 20% 30%, rgba(255, 102, 0, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 70%, rgba(255, 140, 0, 0.12) 0%, transparent 50%), linear-gradient(135deg, rgba(10, 14, 39, 0.85) 0%, rgba(26, 31, 58, 0.9) 50%, rgba(15, 22, 40, 0.85) 100%);
+    }
+
+    .bg-gradient-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, rgba(10, 14, 39, 0) 0%, rgba(10, 14, 39, 0.3) 30%, rgba(10, 14, 39, 0.7) 70%, rgba(10, 14, 39, 0.95) 100% );
+    }
+
+    /* Subtle Animated Particles */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 140, 0, 0.3);
+        animation: float-particle linear infinite;
+        opacity: 0;
+    }
+
+    @@keyframes float-particle {
+        0% {
+            transform: translateY(100vh) scale(0);
+            opacity: 0;
+        }
+
+        10% {
+            opacity: 0.6;
+        }
+
+        90% {
+            opacity: 0.6;
+        }
+
+        100% {
+            transform: translateY(-100px) scale(1);
+            opacity: 0;
+        }
+    }
+
+    .particle:nth-child(1) {
+        left: 15%;
+        width: 4px;
+        height: 4px;
+        animation-duration: 12s;
+        animation-delay: 0s;
+    }
+
+    .particle:nth-child(2) {
+        left: 35%;
+        width: 6px;
+        height: 6px;
+        animation-duration: 15s;
+        animation-delay: 2s;
+    }
+
+    .particle:nth-child(3) {
+        left: 55%;
+        width: 3px;
+        height: 3px;
+        animation-duration: 10s;
+        animation-delay: 4s;
+    }
+
+    .particle:nth-child(4) {
+        left: 75%;
+        width: 5px;
+        height: 5px;
+        animation-duration: 13s;
+        animation-delay: 1s;
+    }
+
+    .particle:nth-child(5) {
+        left: 85%;
+        width: 4px;
+        height: 4px;
+        animation-duration: 11s;
+        animation-delay: 3s;
+    }
+
+    /* Geometric Shapes - Enhanced for visibility */
+    .geometric-shape {
+        position: fixed;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(255, 102, 0, 0.12), rgba(255, 140, 0, 0.08));
+        backdrop-filter: blur(30px);
+        animation: rotate-shape 20s linear infinite;
+        z-index: 1;
+        border: 1px solid rgba(255, 140, 0, 0.2);
+    }
+
+    @@keyframes rotate-shape {
+        0% {
+            transform: rotate(0deg) translateY(0);
+        }
+
+        50% {
+            transform: rotate(180deg) translateY(-20px);
+        }
+
+        100% {
+            transform: rotate(360deg) translateY(0);
+        }
+    }
+
+    .shape-1 {
+        width: 400px;
+        height: 400px;
+        top: 10%;
+        left: -100px;
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+
+    .shape-2 {
+        width: 300px;
+        height: 300px;
+        bottom: 15%;
+        right: -80px;
+        border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+        animation-duration: 25s;
+        animation-direction: reverse;
+    }
+
     /* Hero Section */
     .hero-section {
         text-align: center;
-        padding: 60px 20px 40px;
+        padding: 100px 20px 60px;
         position: relative;
         z-index: 10;
     }
 
-    .hero-logo {
-        width: 120px;
-        height: 120px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 30px;
-        font-size: 60px;
-        color: white;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
-        animation: bounce 2s ease-in-out infinite;
+    /* Premium Brand Badge */
+    .brand-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        background: rgba(255, 140, 0, 0.15);
+        border: 1px solid rgba(255, 140, 0, 0.3);
+        border-radius: 50px;
+        color: #ff8c00;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        backdrop-filter: blur(10px);
+        animation: fadeInDown 0.8s ease-out;
     }
 
-    @@keyframes bounce {
-        0%, 100% {
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
             transform: translateY(0);
         }
-
-        50% {
-            transform: translateY(-15px);
-        }
     }
 
+    /* Removed logo-container, logo-frame, logo-image classes - no longer needed */
+
     .hero-title {
-        color: white;
-        font-size: 3.5rem;
-        font-weight: 900;
-        margin-bottom: 15px;
-        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        line-height: 1.2;
+        color: #ffffff;
+        font-size: 4.5rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 0 0 60px rgba(255, 140, 0, 0.6);
+        line-height: 1.1;
+        letter-spacing: -2px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .hero-subtitle {
-        color: rgba(255, 255, 255, 0.95);
-        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.4rem;
         font-weight: 500;
-        margin-bottom: 40px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 50px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        letter-spacing: 0.5px;
+        animation: fadeInUp 0.8s ease-out 0.4s both;
     }
 
     /* Auth Buttons Container */
     .auth-buttons-container {
         display: flex;
-        gap: 20px;
+        gap: 25px;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 50px;
+        margin-bottom: 80px;
+        animation: fadeInUp 0.8s ease-out 0.6s both;
     }
 
     .auth-btn {
         padding: 18px 50px;
         font-size: 1.1rem;
         font-weight: 700;
-        border-radius: 15px;
-        border: none;
+        border-radius: 12px;
+        border: 2px solid transparent;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         text-decoration: none;
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         min-width: 200px;
         justify-content: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        backdrop-filter: blur(10px);
     }
 
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .auth-btn:hover::before {
+            left: 100%;
+        }
+
     .auth-btn-login {
-        background: white;
-        color: #ff6600;
+        background: linear-gradient(135deg, rgba(255, 102, 0, 0.9) 0%, rgba(255, 140, 0, 0.9) 100%);
+        color: white;
+        box-shadow: 0 10px 40px rgba(255, 102, 0, 0.4);
     }
 
         .auth-btn-login:hover {
-            background: #f8f9fa;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 102, 0, 0.6);
+            background: linear-gradient(135deg, rgba(255, 102, 0, 1) 0%, rgba(255, 140, 0, 1) 100%);
         }
 
     .auth-btn-register {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        color: white;
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        border: 2px solid rgba(255, 140, 0, 0.5);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
 
         .auth-btn-register:hover {
-            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 140, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.3);
+            border-color: rgba(255, 140, 0, 0.8);
         }
 
     /* Features Section */
     .features-section {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 20px 40px;
+        padding: 0 20px 60px;
         position: relative;
         z-index: 10;
     }
@@ -121,93 +325,139 @@
     .features-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
-        margin-bottom: 50px;
+        gap: 30px;
+        margin-bottom: 60px;
+        animation: fadeInUp 0.8s ease-out 0.8s both;
     }
 
     .feature-card {
-        background: rgba(255, 255, 255, 0.98);
+        background: rgba(26, 31, 58, 0.4);
         border-radius: 20px;
-        padding: 35px 25px;
+        padding: 40px 30px;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        transition: all 0.4s ease;
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 140, 0, 0.2);
+        position: relative;
+        overflow: hidden;
     }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff8c00, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
 
         .feature-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.3);
+            border-color: rgba(255, 140, 0, 0.5);
+            background: rgba(26, 31, 58, 0.6);
         }
 
     .feature-icon {
         width: 80px;
         height: 80px;
-        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
-        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(255, 102, 0, 0.25), rgba(255, 140, 0, 0.25));
+        border-radius: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 35px;
-        color: white;
-        box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+        margin: 0 auto 25px;
+        font-size: 36px;
+        color: #ff8c00;
+        box-shadow: 0 10px 25px rgba(255, 140, 0, 0.2);
+        border: 1px solid rgba(255, 140, 0, 0.3);
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotateY(180deg);
+        box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4);
     }
 
     .feature-title {
         font-size: 1.4rem;
         font-weight: 700;
-        color: #2c3e50;
-        margin-bottom: 12px;
+        color: #ffffff;
+        margin-bottom: 15px;
+        letter-spacing: 0.5px;
     }
 
     .feature-description {
-        color: #6c757d;
+        color: rgba(255, 255, 255, 0.7);
         font-size: 1rem;
         line-height: 1.6;
+        font-weight: 400;
     }
 
     /* Security Badge */
     .security-badge {
-        background: rgba(255, 255, 255, 0.98);
+        background: rgba(26, 31, 58, 0.4);
         border-radius: 20px;
-        padding: 25px 30px;
+        padding: 35px 40px;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        max-width: 600px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        max-width: 700px;
         margin: 0 auto;
         display: flex;
         align-items: center;
-        gap: 20px;
-        backdrop-filter: blur(10px);
+        gap: 30px;
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 140, 0, 0.3);
+        animation: fadeInUp 0.8s ease-out 1s both;
     }
 
     .security-icon {
         font-size: 50px;
-        color: #0284c7;
+        color: #ff8c00;
+        text-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+        flex-shrink: 0;
     }
 
-    .security-text h3 {
-        color: #0c4a6e;
-        font-weight: 700;
-        font-size: 1.3rem;
-        margin-bottom: 8px;
+    .security-text {
+        text-align: left;
     }
 
-    .security-text p {
-        color: #075985;
-        font-size: 0.95rem;
-        margin: 0;
-    }
+        .security-text h3 {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .security-text p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+        }
 
     /* Responsive Design */
     @@media (max-width: 768px) {
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 3rem;
         }
 
         .hero-subtitle {
             font-size: 1.1rem;
+        }
+
+        .hero-section {
+            padding: 80px 20px 40px;
         }
 
         .auth-buttons-container {
@@ -224,6 +474,11 @@
         .security-badge {
             flex-direction: column;
             text-align: center;
+            padding: 30px 25px;
+        }
+
+        .security-text {
+            text-align: center;
         }
 
         .features-grid {
@@ -233,34 +488,61 @@
 
     @@media (max-width: 480px) {
         .hero-title {
-            font-size: 2rem;
+            font-size: 2.5rem;
+            letter-spacing: -1px;
         }
 
-        .hero-logo {
-            width: 100px;
-            height: 100px;
-            font-size: 50px;
+        .hero-section {
+            padding: 60px 20px 40px;
         }
 
         .feature-card {
-            padding: 25px 20px;
+            padding: 30px 20px;
+        }
+
+        .auth-btn {
+            padding: 16px 40px;
+            font-size: 1rem;
+        }
+
+        .brand-badge {
+            font-size: 0.75rem;
+            padding: 6px 16px;
         }
     }
 </style>
 
+<!-- Premium Blurred Background -->
+<div class="premium-bg">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+    <div class="bg-gradient-overlay"></div>
+</div>
+
+<!-- Subtle Animated Particles -->
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+<div class="particle"></div>
+
+<!-- Geometric Shapes -->
+<div class="geometric-shape shape-1"></div>
+<div class="geometric-shape shape-2"></div>
+
 <!-- Hero Section -->
 <div class="hero-section">
-    <div class="hero-logo">
-        <i class="bi bi-shop"></i>
+    <div class="brand-badge">
+        <i class="bi bi-award-fill"></i> Premium Dining Experience
     </div>
-    <h1 class="hero-title">Welcome to Krusty Krab</h1>
-    <p class="hero-subtitle">Your Premium Dining Experience Awaits</p>
+    <h1 class="hero-title">Krusty Krab Restaurant</h1>
+    <p class="hero-subtitle">Where Quality Meets Excellence</p>
 
     <!-- Auth Buttons -->
     <div class="auth-buttons-container">
         <a href="@Url.Action("Login", "Account")" class="auth-btn auth-btn-login">
             <i class="bi bi-box-arrow-in-right"></i>
-            Login
+            Sign In
         </a>
         <a href="@Url.Action("Register", "Account")" class="auth-btn auth-btn-register">
             <i class="bi bi-person-plus"></i>
@@ -276,7 +558,7 @@
             <div class="feature-icon">
                 <i class="bi bi-menu-button-wide"></i>
             </div>
-            <h3 class="feature-title">Diverse Menu</h3>
+            <h3 class="feature-title">Curated Menu</h3>
             <p class="feature-description">Explore our extensive selection of world-class dishes prepared by expert chefs</p>
         </div>
 
@@ -309,8 +591,8 @@
     <div class="security-badge">
         <i class="bi bi-shield-lock-fill security-icon"></i>
         <div class="security-text">
-            <h3>Secure & Private</h3>
-            <p>Your data is protected with OAuth 2.0 and OpenID Connect enterprise-grade security</p>
+            <h3>Enterprise-Grade Security</h3>
+            <p>Your data is protected with OAuth 2.0 and OpenID Connect authentication protocols</p>
         </div>
     </div>
 </div>
