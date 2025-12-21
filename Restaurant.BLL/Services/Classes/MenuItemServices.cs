@@ -309,47 +309,54 @@ namespace Restaurant.BLL.Services.Classes
         // Update
         public int UpdateMenuItem(UpdateMenuItemDto updateMenuItemDTO)
         {
-            // Validate category exists and is active if category is being changed
-            var category = _categoryRepository.GetById(updateMenuItemDTO.CategoryId);
-            if (category == null || category.IsDeleted || !category.IsActive)
+            try
             {
-                throw new InvalidOperationException("Category does not exist or is inactive.");
-            }
-
-            // Fetch the existing tracked entity from the database
-            var existingMenuItem = _unitOfWork.MenuItemRepository.GetById(updateMenuItemDTO.Id);
-
-            if (existingMenuItem == null || existingMenuItem.IsDeleted)
-            {
-                return 0; // MenuItem not found or deleted
-            }
-
-            // Update the properties of the EXISTING tracked entity
-            existingMenuItem.ItemName = updateMenuItemDTO.ItemName;
-            existingMenuItem.Description = updateMenuItemDTO.Description;
-            existingMenuItem.Price = updateMenuItemDTO.Price;
-            existingMenuItem.IsAvailable = updateMenuItemDTO.IsAvailable;
-            existingMenuItem.CategoryId = updateMenuItemDTO.CategoryId;
-            existingMenuItem.ModifiedOn = DateTime.Now;
-
-            // Handle new image upload
-            if (updateMenuItemDTO.Image is not null)
-            {
-                string? imgName = _attachmentService.Upload(updateMenuItemDTO.Image, "MenuItems");
-                if (imgName is not null)
+                // Validate category exists and is active
+                var category = _categoryRepository.GetById(updateMenuItemDTO.CategoryId);
+                if (category == null || category.IsDeleted || !category.IsActive)
                 {
-                    existingMenuItem.ImageName = imgName;
+                    throw new InvalidOperationException("Category does not exist or is inactive.");
                 }
-            }
-            else if (!string.IsNullOrEmpty(updateMenuItemDTO.ImageName))
-            {
-                // Keep the existing image if no new image uploaded
-                existingMenuItem.ImageName = updateMenuItemDTO.ImageName;
-            }
 
-            // No need to call Update() - EF Core is already tracking the entity
-            // Just save the changes
-            return _unitOfWork.SaveChanges();
+                // Fetch the existing tracked entity from the database
+                var existingMenuItem = _unitOfWork.MenuItemRepository.GetById(updateMenuItemDTO.Id);
+
+                if (existingMenuItem == null || existingMenuItem.IsDeleted)
+                {
+                    return 0; // MenuItem not found or deleted
+                }
+
+                // Update the properties of the EXISTING tracked entity
+                existingMenuItem.ItemName = updateMenuItemDTO.ItemName;
+                existingMenuItem.Description = updateMenuItemDTO.Description;
+                existingMenuItem.Price = updateMenuItemDTO.Price;
+                existingMenuItem.IsAvailable = updateMenuItemDTO.IsAvailable;
+                existingMenuItem.CategoryId = updateMenuItemDTO.CategoryId;
+                existingMenuItem.ModifiedOn = DateTime.Now;
+
+                // Handle new image upload
+                if (updateMenuItemDTO.Image != null)
+                {
+                    string? imgName = _attachmentService.Upload(updateMenuItemDTO.Image, "MenuItems");
+                    if (imgName != null)
+                    {
+                        existingMenuItem.ImageName = imgName;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(updateMenuItemDTO.ImageName))
+                {
+                    // Keep the existing image if no new image uploaded
+                    existingMenuItem.ImageName = updateMenuItemDTO.ImageName;
+                }
+
+                // EF Core is already tracking the entity, just save changes
+                return _unitOfWork.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                throw new Exception($"Failed to update menu item: {ex.Message}", ex);
+            }
         }
 
         // Get available menu items for display (اللي هو لو في MenuItems خلصت) -> (دة يجيب اللي موجود مخلصش)

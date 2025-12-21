@@ -306,16 +306,30 @@ namespace Restaurant.PL.Controllers
         public IActionResult Edit(int? id)
         {
             if (!id.HasValue) return BadRequest();
-            var menuItem = _menuItemService.GetMenuItemById(id.Value);
-            if (menuItem is null) return NotFound();
 
+            // Get the full menu item details
+            var allMenuItems = _menuItemService.GetAllMenuItems();
+            var menuItem = allMenuItems.FirstOrDefault(m => m.Id == id.Value);
+
+            if (menuItem == null || menuItem.IsDeleted)
+            {
+                TempData["Message"] = "Menu Item not found";
+                TempData["MessageType"] = "error";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Map ALL properties to the view model
             var menuItemVM = new MenuItemsViewModel()
             {
+                Id = menuItem.Id,
                 ItemName = menuItem.ItemName,
+                Description = menuItem.Description,  // ✅ Include description
                 Price = menuItem.Price,
                 ImageName = menuItem.ImageName,
-                IsAvailable = menuItem.IsAvailable
+                IsAvailable = menuItem.IsAvailable,
+                CategoryId = menuItem.CategoryId     // ✅ CRITICAL: Include CategoryId
             };
+
             return View(menuItemVM);
         }
 
@@ -330,15 +344,23 @@ namespace Restaurant.PL.Controllers
                 // Get existing menuItem to preserve image if not updating
                 var existingMenuItem = _menuItemService.GetMenuItemById(id.Value);
 
+                if (existingMenuItem == null)
+                {
+                    TempData["Message"] = "Menu Item not found";
+                    TempData["MessageType"] = "error";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 // Handle old image deletion if new image is uploaded
-                if (menuItemViewModel.Image != null && !string.IsNullOrEmpty(existingMenuItem?.ImageName))
+                if (menuItemViewModel.Image != null && !string.IsNullOrEmpty(existingMenuItem.ImageName))
                 {
                     var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot\\Files\\MenuItems", existingMenuItem.ImageName);
                     _attachmentService.Delete(oldImagePath);
                 }
 
-                int result = _menuItemService.UpdateMenuItem(new UpdateMenuItemDto()
+                // Create the update DTO with all required fields
+                var updateDto = new UpdateMenuItemDto()
                 {
                     Id = id.Value,
                     ItemName = menuItemViewModel.ItemName,
@@ -347,8 +369,11 @@ namespace Restaurant.PL.Controllers
                     IsAvailable = menuItemViewModel.IsAvailable,
                     CategoryId = menuItemViewModel.CategoryId,
                     Image = menuItemViewModel.Image,
-                    ImageName = menuItemViewModel.Image == null ? existingMenuItem?.ImageName : null
-                });
+                    // CRITICAL: Preserve existing image if no new image uploaded
+                    ImageName = menuItemViewModel.Image == null ? existingMenuItem.ImageName : null
+                };
+
+                int result = _menuItemService.UpdateMenuItem(updateDto);
 
                 if (result > 0)
                 {
@@ -364,16 +389,9 @@ namespace Restaurant.PL.Controllers
             }
             catch (Exception ex)
             {
-                if (_env.IsDevelopment())
-                {
-                    _logger.LogError($"Menu Item Can't be updated because {ex.Message}");
-                    return View(menuItemViewModel);
-                }
-                else
-                {
-                    _logger.LogError($"Menu Item Can't be updated because {ex}");
-                    return View("ErrorView", ex);
-                }
+                _logger.LogError($"Menu Item Can't be updated: {ex.Message}");
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+                return View(menuItemViewModel);
             }
         }
         #endregion

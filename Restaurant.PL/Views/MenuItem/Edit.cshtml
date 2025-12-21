@@ -13,20 +13,22 @@
                 </div>
                 <div class="card-body" style="padding: 30px;">
                     <form method="post" asp-controller="MenuItem" asp-action="Edit" asp-route-id="@Model.Id" enctype="multipart/form-data">
-                        @* CRITICAL: Ensure these hidden fields are properly bound *@
-                        <input type="hidden" asp-for="Id" value="@Model.Id" />
-                        <input type="hidden" asp-for="ImageName" value="@Model.ImageName" />
+                        @Html.AntiForgeryToken()
+
+                        @* CRITICAL: Ensure ALL these hidden fields are properly bound *@
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ImageName" />
 
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="border-radius: 8px;"></div>
 
                         <partial name="PartialView/_CreateEditMenuItemsPartialView" model="Model" />
 
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 mt-3">
                             <button type="submit" class="btn btn-success" style="border: none; padding: 10px 24px; border-radius: 6px; font-weight: 500;">
-                                Update
+                                <i class="bi bi-check-circle me-2"></i>Update
                             </button>
                             <a class="btn btn-outline-secondary" asp-controller="MenuItem" asp-action="Index" style="padding: 10px 24px; border-radius: 6px; font-weight: 500;">
-                                Back to list
+                                <i class="bi bi-arrow-left me-2"></i>Back to list
                             </a>
                         </div>
                     </form>
@@ -39,4 +41,15 @@
 @section ValidationScripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        // Debug: Log form data before submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form submitting...');
+            console.log('Id:', document.querySelector('[name="Id"]')?.value);
+            console.log('ItemName:', document.querySelector('[name="ItemName"]')?.value);
+            console.log('CategoryId:', document.querySelector('[name="CategoryId"]')?.value);
+            console.log('ImageName:', document.querySelector('[name="ImageName"]')?.value);
+        });
+    </script>
 }
