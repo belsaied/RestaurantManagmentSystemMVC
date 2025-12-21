@@ -1,102 +1,300 @@
 ﻿@using Restaurant.BLL.DTOs.RecipeLinesDtos
 @model IEnumerable<RecipeDto>
+
 @{
     ViewData["Title"] = "Recipe Lines";
+
+    var recipeList = Model?.ToList() ?? new List<RecipeDto>();
+    var totalRecipes = recipeList.Count;
+    var distinctMenuItems = recipeList.Select(r => r.MenuItemName).Distinct().Count();
+    var distinctIngredients = recipeList.Select(r => r.IngredientName).Distinct().Count();
+    var avgItemsPerRecipe = distinctMenuItems > 0
+        ? Math.Round(recipeList.GroupBy(r => r.MenuItemName).Average(g => g.Count()), 1)
+        : 0;
 }
 
 <div class="container-fluid px-4 py-4">
-    <h1 class="mb-4" style="font-weight: 700; color: #FFA500;">Recipe Lines</h1>
 
-    <a class="btn mb-4"
-       asp-action="Create"
-       style="background-color: #FFC107; color: #000; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <i class="bi bi-plus-circle me-1"></i>
-        Add New
-    </a>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="page-title">
+                <i class="bi bi-journal-text me-2"></i>Recipe Lines
+            </h1>
+            <p class="page-subtitle">Define ingredients and quantities for each menu item</p>
+        </div>
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow">
+            <i class="bi bi-plus-circle me-2"></i>New Recipe Line
+        </a>
+    </div>
 
-    @if (Model != null && Model.Any())
+    @if (recipeList.Any())
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle" style="background-color: white; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6;">
-                <thead style="background-color: #f8f9fa;">
-                    <tr>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().MenuItemName)</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().IngredientName)</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().Quantity)</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">@Html.DisplayNameFor(m => m.First().Unit)</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Details</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Edit</th>
-                        <th style="font-weight: 600; padding: 16px; border-bottom: 2px solid #dee2e6;">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var recipe in Model)
-                {
-                    <tr style="border-bottom: 1px solid #e9ecef;">
-                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.MenuItemName)</td>
-                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.IngredientName)</td>
-                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.Quantity)</td>
-                        <td style="padding: 16px;">@Html.DisplayFor(_ => recipe.Unit)</td>
-                        <td style="padding: 16px;">
-                            <a class="btn btn-sm d-flex align-items-center justify-content-center"
-                               asp-action="Details" asp-route-id="@recipe.Id"
-                               style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
-                                <i class="bi bi-eye-fill me-2"></i>
-                                Details
-                            </a>
-                        </td>
-                        <td style="padding: 16px;">
-                            <a class="btn btn-sm d-flex align-items-center justify-content-center"
-                               asp-action="Edit" asp-route-id="@recipe.Id"
-                               style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
-                                <i class="bi bi-pencil-square me-2"></i>
-                                Edit
-                            </a>
-                        </td>
-                        <td style="padding: 16px;">
-                            <button type="button" class="btn btn-sm d-flex align-items-center justify-content-center"
-                                    data-bs-toggle="modal" data-bs-target="#deleteModal-@recipe.Id"
-                                    style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 500; min-width: 100px;">
-                                <i class="bi bi-trash-fill me-2"></i>
-                                Delete
-                            </button>
+        <!-- KPI CARDS -->
+        <div class="row mb-5">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="kpi-card bg-gradient-primary">
+                    <span>Total Lines</span>
+                    <h2>@totalRecipes</h2>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="kpi-card bg-gradient-danger">
+                    <span>Menu Items</span>
+                    <h2>@distinctMenuItems</h2>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="kpi-card bg-gradient-info">
+                    <span>Ingredients</span>
+                    <h2>@distinctIngredients</h2>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="kpi-card bg-gradient-success">
+                    <span>Avg / Item</span>
+                    <h2>@avgItemsPerRecipe</h2>
+                </div>
+            </div>
+        </div>
 
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal-@recipe.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@recipe.Id" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content" style="border-radius: 12px; border: none;">
-                                        <div class="modal-header" style="border-bottom: 1px solid #e9ecef;">
-                                            <h5 class="modal-title" id="deleteModalLabel-@recipe.Id" style="font-weight: 600;">Delete Recipe Line</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="padding: 24px;">
-                                            Are you sure you want to delete this recipe line?
-                                        </div>
-                                        <div class="modal-footer" style="border-top: 1px solid #e9ecef; padding: 16px;">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                    style="padding: 8px 20px; border-radius: 6px;">
-                                                Cancel
-                                            </button>
-                                            <form method="post" asp-action="Delete" asp-route-id="@recipe.Id" style="display: inline;">
-                                                <input type="submit" value="Delete" class="btn"
-                                                       style="background-color: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 6px;" />
-                                            </form>
-                                        </div>
-                                    </div>
+        <!-- FILTER BAR -->
+        <div class="filter-bar mb-5 shadow-sm">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6">
+                    <input id="searchInput" class="form-control form-control-lg" placeholder="Search menu item or ingredient">
+                </div>
+                <div class="col-lg-3">
+                    <select id="unitFilter" class="form-select form-select-lg">
+                        <option value="">All Units</option>
+                        @foreach (var unit in recipeList.Select(r => r.Unit).Distinct())
+                        {
+                            <option value="@unit">@unit</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <button id="clearFilters" class="btn btn-outline-secondary btn-lg w-100">
+                        Reset Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARDS GRID -->
+        <div class="row g-4" id="recipeGrid">
+            @foreach (var recipe in recipeList)
+            {
+                var modalId = $"deleteModal-{recipe.Id}-{recipe.MenuItemName?.GetHashCode()}";
+
+                <div class="col-xl-4 col-md-6 recipe-card"
+                     data-menu="@(recipe.MenuItemName?.ToLower() ?? "")"
+                     data-ingredient="@(recipe.IngredientName?.ToLower() ?? "")"
+                     data-unit="@(recipe.Unit ?? "")">
+
+                    <div class="recipe-card-ui shadow-sm">
+                        <div class="recipe-header">
+                            <h5>@recipe.MenuItemName</h5>
+                            <span class="badge bg-soft-primary">Recipe Line</span>
+                        </div>
+
+                        <div class="recipe-body">
+                            <div class="ingredient">
+                                <i class="bi bi-basket me-2"></i>
+                                @recipe.IngredientName
+                            </div>
+
+                            <div class="qty-box">
+                                <div>
+                                    <small>Quantity</small>
+                                    <strong>@recipe.Quantity</strong>
+                                </div>
+                                <div>
+                                    <small>Unit</small>
+                                    <strong>@recipe.Unit</strong>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+                        </div>
+
+                        <div class="recipe-actions">
+                            <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-light">View</a>
+                            <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-outline-success">Edit</a>
+                            <button class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#@modalId">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- DELETE MODAL -->
+                    <div class="modal fade" id="@modalId" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content rounded-4">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Confirm Deletion</h5>
+                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Remove recipe line for
+                                    <strong>@recipe.MenuItemName</strong>?
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form asp-action="Delete" asp-route-id="@recipe.Id" method="post">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+
+        <div id="noResults" class="text-center text-muted py-5" style="display:none;">
+            No matching recipe lines found.
         </div>
     }
     else
     {
-        <div class="alert alert-info" style="border-radius: 8px; padding: 20px;">
-            <h4>No Recipe Lines Found!</h4>
-            <p class="mb-0">Start by creating your first recipe line.</p>
+        <!-- EMPTY STATE -->
+        <div class="empty-state shadow-sm">
+            <i class="bi bi-journal-x"></i>
+            <h3>No Recipe Lines</h3>
+            <p>Create recipe lines to define your menu ingredients.</p>
+            <a asp-action="Create" class="btn btn-primary btn-lg mt-3">
+                Add First Recipe
+            </a>
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const unitFilter = document.getElementById('unitFilter');
+        const clearFilters = document.getElementById('clearFilters');
+        const cards = document.querySelectorAll('.recipe-card');
+        const noResults = document.getElementById('noResults');
+
+        if (searchInput && unitFilter && clearFilters) {
+            function filterRecipes() {
+                let visible = 0;
+                const search = searchInput.value.toLowerCase();
+                const unit = unitFilter.value.toLowerCase();
+
+                cards.forEach(card => {
+                    const match =
+                        (card.dataset.menu.includes(search) || card.dataset.ingredient.includes(search)) &&
+                        (!unit || card.dataset.unit === unit);
+
+                    card.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+
+                noResults.style.display = visible === 0 ? 'block' : 'none';
+            }
+
+            searchInput.addEventListener('input', filterRecipes);
+            unitFilter.addEventListener('change', filterRecipes);
+            clearFilters.addEventListener('click', () => {
+                searchInput.value = '';
+                unitFilter.value = '';
+                filterRecipes();
+            });
+        }
+    </script>
+}
+
+<style>
+    .page-title {
+        font-size: 2.3rem;
+        font-weight: 700;
+    }
+
+    .page-subtitle {
+        color: #6c757d;
+    }
+
+    .kpi-card {
+        padding: 24px;
+        border-radius: 16px;
+        color: #fff;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+    }
+
+    .bg-gradient-danger {
+        background: linear-gradient(135deg, #e74a3b, #be2617);
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(135deg, #36b9cc, #258391);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #1cc88a, #0f6848);
+    }
+
+    .filter-bar {
+        background: #fff;
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    .recipe-card-ui {
+        background: #fff;
+        border-radius: 18px;
+        padding: 22px;
+        height: 100%;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        .recipe-card-ui:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px rgba(0,0,0,.08);
+        }
+
+    .recipe-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .ingredient {
+        font-size: 1.05rem;
+        margin-bottom: 18px;
+        color: #495057;
+    }
+
+    .qty-box {
+        display: flex;
+        justify-content: space-between;
+        background: #f8f9fa;
+        padding: 14px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .recipe-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 80px;
+        border-radius: 20px;
+        background: #fff;
+    }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #adb5bd;
+        }
+</style>
