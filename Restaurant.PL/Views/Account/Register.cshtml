@@ -6,24 +6,59 @@
 }
 
 <style>
-    .register-container {
-        max-width: 600px;
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* Premium Blurred Background with Krusty Krab Image */
+    .premium-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
+        z-index: 0;
     }
 
-    .register-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 24px;
-        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
-        overflow: hidden;
-        backdrop-filter: blur(10px);
-        animation: slideUp 0.6s ease-out;
+    .bg-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('~/images/KrustyKrab.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(35px) brightness(0.6);
+        transform: scale(1.1);
     }
 
-    @@keyframes slideUp {
+    .bg-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(255, 102, 0, 0.7) 0%, rgba(255, 140, 0, 0.65) 25%, rgba(26, 31, 58, 0.8) 65%, rgba(15, 22, 40, 0.85) 100% );
+    }
+
+    .register-container {
+        max-width: 680px;
+        width: 100%;
+        position: relative;
+        z-index: 10;
+        animation: slideIn 0.6s ease-out;
+    }
+
+    @@keyframes slideIn {
         from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
         }
 
         to {
@@ -32,9 +67,18 @@
         }
     }
 
+    .register-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 28px;
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        backdrop-filter: blur(40px);
+        border: 2px solid rgba(255, 179, 71, 0.3);
+    }
+
     .register-header {
-        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
-        padding: 40px;
+        background: linear-gradient(135deg, #FF6600 0%, #FF8C00 50%, #FFB347 100%);
+        padding: 45px 40px;
         text-align: center;
         position: relative;
         overflow: hidden;
@@ -47,8 +91,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, 0.05) 10px, rgba(255, 255, 255, 0.05) 20px);
-            animation: slide 20s linear infinite;
+            background: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255, 255, 255, 0.08) 15px, rgba(255, 255, 255, 0.08) 30px);
+            animation: slide 25s linear infinite;
         }
 
     @@keyframes slide {
@@ -62,159 +106,193 @@
     }
 
     .logo-icon {
-        width: 80px;
-        height: 80px;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
+        width: 85px;
+        height: 85px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 22px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 42px;
+        margin: 0 auto 22px;
+        font-size: 46px;
         color: white;
         position: relative;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        animation: pulse 3s ease-in-out infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
     }
 
     .register-header h1 {
         color: white;
-        font-size: 32px;
-        font-weight: 800;
-        margin: 0 0 8px;
+        font-size: 34px;
+        font-weight: 900;
+        margin: 0 0 10px;
         position: relative;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        letter-spacing: -0.5px;
     }
 
     .register-header p {
-        color: rgba(255, 255, 255, 0.95);
-        font-size: 15px;
+        color: rgba(255, 255, 255, 0.98);
+        font-size: 16px;
         margin: 0;
         position: relative;
-        font-weight: 500;
+        font-weight: 600;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .register-body {
-        padding: 40px;
+        padding: 45px;
+        background: white;
     }
 
     .form-floating {
-        margin-bottom: 20px;
+        margin-bottom: 22px;
         position: relative;
     }
 
         .form-floating input {
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 16px 56px 16px 20px;
-            height: 58px;
-            font-size: 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 14px;
+            padding: 18px 60px 18px 22px;
+            height: 62px;
+            font-size: 16px;
             transition: all 0.3s ease;
-            background: #f8f9fa;
+            background: #F9FAFB;
             width: 100%;
         }
 
             .form-floating input:focus {
-                border-color: #ff6600;
-                box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.1);
+                border-color: #FF6600;
+                box-shadow: 0 0 0 5px rgba(255, 102, 0, 0.12);
                 background: white;
                 outline: none;
             }
 
         .form-floating label {
-            padding: 16px 56px 16px 20px;
-            color: #6c757d;
-            font-weight: 500;
+            padding: 18px 60px 18px 22px;
+            color: #6B7280;
+            font-weight: 600;
         }
 
         .form-floating i.input-icon {
             position: absolute;
-            right: 18px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #6c757d;
-            font-size: 18px;
+            color: #9CA3AF;
+            font-size: 20px;
             z-index: 5;
             pointer-events: none;
         }
 
         .form-floating input:focus ~ i.input-icon {
-            color: #ff6600;
+            color: #FF6600;
         }
 
     .btn-register {
         width: 100%;
-        padding: 16px;
-        background: linear-gradient(135deg, #ff6600 0%, #ff8c00 100%);
+        padding: 18px;
+        background: linear-gradient(135deg, #FF6600 0%, #FF8C00 100%);
         border: none;
-        border-radius: 12px;
+        border-radius: 14px;
         color: white;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 17px;
+        font-weight: 800;
         letter-spacing: 0.5px;
-        box-shadow: 0 8px 24px rgba(255, 102, 0, 0.3);
+        box-shadow: 0 10px 30px rgba(255, 102, 0, 0.4);
         transition: all 0.3s ease;
         cursor: pointer;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
     }
 
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
+        }
+
         .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(255, 102, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 102, 0, 0.5);
         }
 
     .login-link {
         text-align: center;
-        padding-top: 25px;
-        border-top: 1px solid #e9ecef;
+        padding-top: 30px;
+        border-top: 2px solid #F3F4F6;
+        margin-top: 30px;
     }
 
         .login-link p {
-            color: #6c757d;
-            margin-bottom: 12px;
-            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 14px;
+            font-size: 15px;
+            font-weight: 600;
         }
 
         .login-link a {
-            color: #ff6600;
+            color: #FF6600;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 15px;
-            padding: 8px 16px;
-            border-radius: 8px;
+            font-weight: 800;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 10px;
             transition: all 0.3s ease;
             display: inline-block;
         }
 
             .login-link a:hover {
-                background: rgba(255, 102, 0, 0.1);
-                transform: translateY(-1px);
+                background: rgba(255, 102, 0, 0.12);
+                transform: translateY(-2px);
             }
 
     .text-danger {
-        color: #dc3545;
+        color: #DC2626;
         font-size: 13px;
-        margin-top: 6px;
+        margin-top: 8px;
         margin-left: 4px;
-        font-weight: 500;
+        font-weight: 600;
         display: block;
     }
 
     .validation-summary-errors {
-        background: #f8d7da;
-        border: 1px solid #f5c6cb;
-        border-radius: 12px;
-        padding: 15px;
-        margin-bottom: 20px;
+        background: #FEE2E2;
+        border: 2px solid #FECACA;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 24px;
     }
 
         .validation-summary-errors ul {
             margin: 0;
-            padding-left: 20px;
+            padding-left: 22px;
         }
 
         .validation-summary-errors li {
-            color: #721c24;
+            color: #991B1B;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
     @@media (max-width: 576px) {
@@ -223,22 +301,27 @@
         }
 
         .register-header {
-            padding: 35px 25px;
+            padding: 38px 28px;
         }
 
             .register-header h1 {
-                font-size: 26px;
+                font-size: 28px;
             }
 
         .register-body {
-            padding: 30px 25px;
+            padding: 35px 28px;
         }
     }
 </style>
 
+<!-- Premium Blurred Background -->
+<div class="premium-bg">
+    <div class="bg-image"></div>
+    <div class="bg-overlay"></div>
+</div>
+
 <div class="register-container">
     <div class="register-card">
-        <!-- Header -->
         <div class="register-header">
             <div class="logo-icon">
                 <i class="bi bi-person-plus-fill"></i>
@@ -247,13 +330,11 @@
             <p>Join Krusty Krab Restaurant today</p>
         </div>
 
-        <!-- Body -->
         <div class="register-body">
             <form asp-action="Register">
                 <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
 
                 <div class="row g-3">
-                    <!-- Username -->
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input asp-for="UserName" class="form-control" placeholder="Username" />
@@ -263,17 +344,15 @@
                         </div>
                     </div>
 
-                    <!-- Email -->
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="Email" class="form-control" placeholder="Email" />
+                            <input asp-for="Email" class="form-control" placeholder="Email" type="email" />
                             <label asp-for="Email">Email</label>
                             <i class="bi bi-envelope input-icon"></i>
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
 
-                    <!-- Phone Number -->
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
@@ -283,7 +362,6 @@
                         </div>
                     </div>
 
-                    <!-- Address -->
                     <div class="col-md-6">
                         <div class="form-floating">
                             <input asp-for="Address" class="form-control" placeholder="Address" />
@@ -293,20 +371,18 @@
                         </div>
                     </div>
 
-                    <!-- Password -->
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="Password" class="form-control" placeholder="Password" />
+                            <input asp-for="Password" class="form-control" placeholder="Password" type="password" />
                             <label asp-for="Password">Password</label>
                             <i class="bi bi-lock input-icon"></i>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
 
-                    <!-- Confirm Password -->
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" type="password" />
                             <label asp-for="ConfirmPassword">Confirm Password</label>
                             <i class="bi bi-lock-fill input-icon"></i>
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
@@ -314,14 +390,12 @@
                     </div>
                 </div>
 
-                <!-- Register Button -->
                 <button type="submit" class="btn-register mt-3">
                     <i class="bi bi-person-plus me-2"></i>
                     Create Account
                 </button>
             </form>
 
-            <!-- Login Link -->
             <div class="login-link">
                 <p>Already have an account?</p>
                 <a asp-action="Login" asp-controller="Account">
