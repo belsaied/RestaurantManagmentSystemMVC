@@ -41,15 +41,34 @@ namespace Restaurant.BLL.Mappings
             CreateMap<UpdateOrderDTO,Order>();
             #endregion
             #region RecipeLines
-            CreateMap<CreateRecipeDto, RecipeLine>();
-            CreateMap<RecipeLine, RecipeDto>()
-             .ForMember(dest=>dest.IngredientName,options=>options.MapFrom(src=>src.Ingredient.Name))
-             .ForMember(dest=>dest.MenuItemName,options=>options.MapFrom(src=>src.MenuItem.ItemName))
-             .ReverseMap();
-            CreateMap<RecipeLine, RecipesDetailsDto>()
-                .ForMember(dest => dest.Ingredient, options => options.MapFrom(src => src.Ingredient.Name))
-             .ForMember(dest => dest.MenuItem, options => options.MapFrom(src => src.MenuItem.ItemName));
-            CreateMap<UpdatedRecipeDto, RecipeLine>();
+            //CreateMap<CreateRecipeDto, RecipeLine>();
+            //CreateMap<RecipeLine, RecipeDto>()
+            // .ForMember(dest=>dest.IngredientName,options=>options.MapFrom(src=>src.Ingredient.Name))
+            // .ForMember(dest=>dest.MenuItemName,options=>options.MapFrom(src=>src.MenuItem.ItemName))
+            // .ReverseMap();
+            //CreateMap<RecipeLine, RecipesDetailsDto>()
+            //    .ForMember(dest => dest.Ingredient, options => options.MapFrom(src => src.Ingredient.Name))
+            // .ForMember(dest => dest.MenuItem, options => options.MapFrom(src => src.MenuItem.ItemName));
+            //CreateMap<UpdatedRecipeDto, RecipeLine>();
+
+            #region RecipeLines
+            CreateMap<CreateRecipeLineDto, RecipeLine>();
+
+            CreateMap<RecipeLine, RecipeLineDto>()
+                .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Ingredient.Name))
+                .ForMember(dest => dest.MenuItemName, opt => opt.MapFrom(src => src.MenuItem.ItemName))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => !src.IsDeleted));
+
+            CreateMap<RecipeLine, RecipeLineDetailsDto>()
+                .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Ingredient.Name))
+                .ForMember(dest => dest.MenuItemName, opt => opt.MapFrom(src => src.MenuItem.ItemName));
+
+            CreateMap<RecipeLine, RecipeLineSelectDto>()
+                .ForMember(dest => dest.IngredientName, opt => opt.MapFrom(src => src.Ingredient.Name))
+                .ForMember(dest => dest.MenuItemName, opt => opt.MapFrom(src => src.MenuItem.ItemName));
+
+            CreateMap<UpdateRecipeLineDto, RecipeLine>();
+            #endregion
             #endregion
             #region OrderItems
             CreateMap<OrderItems, OrderItemDto>();

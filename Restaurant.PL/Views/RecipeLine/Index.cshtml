@@ -1,29 +1,20 @@
-﻿@using Restaurant.BLL.DTOs.RecipeLinesDtos
-@model IEnumerable<RecipeDto>
+﻿@model IEnumerable<Restaurant.BLL.DTOs.RecipeLinesDtos.RecipeLineDto>
 
 @{
     ViewData["Title"] = "Recipe Lines";
-
-    var recipeList = Model?.ToList() ?? new List<RecipeDto>();
-    var totalRecipes = recipeList.Count;
-    var distinctMenuItems = recipeList.Select(r => r.MenuItemName).Distinct().Count();
-    var distinctIngredients = recipeList.Select(r => r.IngredientName).Distinct().Count();
-    var avgItemsPerRecipe = distinctMenuItems > 0
-        ? Math.Round(recipeList.GroupBy(r => r.MenuItemName).Average(g => g.Count()), 1)
-        : 0;
+    var recipeList = Model?.ToList() ?? new List<Restaurant.BLL.DTOs.RecipeLinesDtos.RecipeLineDto>();
 }
 
 <div class="container-fluid px-4 py-4">
-
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h1 class="page-title">
                 <i class="bi bi-journal-text me-2"></i>Recipe Lines
             </h1>
             <p class="page-subtitle">Define ingredients and quantities for each menu item</p>
         </div>
-        <a asp-action="Create" class="btn btn-primary btn-lg shadow">
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm">
             <i class="bi bi-plus-circle me-2"></i>New Recipe Line
         </a>
     </div>
@@ -31,43 +22,49 @@
     @if (recipeList.Any())
     {
         <!-- KPI CARDS -->
-        <div class="row mb-5">
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="kpi-card bg-gradient-primary">
-                    <span>Total Lines</span>
-                    <h2>@totalRecipes</h2>
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="kpi-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="kpi-label">Total Lines</div>
+                    <div class="kpi-value">@ViewBag.TotalLines</div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="kpi-card bg-gradient-danger">
-                    <span>Menu Items</span>
-                    <h2>@distinctMenuItems</h2>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="kpi-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="kpi-label">Menu Items</div>
+                    <div class="kpi-value">@ViewBag.UniqueMenuItems</div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="kpi-card bg-gradient-info">
-                    <span>Ingredients</span>
-                    <h2>@distinctIngredients</h2>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="kpi-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="kpi-label">Ingredients</div>
+                    <div class="kpi-value">@ViewBag.UniqueIngredients</div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="kpi-card bg-gradient-success">
-                    <span>Avg / Item</span>
-                    <h2>@avgItemsPerRecipe</h2>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="kpi-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="kpi-label">Avg / Item</div>
+                    <div class="kpi-value">@ViewBag.AvgPerItem</div>
                 </div>
             </div>
         </div>
 
         <!-- FILTER BAR -->
-        <div class="filter-bar mb-5 shadow-sm">
+        <div class="filter-bar mb-4 shadow-sm">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6">
-                    <input id="searchInput" class="form-control form-control-lg" placeholder="Search menu item or ingredient">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input id="searchInput" class="form-control border-start-0"
+                               placeholder="Search menu item or ingredient...">
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <select id="unitFilter" class="form-select form-select-lg">
                         <option value="">All Units</option>
-                        @foreach (var unit in recipeList.Select(r => r.Unit).Distinct())
+                        @foreach (var unit in recipeList.Select(r => r.Unit).Distinct().OrderBy(u => u))
                         {
                             <option value="@unit">@unit</option>
                         }
@@ -75,54 +72,83 @@
                 </div>
                 <div class="col-lg-3">
                     <button id="clearFilters" class="btn btn-outline-secondary btn-lg w-100">
-                        Reset Filters
+                        <i class="bi bi-arrow-clockwise me-2"></i>Reset Filters
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- CARDS GRID -->
+        <!-- RECIPE CARDS GRID -->
         <div class="row g-4" id="recipeGrid">
             @foreach (var recipe in recipeList)
             {
-                var modalId = $"deleteModal-{recipe.Id}-{recipe.MenuItemName?.GetHashCode()}";
+                var modalId = $"deleteModal-{recipe.Id}";
 
-                <div class="col-xl-4 col-md-6 recipe-card"
+                <div class="col-xl-4 col-lg-6 recipe-card"
                      data-menu="@(recipe.MenuItemName?.ToLower() ?? "")"
                      data-ingredient="@(recipe.IngredientName?.ToLower() ?? "")"
                      data-unit="@(recipe.Unit ?? "")">
 
-                    <div class="recipe-card-ui shadow-sm">
-                        <div class="recipe-header">
-                            <h5>@recipe.MenuItemName</h5>
-                            <span class="badge bg-soft-primary">Recipe Line</span>
+                    <div class="recipe-card-container shadow-sm">
+                        <!-- Card Header -->
+                        <div class="recipe-card-header">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h5 class="recipe-menu-item mb-2">
+                                        <i class="bi bi-card-list me-2"></i>@recipe.MenuItemName
+                                    </h5>
+                                    <div class="recipe-ingredient">
+                                        <i class="bi bi-basket me-2"></i>@recipe.IngredientName
+                                    </div>
+                                </div>
+                                <div class="recipe-status-badge">
+                                    @if (recipe.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            <i class="bi bi-check-circle me-1"></i>Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            <i class="bi bi-dash-circle me-1"></i>Inactive
+                                        </span>
+                                    }
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="recipe-body">
-                            <div class="ingredient">
-                                <i class="bi bi-basket me-2"></i>
-                                @recipe.IngredientName
-                            </div>
-
-                            <div class="qty-box">
-                                <div>
-                                    <small>Quantity</small>
-                                    <strong>@recipe.Quantity</strong>
+                        <!-- Card Body -->
+                        <div class="recipe-card-body">
+                            <div class="quantity-display">
+                                <div class="quantity-box">
+                                    <div class="quantity-label">Quantity</div>
+                                    <div class="quantity-value">@recipe.Quantity</div>
                                 </div>
-                                <div>
-                                    <small>Unit</small>
-                                    <strong>@recipe.Unit</strong>
+                                <div class="unit-divider">
+                                    <i class="bi bi-x-lg"></i>
+                                </div>
+                                <div class="unit-box">
+                                    <div class="unit-label">Unit</div>
+                                    <div class="unit-value">@recipe.Unit</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="recipe-actions">
-                            <a asp-action="Details" asp-route-id="@recipe.Id" class="btn btn-light">View</a>
-                            <a asp-action="Edit" asp-route-id="@recipe.Id" class="btn btn-outline-success">Edit</a>
-                            <button class="btn btn-outline-danger"
+                        <!-- Card Footer -->
+                        <div class="recipe-card-footer">
+                            <a asp-action="Details" asp-route-id="@recipe.Id"
+                               class="btn btn-outline-primary btn-sm flex-fill">
+                                <i class="bi bi-eye me-1"></i>View
+                            </a>
+                            <a asp-action="Edit" asp-route-id="@recipe.Id"
+                               class="btn btn-outline-success btn-sm flex-fill">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                            <button class="btn btn-outline-danger btn-sm flex-fill"
                                     data-bs-toggle="modal"
                                     data-bs-target="#@modalId">
-                                Delete
+                                <i class="bi bi-trash me-1"></i>Delete
                             </button>
                         </div>
                     </div>
@@ -130,31 +156,42 @@
                     <!-- DELETE MODAL -->
                     <div class="modal fade" id="@modalId" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content rounded-4">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Confirm Deletion</h5>
+                            <div class="modal-content">
+                                <div class="modal-header border-0">
+                                    <h5 class="modal-title fw-bold">
+                                        <i class="bi bi-exclamation-triangle text-danger me-2"></i>
+                                        Confirm Deletion
+                                    </h5>
                                     <button class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    Remove recipe line for
-                                    <strong>@recipe.MenuItemName</strong>?
+                                    <p class="mb-2">Are you sure you want to delete this recipe line?</p>
+                                    <div class="alert alert-light border">
+                                        <strong>Menu Item:</strong> @recipe.MenuItemName<br />
+                                        <strong>Ingredient:</strong> @recipe.IngredientName<br />
+                                        <strong>Quantity:</strong> @recipe.Quantity @recipe.Unit
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
+                                <div class="modal-footer border-0">
                                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <form asp-action="Delete" asp-route-id="@recipe.Id" method="post">
-                                        <button class="btn btn-danger">Delete</button>
+                                    <form asp-action="Delete" asp-route-id="@recipe.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="bi bi-trash me-2"></i>Delete
+                                        </button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             }
         </div>
 
-        <div id="noResults" class="text-center text-muted py-5" style="display:none;">
-            No matching recipe lines found.
+        <div id="noResults" class="text-center py-5" style="display:none;">
+            <i class="bi bi-search" style="font-size: 3rem; color: #adb5bd;"></i>
+            <h4 class="mt-3 text-muted">No matching recipe lines found</h4>
+            <p class="text-muted">Try adjusting your search criteria</p>
         </div>
     }
     else
@@ -162,10 +199,10 @@
         <!-- EMPTY STATE -->
         <div class="empty-state shadow-sm">
             <i class="bi bi-journal-x"></i>
-            <h3>No Recipe Lines</h3>
-            <p>Create recipe lines to define your menu ingredients.</p>
-            <a asp-action="Create" class="btn btn-primary btn-lg mt-3">
-                Add First Recipe
+            <h3>No Recipe Lines Yet</h3>
+            <p class="text-muted">Create recipe lines to define ingredient quantities for your menu items.</p>
+            <a asp-action="Create" class="btn btn-primary btn-lg mt-3 shadow-sm">
+                <i class="bi bi-plus-circle me-2"></i>Create First Recipe Line
             </a>
         </div>
     }
@@ -186,15 +223,18 @@
                 const unit = unitFilter.value.toLowerCase();
 
                 cards.forEach(card => {
-                    const match =
-                        (card.dataset.menu.includes(search) || card.dataset.ingredient.includes(search)) &&
-                        (!unit || card.dataset.unit === unit);
+                    const matchSearch = card.dataset.menu.includes(search) ||
+                                       card.dataset.ingredient.includes(search);
+                    const matchUnit = !unit || card.dataset.unit.toLowerCase() === unit;
+                    const match = matchSearch && matchUnit;
 
                     card.style.display = match ? '' : 'none';
                     if (match) visible++;
                 });
 
-                noResults.style.display = visible === 0 ? 'block' : 'none';
+                if (noResults) {
+                    noResults.style.display = visible === 0 ? 'block' : 'none';
+                }
             }
 
             searchInput.addEventListener('input', filterRecipes);
@@ -210,91 +250,173 @@
 
 <style>
     .page-title {
-        font-size: 2.3rem;
+        font-size: 2.2rem;
         font-weight: 700;
+        color: #2d3748;
     }
 
     .page-subtitle {
-        color: #6c757d;
+        color: #718096;
+        margin: 0;
+        font-size: 1rem;
     }
 
+    /* KPI Cards */
     .kpi-card {
-        padding: 24px;
+        padding: 1.75rem 1.5rem;
         border-radius: 16px;
         color: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #4e73df, #224abe);
-    }
-
-    .bg-gradient-danger {
-        background: linear-gradient(135deg, #e74a3b, #be2617);
-    }
-
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #36b9cc, #258391);
-    }
-
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #1cc88a, #0f6848);
-    }
-
-    .filter-bar {
-        background: #fff;
-        padding: 24px;
-        border-radius: 16px;
-    }
-
-    .recipe-card-ui {
-        background: #fff;
-        border-radius: 18px;
-        padding: 22px;
-        height: 100%;
-        transition: transform .25s ease, box-shadow .25s ease;
-    }
-
-        .recipe-card-ui:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 32px rgba(0,0,0,.08);
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
-    .recipe-header {
+    .kpi-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .input-group-text {
+        color: #718096;
+    }
+
+    /* Recipe Cards */
+    .recipe-card-container {
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #e2e8f0;
+        height: 100%;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+    }
+
+        .recipe-card-container:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+    .recipe-card-header {
+        padding: 1.5rem;
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .recipe-menu-item {
+        color: #2d3748;
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .recipe-ingredient {
+        color: #4a5568;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    .recipe-status-badge {
+        margin-left: 1rem;
+    }
+
+    .recipe-card-body {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
         align-items: center;
-        margin-bottom: 16px;
+        justify-content: center;
     }
 
-    .ingredient {
-        font-size: 1.05rem;
-        margin-bottom: 18px;
-        color: #495057;
-    }
-
-    .qty-box {
+    .quantity-display {
         display: flex;
-        justify-content: space-between;
-        background: #f8f9fa;
-        padding: 14px;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        width: 100%;
+    }
+
+    .quantity-box, .unit-box {
+        flex: 1;
+        text-align: center;
+        padding: 1rem;
+        background: #f7fafc;
         border-radius: 12px;
-        margin-bottom: 20px;
+        border: 2px solid #e2e8f0;
     }
 
-    .recipe-actions {
+    .quantity-label, .unit-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #718096;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .quantity-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d3748;
+        line-height: 1;
+    }
+
+    .unit-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #4a5568;
+        line-height: 1;
+    }
+
+    .unit-divider {
+        color: #cbd5e0;
+        font-size: 1.2rem;
+    }
+
+    .recipe-card-footer {
+        padding: 1rem 1.5rem;
+        background: #fff;
+        border-top: 1px solid #e2e8f0;
         display: flex;
-        gap: 10px;
+        gap: 0.5rem;
     }
 
+    /* Empty State */
     .empty-state {
         text-align: center;
-        padding: 80px;
+        padding: 5rem 2rem;
         border-radius: 20px;
         background: #fff;
+        border: 2px dashed #e2e8f0;
     }
 
         .empty-state i {
             font-size: 4rem;
-            color: #adb5bd;
+            color: #cbd5e0;
+        }
+
+        .empty-state h3 {
+            margin-top: 1.5rem;
+            color: #2d3748;
+            font-weight: 600;
         }
 </style>

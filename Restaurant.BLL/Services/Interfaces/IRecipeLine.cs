@@ -10,19 +10,29 @@ namespace Restaurant.BLL.Services.Interfaces
 {
     public interface IRecipeLineServices
     {
-        public IEnumerable<RecipeDto> GetAllRecipes(bool withTracking = false);
+        #region Old.
+        //public IEnumerable<RecipeDto> GetAllRecipes(bool withTracking = false);
 
-        //Get ingredient by Id
+        ////Get ingredient by Id
 
-        public RecipesDetailsDto? GetRecipeById(int id);
+        //public RecipesDetailsDto? GetRecipeById(int id);
 
-        //Add Ingredient
+        ////Add Ingredient
 
-        public int AddRecipe(CreateRecipeDto ingredientDto);
+        //public int AddRecipe(CreateRecipeDto ingredientDto);
 
-        //Remove Ingredient
-        public bool RemoveRecipe(int id);
-        //Update Ingredient
-        public int UpdateRecipe(UpdatedRecipeDto ingredientDto);
+        ////Remove Ingredient
+        //public bool RemoveRecipe(int id);
+        ////Update Ingredient
+        //public int UpdateRecipe(UpdatedRecipeDto ingredientDto); 
+        #endregion
+
+        IEnumerable<RecipeLineDto> GetAllRecipeLines(bool withTracking = false);
+        RecipeLineDetailsDto? GetRecipeLineById(int id);
+        List<RecipeLineSelectDto> GetRecipeLinesByMenuItem(int menuItemId);
+        List<RecipeLineSelectDto> GetRecipeLinesByIngredient(int ingredientId);
+        int AddRecipeLine(CreateRecipeLineDto recipeLineDto);
+        int UpdateRecipeLine(UpdateRecipeLineDto recipeLineDto);
+        bool DeleteRecipeLine(int id);
     }
 }

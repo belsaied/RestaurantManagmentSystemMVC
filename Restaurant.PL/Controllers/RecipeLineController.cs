@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.BLL.DTOs.RecipeLinesDtos;
+using Restaurant.BLL.Services.Classes;
 using Restaurant.BLL.Services.Interfaces;
 using Restaurant.PL.ViewModels.RecipeLineVM;
 
@@ -8,50 +9,101 @@ namespace Restaurant.PL.Controllers
 {
     [Authorize]
 
-    public class RecipeLineController(IRecipeLineServices _recipeLineServices) : Controller
+    public class RecipeLineController : Controller
     {
+        private readonly IRecipeLineServices _recipeLineService;
+        private readonly IIngredientServices _ingredientService;
+        private readonly IMenuItemServices _menuItemService;
+        private readonly ILogger<RecipeLineController> _logger;
+        private readonly IHostEnvironment _env;
+
+        public RecipeLineController(
+            IRecipeLineServices recipeLineService,
+            IIngredientServices ingredientService,
+            IMenuItemServices menuItemService,
+            ILogger<RecipeLineController> logger,
+            IHostEnvironment env)
+        {
+            _recipeLineService = recipeLineService;
+            _ingredientService = ingredientService;
+            _menuItemService = menuItemService;
+            _logger = logger;
+            _env = env;
+        }
+
         #region Index
+        [HttpGet]
         public IActionResult Index()
         {
-            var recipes = _recipeLineServices.GetAllRecipes();
+            var recipeLines = _recipeLineService.GetAllRecipeLines();
 
-            return View(recipes);
+            // Calculate statistics
+            var recipeList = recipeLines.ToList();
+            ViewBag.TotalLines = recipeList.Count;
+            ViewBag.UniqueMenuItems = recipeList.Select(r => r.MenuItemName).Distinct().Count();
+            ViewBag.UniqueIngredients = recipeList.Select(r => r.IngredientName).Distinct().Count();
+            ViewBag.AvgPerItem = ViewBag.UniqueMenuItems > 0
+                ? Math.Round((double)ViewBag.TotalLines / ViewBag.UniqueMenuItems, 1)
+                : 0;
+
+            return View(recipeLines);
         }
         #endregion
 
         #region Create
-
         [HttpGet]
         public IActionResult Create()
         {
+            PopulateDropdowns();
             return View();
         }
+
         [HttpPost]
-        public IActionResult Create(RecipeLineViewModel recipeLine)
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(RecipeLineViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _recipeLineServices.AddRecipe(new CreateRecipeDto
+                    var createDto = new CreateRecipeLineDto
                     {
-                        Quantity = recipeLine.Quantity,
-                        Unit = recipeLine.Unit,
-                        IngredientId = recipeLine.IngredientId,
-                        MenuId = recipeLine.MenuId
-                    });
-                    return RedirectToAction("Index");
+                        Quantity = viewModel.Quantity,
+                        Unit = viewModel.Unit,
+                        IngredientId = viewModel.IngredientId,
+                        MenuId = viewModel.MenuId
+                    };
+
+                    int result = _recipeLineService.AddRecipeLine(createDto);
+
+                    if (result > 0)
+                    {
+                        TempData["Message"] = "Recipe Line created successfully";
+                        TempData["MessageType"] = "success";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Recipe Line cannot be created");
+                    }
                 }
-                catch (Exception ex)
+                catch (InvalidOperationException ex)
                 {
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
+                catch (Exception ex)
+                {
+                    if (_env.IsDevelopment())
+                        _logger.LogError($"Recipe Line cannot be created: {ex.Message}");
+                    else
+                        _logger.LogError($"Recipe Line cannot be created: {ex}");
+
+                    ModelState.AddModelError(string.Empty, "An error occurred while creating the recipe line");
+                }
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid data.");
-            }
-            return View(recipeLine);
+
+            PopulateDropdowns();
+            return View(viewModel);
         }
         #endregion
 
@@ -59,98 +111,153 @@ namespace Restaurant.PL.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
+            if (!id.HasValue)
                 return BadRequest();
-            }
-            var recipe = _recipeLineServices.GetRecipeById(id.Value);
-            if (recipe == null)
+
+            var recipeLine = _recipeLineService.GetRecipeLineById(id.Value);
+            if (recipeLine == null)
             {
-                return NotFound();
+                TempData["Message"] = "Recipe Line not found";
+                TempData["MessageType"] = "error";
+                return RedirectToAction(nameof(Index));
             }
-            var recipeLineViewModel = new RecipeLineViewModel
+
+            var viewModel = new RecipeLineViewModel
             {
-                Quantity = recipe.Quantity,
-                Unit = recipe.Unit,
-                IngredientId= recipe.IngredientId,
-                MenuId= recipe.MenuId
+                Id = recipeLine.Id,
+                Quantity = recipeLine.Quantity,
+                Unit = recipeLine.Unit,
+                IngredientId = recipeLine.IngredientId,
+                MenuId = recipeLine.MenuId,
+                IngredientName = recipeLine.IngredientName,
+                MenuItemName = recipeLine.MenuItemName
             };
-            return View(recipeLineViewModel);
+
+            PopulateDropdowns();
+            return View(viewModel);
         }
+
         [HttpPost]
-        public IActionResult Edit(int? id, RecipeLineViewModel recipeLine)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int? id, RecipeLineViewModel viewModel)
         {
-            if (!id.HasValue ||id == 0)
-            {
+            if (!id.HasValue || id.Value != viewModel.Id)
                 return BadRequest();
-            }
-            if (ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    _recipeLineServices.UpdateRecipe( new UpdatedRecipeDto
-                    {
-                        Id = id.Value,
-                        Quantity = recipeLine.Quantity,
-                        Unit = recipeLine.Unit,
-                        IngredientId = recipeLine.IngredientId,
-                        MenuId = recipeLine.MenuId
-                    });
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
+                PopulateDropdowns();
+                return View(viewModel);
             }
-            else
+
+            try
             {
-                ModelState.AddModelError(string.Empty, "Invalid data.");
+                var updateDto = new UpdateRecipeLineDto
+                {
+                    Id = viewModel.Id,
+                    Quantity = viewModel.Quantity,
+                    Unit = viewModel.Unit,
+                    IngredientId = viewModel.IngredientId,
+                    MenuId = viewModel.MenuId
+                };
+
+                int result = _recipeLineService.UpdateRecipeLine(updateDto);
+
+                if (result > 0)
+                {
+                    TempData["Message"] = "Recipe Line updated successfully";
+                    TempData["MessageType"] = "success";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Recipe Line cannot be updated");
+                }
             }
-            return View(recipeLine);
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                    _logger.LogError($"Recipe Line cannot be updated: {ex.Message}");
+                else
+                    _logger.LogError($"Recipe Line cannot be updated: {ex}");
+
+                ModelState.AddModelError(string.Empty, "An error occurred while updating the recipe line");
+            }
+
+            PopulateDropdowns();
+            return View(viewModel);
         }
         #endregion
 
         #region Details
-
         [HttpGet]
         public IActionResult Details(int? id)
         {
-            if(!id.HasValue ||id == 0) return BadRequest();
-            var Recipe = _recipeLineServices.GetRecipeById(id.Value);
-            if (Recipe is null) return NotFound();
-            return View(Recipe);
+            if (!id.HasValue)
+                return BadRequest();
+
+            var recipeLine = _recipeLineService.GetRecipeLineById(id.Value);
+            if (recipeLine == null)
+                return NotFound();
+
+            return View(recipeLine);
         }
         #endregion
 
         #region Delete
         [HttpPost]
-        public IActionResult Delete(int? id)
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
         {
-            if (id == null || id == 0)
-            {
+            if (id == 0)
                 return BadRequest();
-            }
+
             try
             {
-             bool isDeleted=   _recipeLineServices.RemoveRecipe(id.Value);
+                bool isDeleted = _recipeLineService.DeleteRecipeLine(id);
                 if (isDeleted)
                 {
-
-                return RedirectToAction("Index");
+                    TempData["Message"] = "Recipe Line deleted successfully";
+                    TempData["MessageType"] = "success";
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Recipe Can not be Deleted");
-
+                    TempData["Message"] = "Recipe Line cannot be deleted";
+                    TempData["MessageType"] = "error";
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception (ex) as needed
-                return StatusCode(500, "An error occurred while processing your request.");
+                if (_env.IsDevelopment())
+                    _logger.LogError($"Recipe Line cannot be deleted: {ex.Message}");
+                else
+                    _logger.LogError($"Recipe Line cannot be deleted: {ex}");
+
+                TempData["Message"] = "An error occurred while deleting the recipe line";
+                TempData["MessageType"] = "error";
             }
-            return RedirectToAction(nameof(Delete),new {id});
+
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+        #region Helper Methods
+        private void PopulateDropdowns()
+        {
+            ViewBag.Ingredients = _ingredientService.GetAllIngredients()
+                .Where(i => i.IsActive)
+                .Select(i => new { i.Id, i.Name })
+                .ToList();
+
+            var allMenuItems = _menuItemService.GetAllMenuItems();
+            ViewBag.MenuItems = allMenuItems
+                .Where(m => m.IsAvailable && !m.IsDeleted)
+                .Select(m => new { m.Id, m.ItemName })
+                .ToList();
         }
         #endregion
     }
