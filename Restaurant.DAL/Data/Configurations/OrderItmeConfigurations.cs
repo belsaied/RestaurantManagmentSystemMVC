@@ -14,11 +14,17 @@ namespace Restaurant.DAL.Data.Configurations
         {
 
             builder.HasKey(t => t.Id);
-            builder.Property(t => t.Id).UseIdentityColumn(20, 1);
+            builder.Property(t => t.Id).UseIdentityColumn(1, 1);
 
-            builder
-           .Property(o => o.TotalPrice)
-           .HasComputedColumnSql("[UnitPrice] * [Quantity]");
+            // Remove computed column - we'll calculate in code
+            builder.Property(o => o.TotalPrice)
+                   .HasColumnType("decimal(18,2)");
+
+            builder.Property(o => o.UnitPrice)
+                   .HasColumnType("decimal(18,2)");
+
+            builder.Property(o => o.Quantity)
+                   .IsRequired();
 
             #region Base Configurations
             base.Configure(builder);

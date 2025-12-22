@@ -37,9 +37,10 @@ namespace Restaurant.PL.Controllers
                 ViewBag.TotalMenuItems = await _context.MenuItems.CountAsync();
                 ViewBag.ActiveCustomers = await _context.Customers.CountAsync();
 
+                // Calculate revenue with DECIMAL precision
                 var revenueTodayRaw = await _context.Orders
                     .Where(o => o.OrderDate.Date == DateTime.Today)
-                    .SumAsync(o => (decimal?)o.Total) ?? 0;
+                    .SumAsync(o => (decimal?)o.Total) ?? 0m;  // Use decimal
 
                 ViewBag.RevenueToday = revenueTodayRaw.ToString("C");
                 ViewBag.RevenueTodayRaw = revenueTodayRaw;

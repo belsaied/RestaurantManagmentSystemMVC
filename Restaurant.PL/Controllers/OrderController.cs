@@ -26,7 +26,6 @@ namespace Restaurant.PL.Controllers
         {
             try
             {
-                // Get orders with calculated totals
                 var orders = _context.Orders
                     .Include(o => o.NavCustomer)
                     .Include(o => o.NavTable)
@@ -36,28 +35,19 @@ namespace Restaurant.PL.Controllers
                     .AsNoTracking()
                     .ToList();
 
-                // Calculate and update missing values
-                var ordersToUpdate = new List<DAL.Models.Order>();
-
+                // Recalculate totals for all orders
                 foreach (var order in orders)
                 {
-                    // Check if OrderItems exist and calculation is needed
                     if (order.NavOrderItems != null && order.NavOrderItems.Any())
                     {
-                        var calculatedSubTotal = (int)order.NavOrderItems.Sum(oi => oi.TotalPrice);
-                        var calculatedServiceTax = (int)(calculatedSubTotal * 0.10m);
+                        var calculatedSubTotal = order.NavOrderItems.Sum(oi => oi.UnitPrice * oi.Quantity);
+                        var calculatedServiceTax = calculatedSubTotal * 0.10m;
                         var calculatedTotal = calculatedSubTotal + calculatedServiceTax - order.Discount;
 
-                        // Update if values are different
                         if (order.SubTotal != calculatedSubTotal ||
                             order.ServiceTax != calculatedServiceTax ||
                             order.Total != calculatedTotal)
                         {
-                            order.SubTotal = calculatedSubTotal;
-                            order.ServiceTax = calculatedServiceTax;
-                            order.Total = calculatedTotal;
-
-                            // Track for update
                             var orderToUpdate = _context.Orders.Find(order.Id);
                             if (orderToUpdate != null)
                             {
@@ -69,10 +59,9 @@ namespace Restaurant.PL.Controllers
                     }
                 }
 
-                // Save all updates at once
                 _context.SaveChanges();
 
-                // Map to DTOs and order by ID descending (newest first)
+                // Map to DTOs
                 var orderDTOs = orders
                     .OrderByDescending(o => o.Id)
                     .Select(o => new OrderDTO
@@ -93,7 +82,6 @@ namespace Restaurant.PL.Controllers
             }
             catch (Exception ex)
             {
-                // Log error
                 Console.WriteLine($"Error in Order Index: {ex.Message}");
                 return View(new List<OrderDTO>());
             }

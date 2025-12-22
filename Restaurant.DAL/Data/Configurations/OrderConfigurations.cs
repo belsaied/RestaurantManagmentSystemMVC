@@ -23,11 +23,24 @@ namespace Restaurant.DAL.Data.Configurations
             //builder.Property(x => x.ModifiedOn).HasColumnType("datetime2").HasComputedColumnSql("GETDATE()"); ;
             //builder.Property(x => x.IsDeleted).HasColumnType("bit").HasDefaultValueSql("false"); 
             #endregion
-            #region New One
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
                    .UseIdentityColumn(1, 1);
+
+            // Configure decimal properties with precision
+            builder.Property(x => x.SubTotal)
+                   .HasColumnType("decimal(18,2)");
+
+            builder.Property(x => x.ServiceTax)
+                   .HasColumnType("decimal(18,2)");
+
+            builder.Property(x => x.Total)
+                   .HasColumnType("decimal(18,2)");
+
+            builder.Property(x => x.Discount)
+                   .HasColumnType("decimal(18,2)")
+                   .HasDefaultValue(0);
 
             builder.Property(x => x.PaymentStatus)
                    .HasColumnType("varchar(20)");
@@ -36,29 +49,38 @@ namespace Restaurant.DAL.Data.Configurations
                    .HasColumnType("varchar(20)");
 
             builder.Property(x => x.Status)
-                   .HasColumnType("varchar(20)");
+                   .HasColumnType("varchar(20)")
+                   .HasDefaultValue("Pending");
 
             builder.Property(x => x.CreatedBy)
                    .HasColumnType("varchar(50)");
 
-           
-
             builder.Property(x => x.ModifiedBy)
                    .HasColumnType("varchar(50)");
 
-           
+            builder.Property(x => x.OrderDate)
+                   .HasDefaultValueSql("GETDATE()");
 
-            #endregion
+            #region Relationships
+            builder.HasOne(x => x.NavTable)
+                   .WithMany(c => c.NavOrders)
+                   .HasForeignKey(z => z.TableId)
+                   .OnDelete(DeleteBehavior.NoAction);
 
-            #region Relationship
-            builder.HasOne(x => x.NavTable).WithMany(c => c.NavOrders).HasForeignKey(z => z.TableId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(x => x.NavCustomer).WithMany(c => c.NavOrders).HasForeignKey(z => z.CustomerId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(x => x.NavPayments).WithOne(c => c.NavOrder).HasForeignKey(p => p.OrderId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(x => x.NavOrderItems).WithOne(c => c.NavOrder).HasForeignKey(p => p.OrderId)
-                .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.NavCustomer)
+                   .WithMany(c => c.NavOrders)
+                   .HasForeignKey(z => z.CustomerId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(x => x.NavPayments)
+                   .WithOne(c => c.NavOrder)
+                   .HasForeignKey(p => p.OrderId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(x => x.NavOrderItems)
+                   .WithOne(c => c.NavOrder)
+                   .HasForeignKey(p => p.OrderId)
+                   .OnDelete(DeleteBehavior.NoAction);
             #endregion
 
             base.Configure(builder);

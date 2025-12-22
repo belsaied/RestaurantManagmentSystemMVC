@@ -1,24 +1,16 @@
-﻿using Restaurant.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Restaurant.BLL.DTOs.OrderDTO
+﻿namespace Restaurant.BLL.DTOs.OrderDTO
 {
     public class OrderDTO
     {
-        public int CustomerId { get; set; } //FK From Customer
-        public int ServiceTax { get; set; }
-        public int Total { get; set; }
+        public int CustomerId { get; set; }
+        public decimal ServiceTax { get; set; }  // Changed from int
+        public decimal Total { get; set; }       // Changed from int
         public string PaymentStatus { get; set; } = null!;
         public string OrderType { get; set; } = null!;
         public string Status { get; set; } = null!;
-        public int TableId { get; set; } //FK From Table
+        public int TableId { get; set; }
         public int Id { get; set; }
-        public string? CreatedBy { get; set; }   
-        public DateTime? CreatedOn { get; set; }   
-
+        public string? CreatedBy { get; set; }
+        public DateTime? CreatedOn { get; set; }
     }
 }

@@ -61,6 +61,7 @@ namespace Restaurant.PL
            
             builder.Services.AddScoped<IMenuItemServices, MenuItemServices>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderCalculationService, OrderCalculationService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IAttachmentService, AttachmentService>();
             

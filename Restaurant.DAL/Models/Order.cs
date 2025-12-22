@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Restaurant.DAL.Models
+﻿namespace Restaurant.DAL.Models
 {
     public class Order : baseEntity
     {
-        public int? CustomerId { get; set; } //FK From Customer
-        public int SubTotal { get; set; }
-        public int ServiceTax { get; set; }
-        public int Total { get; set; }
-        public string? PaymentStatus { get; set; } = null!;
-        public int Discount { get; set; }
-        public string? OrderType { get; set; } = null!;
-        public string? Status { get; set; } = null!;
-        // Add this property
+        public int? CustomerId { get; set; }
+        public decimal SubTotal { get; set; }  // Changed from int
+        public decimal ServiceTax { get; set; } // Changed from int
+        public decimal Total { get; set; }      // Changed from int
+        public string? PaymentStatus { get; set; }
+        public decimal Discount { get; set; }   // Changed from int
+        public string? OrderType { get; set; }
+        public string? Status { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
-        public int? TableId { get; set; } //FK From Table
-        public Table? NavTable { get; set; } 
+        public int? TableId { get; set; }
+
+        public Table? NavTable { get; set; }
         public Customer? NavCustomer { get; set; }
         public ICollection<Payment>? NavPayments { get; set; }
-        public ICollection<OrderItems> NavOrderItems { get; set; }=null!;
+        public ICollection<OrderItems> NavOrderItems { get; set; } = null!;
 
     }
 
