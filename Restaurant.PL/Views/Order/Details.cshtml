@@ -2,128 +2,406 @@
 @model OrderDetailsDTO
 
 @{
-    ViewData["Title"] = "Order Details";
+    ViewData["Title"] = $"Order #{Model.Id} Details";
 }
 
 @section Styles {
     <style>
-        .card-header {
-            background: #ff6600;
-            color: #fff;
-            font-weight: 600;
+        :root {
+            --primary-orange: #ff6600;
+            --hover-orange: #e65c00;
+            --light-orange: #fff6ee;
+            --border-orange: #ffd1ad;
         }
 
-        .kv {
-            font-weight: 600;
-            color: #555;
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8533 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2);
         }
 
-        .v {
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+            .info-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+            }
+
+        .card-title {
+            color: var(--primary-orange);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-orange);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .info-row:last-child {
+                border-bottom: none;
+            }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-value {
+            font-weight: 500;
             color: #111;
         }
 
-        .summary-box {
-            background: #fff6ee;
-            border: 1px solid #ffd1ad;
-            border-radius: .5rem;
-            padding: 12px;
+        .summary-card {
+            background: linear-gradient(135deg, var(--light-orange) 0%, #ffecd1 100%);
+            border: 2px solid var(--border-orange);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.1);
         }
 
-            .summary-box .kv {
-                color: #7a3e00;
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 1.1rem;
+        }
+
+        .summary-label {
+            font-weight: 600;
+            color: #7a3e00;
+        }
+
+        .summary-value {
+            font-weight: 700;
+            color: #111;
+        }
+
+        .summary-total {
+            border-top: 3px double var(--primary-orange);
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+            .summary-total .summary-label {
+                font-size: 1.3rem;
+                color: var(--primary-orange);
             }
 
-        .btn-warning {
-            background-color: #ff9900;
-            border-color: transparent;
+            .summary-total .summary-value {
+                font-size: 1.5rem;
+                color: var(--primary-orange);
+            }
+
+        .badge-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-            .btn-warning:hover, .btn-warning:focus {
-                background-color: #e68a00;
+        .badge-paid {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .badge-pending {
+            background: linear-gradient(135deg, #ffc107 0%, #ffdb4d 100%);
+            color: #212529;
+        }
+
+        .badge-unpaid {
+            background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+            color: white;
+        }
+
+        .btn-action {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            margin-right: 0.5rem;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ff9900 0%, #ffb84d 100%);
+            color: white;
+        }
+
+            .btn-warning:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(255, 153, 0, 0.3);
             }
 
         .btn-danger {
-            background-color: #d9534f;
-            border-color: transparent;
+            background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+            color: white;
         }
 
-            .btn-danger:hover, .btn-danger:focus {
-                background-color: #c9302c;
+            .btn-danger:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
             }
 
         .btn-secondary {
-            border-color: transparent;
+            background: linear-gradient(135deg, #6c757d 0%, #8a929a 100%);
+            color: white;
+        }
+
+            .btn-secondary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+            }
+
+        .discount-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            font-weight: 600;
         }
     </style>
 }
 
-<h1 class="mb-3">Order Details</h1>
-
-<div class="card shadow-sm mb-3">
-    <div class="card-header">Overview</div>
-    <div class="card-body">
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Order ID</div>
-            <div class="col-sm-9 v">@Model.Id</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Customer ID</div>
-            <div class="col-sm-9 v">@Model.CustomerId</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Table ID</div>
-            <div class="col-sm-9 v">@Model.TableId</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Order Type</div>
-            <div class="col-sm-9 v">@Model.OrderType</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Status</div>
-            <div class="col-sm-9 v">@Model.Status</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Payment Status</div>
-            <div class="col-sm-9 v">@Model.PaymentStatus</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Created By</div>
-            <div class="col-sm-9 v">@(!string.IsNullOrWhiteSpace(Model.CreatedBy) ? Model.CreatedBy : "-")</div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-sm-3 kv">Created On</div>
-            <div class="col-sm-9 v">@((Model.CreatedOn)?.ToString("yyyy/MM/dd HH:mm") ?? "-")</div>
-        </div>
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="mb-2">
+            <i class="bi bi-receipt-cutoff"></i> Order #@Model.Id
+        </h1>
+        <p class="mb-0" style="opacity: 0.9;">Complete order information and details</p>
     </div>
-</div>
 
-<div class="summary-box mb-3">
     <div class="row">
-        <div class="col-6">
-            <div class="kv">SubTotal</div>
-            <div class="v">@Model.SubTotal</div>
+        <!-- Left Column: Order Info -->
+        <div class="col-lg-7">
+            <!-- Basic Information -->
+            <div class="info-card">
+                <h5 class="card-title">
+                    <i class="bi bi-info-circle-fill"></i> Basic Information
+                </h5>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-hash"></i> Order ID
+                    </span>
+                    <span class="info-value">
+                        <strong class="badge bg-dark" style="font-size: 1rem;">#@Model.Id</strong>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-person-circle"></i> Customer ID
+                    </span>
+                    <span class="info-value"><strong>@Model.CustomerId</strong></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-table"></i> Table ID
+                    </span>
+                    <span class="info-value"><strong>@Model.TableId</strong></span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-bag-check-fill"></i> Order Type
+                    </span>
+                    <span class="info-value">
+                        <span class="badge" style="background: #e3f2fd; color: #1976d2; padding: 0.4rem 0.8rem;">
+                            @Model.OrderType
+                        </span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-hourglass-split"></i> Status
+                    </span>
+                    <span class="info-value">
+                        <span class="badge" style="background: #17a2b8; color: white; padding: 0.4rem 0.8rem;">
+                            @Model.Status
+                        </span>
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-credit-card-fill"></i> Payment Status
+                    </span>
+                    <span class="info-value">
+                        @{
+                            var badgeClass = Model.PaymentStatus?.ToLower() switch
+                            {
+                                "paid" => "badge-paid",
+                                "pending" => "badge-pending",
+                                "unpaid" => "badge-unpaid",
+                                _ => "badge-pending"
+                            };
+                        }
+                        <span class="badge-status @badgeClass">
+                            @Model.PaymentStatus
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Audit Information -->
+            <div class="info-card">
+                <h5 class="card-title">
+                    <i class="bi bi-clock-history"></i> Audit Information
+                </h5>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-person-badge"></i> Created By
+                    </span>
+                    <span class="info-value">
+                        @(!string.IsNullOrWhiteSpace(Model.CreatedBy) ? Model.CreatedBy : "System")
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="info-label">
+                        <i class="bi bi-calendar-check"></i> Created On
+                    </span>
+                    <span class="info-value">
+                        @if (Model.CreatedOn.HasValue)
+                        {
+                            <span>
+                                @Model.CreatedOn.Value.ToString("MMMM dd, yyyy")
+                                <br>
+                                <small class="text-muted">@Model.CreatedOn.Value.ToString("hh:mm tt")</small>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">-</span>
+                        }
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="col-6">
-            <div class="kv">Discount</div>
-            <div class="v">@Model.Discount</div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-6">
-            <div class="kv">Service Tax</div>
-            <div class="v">@Model.ServiceTax</div>
-        </div>
-        <div class="col-6">
-            <div class="kv">Total</div>
-            <div class="v">@Model.Total</div>
+
+        <!-- Right Column: Financial Summary -->
+        <div class="col-lg-5">
+            <div class="summary-card">
+                <h5 class="card-title">
+                    <i class="bi bi-cash-stack"></i> Financial Summary
+                </h5>
+
+                <div class="summary-row">
+                    <span class="summary-label">
+                        <i class="bi bi-receipt"></i> Subtotal
+                    </span>
+                    <span class="summary-value">
+                        $@Model.SubTotal.ToString("N2")
+                    </span>
+                </div>
+
+                @if (Model.Discount > 0)
+                {
+                    <div class="summary-row">
+                        <span class="summary-label">
+                            <i class="bi bi-tag-fill"></i> Discount
+                        </span>
+                        <span class="summary-value discount-badge">
+                            -$@Model.Discount.ToString("N2")
+                        </span>
+                    </div>
+                }
+
+                <div class="summary-row">
+                    <span class="summary-label">
+                        <i class="bi bi-percent"></i> Service Tax (10%)
+                    </span>
+                    <span class="summary-value">
+                        $@Model.ServiceTax.ToString("N2")
+                    </span>
+                </div>
+
+                <div class="summary-row summary-total">
+                    <span class="summary-label">
+                        <i class="bi bi-currency-dollar"></i> Total Amount
+                    </span>
+                    <span class="summary-value">
+                        $@Model.Total.ToString("N2")
+                    </span>
+                </div>
+
+                <!-- Tax Breakdown Info -->
+                <div class="mt-3 p-2" style="background: white; border-radius: 8px;">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Tax Breakdown:</strong><br>
+                        Service Tax: $@Model.ServiceTax.ToString("N2") (10% of $@Model.SubTotal.ToString("N2"))
+                    </small>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-4">
+                <a asp-controller="Order"
+                   asp-action="Update"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning btn-action w-100 mb-2">
+                    <i class="bi bi-pencil-square"></i> Edit Order
+                </a>
+
+                <a asp-controller="Order"
+                   asp-action="Delete"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-danger btn-action w-100 mb-2"
+                   onclick="return confirm('Are you sure you want to delete this order?');">
+                    <i class="bi bi-trash-fill"></i> Delete Order
+                </a>
+
+                <a asp-controller="Order"
+                   asp-action="Index"
+                   class="btn btn-secondary btn-action w-100">
+                    <i class="bi bi-arrow-left"></i> Back to Orders
+                </a>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="mt-3 d-flex gap-2">
-    <a asp-controller="Order" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-    <a asp-controller="Order" asp-action="Index" class="btn btn-secondary">Back</a>
-</div>
-
-@section Scripts { }
+@section Scripts {
+    <script>
+        // Add smooth entrance animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.info-card, .summary-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+}

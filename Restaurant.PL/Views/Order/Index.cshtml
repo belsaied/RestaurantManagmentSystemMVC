@@ -2,269 +2,445 @@
 @model IEnumerable<OrderDTO>
 
 @{
-    ViewData["Title"] = "Orders";
+    ViewData["Title"] = "Orders Management";
+    var totalRevenue = Model?.Sum(o => o.Total) ?? 0;
+    var totalOrders = Model?.Count() ?? 0;
+    var pendingOrders = Model?.Count(o => o.Status?.ToLower() == "pending") ?? 0;
 }
 
 @section Styles {
     <style>
+        :root {
+            --primary-orange: #ff6600;
+            --hover-orange: #e65c00;
+            --light-orange: #fff6ee;
+            --border-orange: #ffd1ad;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8533 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(255, 102, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+            .dashboard-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 12px rgba(255, 102, 0, 0.3);
+            }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
         .table thead th {
-            background: #ff6600;
-            color: #fff;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8533 100%);
+            color: white;
             font-weight: 600;
             border: none;
+            padding: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .table tbody tr {
-            transition: background-color 0.2s ease;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
         }
 
             .table tbody tr:hover {
-                background: #fff6ee;
+                background: var(--light-orange);
+                transform: scale(1.01);
+                box-shadow: 0 2px 4px rgba(255, 102, 0, 0.1);
             }
 
-        .btn-primary {
-            background-color: #ff6600;
-            border-color: #ff6600;
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
         }
 
-            .btn-primary:hover, .btn-primary:focus {
-                background-color: #e65c00;
-                border-color: #e65c00;
-            }
-
-        .btn-warning {
-            background-color: #ff9900;
-            border-color: transparent;
-        }
-
-            .btn-warning:hover, .btn-warning:focus {
-                background-color: #e68a00;
-            }
-
-        .btn-danger {
-            background-color: #d9534f;
-            border-color: transparent;
-        }
-
-            .btn-danger:hover, .btn-danger:focus {
-                background-color: #c9302c;
-            }
-
-        .btn-success {
-            background-color: #28a745;
-            border-color: transparent;
-        }
-
-            .btn-success:hover, .btn-success:focus {
-                background-color: #218838;
-            }
-
-        .badge-status {
-            padding: 0.35rem 0.65rem;
-            border-radius: 0.25rem;
+        .badge-custom {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-weight: 600;
             font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .badge-paid {
-            background-color: #28a745;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
         }
 
         .badge-pending {
-            background-color: #ffc107;
+            background: linear-gradient(135deg, #ffc107 0%, #ffdb4d 100%);
             color: #212529;
         }
 
         .badge-unpaid {
-            background-color: #dc3545;
+            background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
             color: white;
         }
 
         .badge-refunded {
-            background-color: #6c757d;
+            background: linear-gradient(135deg, #6c757d 0%, #8a929a 100%);
             color: white;
         }
 
         .badge-failed {
-            background-color: #dc3545;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
             color: white;
+        }
+
+        .order-type-badge {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.4rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .money-highlight {
+            color: var(--primary-orange);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            margin: 0.2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8533 100%);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(255, 102, 0, 0.3);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+            .btn-success:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+            }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ff9900 0%, #ffb84d 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #8a929a 100%);
+            color: white;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #ff8533 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .action-buttons {
             display: flex;
-            gap: 0.25rem;
+            gap: 0.5rem;
             flex-wrap: wrap;
             justify-content: center;
         }
 
-            .action-buttons .btn {
-                white-space: nowrap;
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--light-orange);
+            border-radius: 12px;
+            border: 2px dashed var(--border-orange);
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            color: var(--primary-orange);
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+
+        /* Animations */
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease-out;
+        }
     </style>
 }
 
-<div class="container-fluid py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mb-0" style="color: #ff6600; font-weight: 700;">
-            <i class="bi bi-receipt-cutoff"></i> Orders Management
-        </h1>
-        <a asp-controller="Order" asp-action="Add" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add New Order
-        </a>
+<div class="container-fluid py-4 animate-in">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="page-title">
+                    <i class="bi bi-receipt-cutoff"></i> Orders Management
+                </h1>
+                <p class="mb-0 mt-2" style="opacity: 0.9;">Track and manage all restaurant orders</p>
+            </div>
+            <a asp-controller="Order" asp-action="Add" class="btn btn-light btn-lg">
+                <i class="bi bi-plus-circle"></i> New Order
+            </a>
+        </div>
     </div>
 
+    <!-- Dashboard Stats -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-number">@totalOrders</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="stat-label">Pending Orders</div>
+                <div class="stat-number">@pendingOrders</div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="dashboard-card">
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-number">$@totalRevenue.ToString("N2")</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Messages -->
     @if (TempData["Message"] != null)
     {
         var messageType = TempData["MessageType"]?.ToString() ?? "info";
         var alertClass = messageType == "success" ? "alert-success" : messageType == "error" ? "alert-danger" : "alert-info";
 
-        <div class="alert @alertClass alert-dismissible fade show" role="alert">
+        <div class="alert @alertClass alert-custom alert-dismissible fade show" role="alert">
             <i class="bi @(messageType == "success" ? "bi-check-circle-fill" : "bi-exclamation-triangle-fill")"></i>
             @TempData["Message"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
+    <!-- Orders Table -->
     @if (Model != null && Model.Any())
     {
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered align-middle mb-0">
-                        <thead>
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Table</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                            <th>Service Tax</th>
+                            <th>Total</th>
+                            <th>Created</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var i = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <th style="width: 50px;">#</th>
-                                <th>Order ID</th>
-                                <th>Customer ID</th>
-                                <th>Table ID</th>
-                                <th>Order Type</th>
-                                <th>Status</th>
-                                <th>Payment Status</th>
-                                <th>Service Tax</th>
-                                <th>Total</th>
-                                <th>Created By</th>
-                                <th>Created On</th>
-                                <th class="text-center" style="min-width: 300px;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                var i = 1;
-                                var list = Model ?? Enumerable.Empty<OrderDTO>();
-                            }
-                            @foreach (var item in list)
-                            {
-                                <tr>
-                                    <td>@(i++)</td>
-                                    <td><strong>#@item.Id</strong></td>
-                                    <td>@item.CustomerId</td>
-                                    <td>@item.TableId</td>
-                                    <td>
-                                        <span class="badge bg-info text-dark">@item.OrderType</span>
-                                    </td>
-                                    <td>@item.Status</td>
-                                    <td>
-                                        @{
-                                            var badgeClass = item.PaymentStatus?.ToLower() switch
-                                            {
-                                                "paid" => "badge-paid",
-                                                "pending" => "badge-pending",
-                                                "unpaid" => "badge-unpaid",
-                                                "refunded" => "badge-refunded",
-                                                "failed" => "badge-failed",
-                                                _ => "badge-pending"
-                                            };
+                                <td><strong>@(i++)</strong></td>
+                                <td>
+                                    <span class="badge bg-dark" style="font-size: 0.9rem;">
+                                        #@item.Id
+                                    </span>
+                                </td>
+                                <td>
+                                    <i class="bi bi-person-circle"></i>
+                                    <strong>ID: @item.CustomerId</strong>
+                                </td>
+                                <td>
+                                    <i class="bi bi-table"></i>
+                                    Table @item.TableId
+                                </td>
+                                <td>
+                                    <span class="order-type-badge">
+                                        @item.OrderType
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-custom" style="background: #17a2b8; color: white;">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    @{
+                                        var badgeClass = item.PaymentStatus?.ToLower() switch
+                                        {
+                                            "paid" => "badge-paid",
+                                            "pending" => "badge-pending",
+                                            "unpaid" => "badge-unpaid",
+                                            "refunded" => "badge-refunded",
+                                            "failed" => "badge-failed",
+                                            _ => "badge-pending"
+                                        };
+                                    }
+                                    <span class="badge badge-custom @badgeClass">
+                                        @(item.PaymentStatus ?? "Unknown")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary" style="font-size: 0.85rem;">
+                                        $@item.ServiceTax.ToString("N2")
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="money-highlight">
+                                        <i class="bi bi-currency-dollar"></i>@item.Total.ToString("N2")
+                                    </span>
+                                </td>
+                                <td>
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar3"></i>
+                                        @(item.CreatedOn?.ToString("MM/dd/yy") ?? "-")
+                                        <br>
+                                        <i class="bi bi-clock"></i>
+                                        @(item.CreatedOn?.ToString("HH:mm") ?? "-")
+                                    </small>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        @if (item.PaymentStatus?.ToLower() != "paid" &&
+                                                                        item.PaymentStatus?.ToLower() != "refunded" &&
+                                                                        item.Total > 0)
+                                        {
+                                            <a asp-controller="Payment"
+                                               asp-action="Checkout"
+                                               asp-route-orderId="@item.Id"
+                                               asp-route-amount="@item.Total"
+                                               class="btn btn-success btn-sm btn-action"
+                                               title="Process Payment">
+                                                <i class="bi bi-credit-card-fill"></i> Pay
+                                            </a>
                                         }
-                                        <span class="badge badge-status @badgeClass">
-                                            @(item.PaymentStatus ?? "Unknown")
-                                        </span>
-                                    </td>
-                                    <td>$@item.ServiceTax.ToString("F2")</td>
-                                    <td>
-                                        <strong style="color: #28a745;">$@item.Total.ToString("F2")</strong>
-                                    </td>
-                                    <td>@(string.IsNullOrWhiteSpace(item.CreatedBy) ? "-" : item.CreatedBy)</td>
-                                    <td>@(item.CreatedOn?.ToString("yyyy/MM/dd HH:mm") ?? "-")</td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            @* Pay Now Button - Only show if payment is not completed *@
-                                            @if (item.PaymentStatus?.ToLower() != "paid" &&
-                                                                                item.PaymentStatus?.ToLower() != "refunded" &&
-                                                                                item.Total > 0)
-                                            {
-                                                <a asp-controller="Payment"
-                                                   asp-action="Checkout"
-                                                   asp-route-orderId="@item.Id"
-                                                   asp-route-amount="@item.Total"
-                                                   class="btn btn-sm btn-success"
-                                                   title="Process Payment">
-                                                    <i class="bi bi-credit-card-fill"></i> Pay Now
-                                                </a>
-                                            }
-                                            else if (item.PaymentStatus?.ToLower() == "paid")
-                                            {
-                                                <span class="btn btn-sm btn-outline-success disabled" title="Payment Completed">
-                                                    <i class="bi bi-check-circle-fill"></i> Paid
-                                                </span>
-                                            }
 
+                                        <a asp-controller="Order"
+                                           asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-secondary btn-sm btn-action"
+                                           title="View Details">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+
+                                        @if (item.PaymentStatus?.ToLower() != "paid")
+                                        {
                                             <a asp-controller="Order"
-                                               asp-action="Details"
+                                               asp-action="Update"
                                                asp-route-id="@item.Id"
-                                               class="btn btn-sm btn-secondary"
-                                               title="View Details">
-                                                <i class="bi bi-eye-fill"></i> Details
+                                               class="btn btn-warning btn-sm btn-action"
+                                               title="Edit Order">
+                                                <i class="bi bi-pencil-square"></i>
                                             </a>
 
-                                            @* Only allow editing if payment is not completed *@
-                                            @if (item.PaymentStatus?.ToLower() != "paid")
-                                            {
-                                                <a asp-controller="Order"
-                                                   asp-action="Update"
-                                                   asp-route-id="@item.Id"
-                                                   class="btn btn-sm btn-warning"
-                                                   title="Edit Order">
-                                                    <i class="bi bi-pencil-square"></i> Edit
-                                                </a>
-                                            }
-
-                                            @* Only allow deletion if payment is not completed *@
-                                            @if (item.PaymentStatus?.ToLower() != "paid")
-                                            {
-                                                <a asp-controller="Order"
-                                                   asp-action="Delete"
-                                                   asp-route-id="@item.Id"
-                                                   class="btn btn-sm btn-danger"
-                                                   title="Delete Order"
-                                                   onclick="return confirm('Are you sure you want to delete Order #@item.Id?');">
-                                                    <i class="bi bi-trash-fill"></i> Delete
-                                                </a>
-                                            }
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                            <a asp-controller="Order"
+                                               asp-action="Delete"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-danger btn-sm btn-action"
+                                               title="Delete Order"
+                                               onclick="return confirm('Are you sure you want to delete Order #@item.Id?');">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="mt-3 text-muted">
+        <div class="mt-4 text-muted">
+            <i class="bi bi-info-circle"></i>
             <small>
-                <i class="bi bi-info-circle"></i>
-                Showing @list.Count() order(s). Orders marked as "Paid" cannot be edited or deleted.
+                Showing @Model.Count() order(s) • Service tax calculated at 10% • Orders marked as "Paid" are locked
             </small>
         </div>
     }
     else
     {
-        <div class="alert alert-info text-center py-5">
-            <i class="bi bi-inbox" style="font-size: 3rem; color: #6c757d;"></i>
-            <h4 class="mt-3">No Orders Found</h4>
-            <p class="text-muted">Start by creating your first order.</p>
-            <a asp-controller="Order" asp-action="Add" class="btn btn-primary mt-2">
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-inbox"></i>
+            </div>
+            <h3 style="color: var(--primary-orange);">No Orders Yet</h3>
+            <p class="text-muted mb-4">Start by creating your first order to see it here.</p>
+            <a asp-controller="Order" asp-action="Add" class="btn btn-primary btn-lg">
                 <i class="bi bi-plus-circle"></i> Create First Order
             </a>
         </div>
@@ -273,7 +449,7 @@
 
 @section Scripts {
     <script>
-        // Auto-dismiss alerts after 5 seconds
+        // Auto-dismiss alerts
         document.addEventListener('DOMContentLoaded', function() {
             const alerts = document.querySelectorAll('.alert-dismissible');
             alerts.forEach(alert => {
@@ -281,6 +457,13 @@
                     const bsAlert = new bootstrap.Alert(alert);
                     bsAlert.close();
                 }, 5000);
+            });
+
+            // Add row numbers animation
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.05}s`;
+                row.classList.add('animate-in');
             });
         });
     </script>
